@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "GHL Bangladesh - The GoHighLevel Community of Bangladesh",
+    "title": "GHL Bangladesh — A community of agencies, marketers & entrepreneurs leveling up with GHL",
     "base_url": "https://ghlbangladesh.com",
     "base_path": "/",
     "trailing_slash": false,
@@ -19,7 +19,7 @@
 
   "params": {
     "contact_form_action": "#",
-    "footer_description": "GHL Bangladesh is the local community for GoHighLevel users, agencies, and entrepreneurs across Bangladesh — built for meetups, training, and growing together.",
+    "footer_description": "A community of agencies, marketers, and entrepreneurs leveling up with GHL.",
     "copyright": "© {year} [GHL Bangladesh](https://ghlbangladesh.com). All rights reserved. Developed by [Zeon.Studio](https://zeon.studio/)."
   },
 
@@ -43,7 +43,7 @@
   "metadata": {
     "meta_author": "GHL Bangladesh",
     "meta_image": "/images/og-image.png",
-    "meta_description": "Join GHL Bangladesh — the local community of GoHighLevel users, agencies, and entrepreneurs. Meetups, training, and a network to grow your CRM and marketing automation skills."
+    "meta_description": "GHL Bangladesh — a community of agencies, marketers, and entrepreneurs leveling up with GHL. Join us for meetups, training, and a network built to grow your agency faster."
   },
 
   "subscription_in_footer": {

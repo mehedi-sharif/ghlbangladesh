@@ -1,14 +1,14 @@
 {
   "site": {
-    "title": "Kindora - Charity & Non-Profit Astro Template",
-    "base_url": "https://kindora-astro.vercel.app",
+    "title": "GHL Bangladesh - The GoHighLevel Community of Bangladesh",
+    "base_url": "https://ghlbangladesh.com",
     "base_path": "/",
     "trailing_slash": false,
     "favicon": "/images/favicon.png",
     "logo": "/images/logo.svg",
     "logo_width": "128",
     "logo_height": "25",
-    "logo_text": "Kindora"
+    "logo_text": "GHL Bangladesh"
   },
 
   "settings": {
@@ -19,14 +19,14 @@
 
   "params": {
     "contact_form_action": "#",
-    "footer_description": "Together, we can make a real impact in communities around the world.",
-    "copyright": "Copyright © {year} All Rights Reserved by [Themefisher](https://themefisher.com/)"
+    "footer_description": "GHL Bangladesh is the local community for GoHighLevel users, agencies, and entrepreneurs across Bangladesh — built for meetups, training, and growing together.",
+    "copyright": "© {year} [GHL Bangladesh](https://ghlbangladesh.com). All rights reserved. Built by the community, for the community."
   },
 
   "navigation_button": {
     "enable": true,
-    "label": "Donate Now",
-    "link": "https://themefisher.com/products/kindora-astro"
+    "label": "Join the Community",
+    "link": "/contact"
   },
 
   "google_tag_manager": {
@@ -35,19 +35,19 @@
   },
 
   "disqus": {
-    "enable": true,
+    "enable": false,
     "shortname": "themefisher-template",
     "settings": {}
   },
 
   "metadata": {
-    "meta_author": "Themefisher",
+    "meta_author": "GHL Bangladesh",
     "meta_image": "/images/og-image.png",
-    "meta_description": "Kindora - Charity & Non-Profit Astro Template"
+    "meta_description": "Join GHL Bangladesh — the local community of GoHighLevel users, agencies, and entrepreneurs. Meetups, training, and a network to grow your CRM and marketing automation skills."
   },
 
   "subscription_in_footer": {
-    "enable": true,
+    "enable": false,
     "mailchimp_form_action": "https://gmail.us4.list-manage.com/subscribe/post?u=463ee871f45d2d93748e77cad&amp;id=a0a2c6d074",
     "mailchimp_form_name": "b_463ee871f45d2d93748e77cad_a0a2c6d074"
   }

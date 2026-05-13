@@ -1,7 +1,7 @@
 ---
 # Banner
 banner:
-  title: "Bangladesh's home for GHL agencies and marketers"
+  title: "The GHL community of Bangladesh. Built to grow together."
   content: "A community of agencies, marketers, and entrepreneurs leveling up with GHL. Join us for meetups, training, and a network built to grow your business."
   image: "/images/banner.png"
   testimonial_image: "/images/homepage/banner-testimonial.png"

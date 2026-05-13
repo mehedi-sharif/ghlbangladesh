@@ -1,21 +1,21 @@
 ---
 # Banner
 banner:
-  title: "Together for making a brighter future"
-  content: "Together, we can make a real impact in communities around the world. Help us bring hope and support."
+  title: "Bangladesh's home for GHL agencies and marketers"
+  content: "A community of agencies, marketers, and entrepreneurs leveling up with GHL. Join us for meetups, training, and a network built to grow your business."
   image: "/images/banner.png"
   testimonial_image: "/images/homepage/banner-testimonial.png"
   button_solid:
     enable: true
-    label: "Donate Now"
-    link: "/donation"
+    label: "Join Our Facebook Group"
+    link: "https://www.facebook.com/groups/highlevelbangladesh"
   button_link:
     enable: true
     label: "Learn More"
     link: "/about"
 
   badge:
-    enable: true
+    enable: false
     label: "1000+ Donor active members"
     images:
       - "/images/homepage/avatar/avatar-8.png"
@@ -33,7 +33,7 @@ banner:
       - "/images/homepage/brands/6.svg"
 
   media_section:
-    enable: true
+    enable: false
     label: "Watch our </br> story reel"
     url: "https://www.youtube.com/embed/WJCRM6ylhgI?autoplay=1&mute=0"
 

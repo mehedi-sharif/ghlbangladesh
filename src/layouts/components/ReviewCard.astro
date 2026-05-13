@@ -1,0 +1,54 @@
+---
+import { markdownify } from "@/lib/utils/textConverter";
+import ImageMod from "./ImageMod.astro";
+
+const { review, index } = Astro.props;
+---
+
+<div
+  data-aos="zoom-out-sm"
+  data-aos-delay={index * 100 + 50}
+  class="rounded-4xl border border-border p-8 min-h-full"
+>
+  {/* Stars Rating */}
+  <div
+    class="stars"
+    style={{ "--rating": review.ratings } as any}
+    aria-label="Rating from the company"
+  >
+  </div>
+
+  {/* Testimonial */}
+  <p class="h6 mb-8 mt-4 font-medium before:content-['“'] after:content-['”']">
+    {review.content}
+  </p>
+
+  {/* User Info */}
+  <div class="flex justify-between items-center">
+    <div class="flex mt-auto items-center gap-2">
+      <ImageMod
+        class="h-10 w-10 rounded-full object-cover"
+        src={review.avatar}
+        alt={review.name}
+        width={48}
+        height={48}
+      />
+      <div>
+        <h6
+          class="mb-1 text-sm text-text-dark font-semibold"
+          set:html={markdownify(review.name)}
+        />
+        <p class="text-xs" set:html={markdownify(review.designation)} />
+      </div>
+    </div>
+
+    {/* Company Logo */}
+    <ImageMod
+      class="object-contain max-h-7 max-w-24"
+      src={review.company_logo}
+      alt="logo of the company"
+      width={140}
+      height={30}
+    />
+  </div>
+</div>

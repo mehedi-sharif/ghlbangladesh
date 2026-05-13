@@ -1,0 +1,81 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import CallToActionQuaternary from "@/partials/CallToActionQuaternary.astro";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+import FAQs from "@/partials/FAQs.astro";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const FOLDER = "programs";
+  const programs = await getSinglePage(FOLDER);
+
+  const paths = programs.map((program) => ({
+    params: {
+      single: program.id,
+    },
+    props: { program },
+  }));
+  return paths;
+}
+
+const { program } = Astro.props;
+const { title, meta_title, description, image, categories, badge } =
+  program.data;
+const { Content } = await render(program);
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}
+>
+  <section class="section-lg">
+    <div class="container">
+      <article data-aos="fade-up-sm" data-aos-delay="150">
+        <TitleBadge
+          icon={"FaAngleRight"}
+          label={categories?.map((category) => category).join(", ")}
+          bg_color={(badge && badge.bg_color) || "bg-secondary"}
+          isCenter={false}
+        />
+        <h1
+          set:html={markdownify(title!)}
+          class="mb-8 mt-4 font-semibold text-balance"
+        />
+
+        {
+          image && (
+            <div class="mb-10">
+              <ImageMod
+                src={image}
+                height={600}
+                width={1280}
+                alt={title!}
+                class="w-full aspect-[16/7.5] object-cover  object-center rounded-4xl"
+                format="webp"
+                loading={"eager"}
+              />
+            </div>
+          )
+        }
+
+        <div class="row justify-center">
+          <div class="lg:col-10">
+            <div class="content mb-10">
+              <Content />
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <CallToActionQuaternary isNoSectionTop={true} />
+  <FAQs />
+  <CallToActionSecondary />
+</Base>

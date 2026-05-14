@@ -14,20 +14,12 @@
           "url": "/contact"
         },
         {
-          "name": "Teams",
-          "url": "/teams"
-        },
-        {
           "name": "About Us",
           "url": "/about"
         },
         {
           "name": "Blog",
           "url": "/blog"
-        },
-        {
-          "name": "Reviews",
-          "url": "/reviews"
         },
         {
           "name": "Programs",
@@ -38,24 +30,12 @@
           "url": "/blog/post-1"
         },
         {
-          "name": "Elements",
-          "url": "/elements"
-        },
-        {
-          "name": "404",
-          "url": "/404"
-        },
-        {
           "name": "Program Details",
           "url": "/programs/program-1"
         },
         {
           "name": "Privacy Policy",
           "url": "/privacy-policy"
-        },
-        {
-          "name": "Donation",
-          "url": "/donation"
         },
         {
           "name": "Terms & Conditions",

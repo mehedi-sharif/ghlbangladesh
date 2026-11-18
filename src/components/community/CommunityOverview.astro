@@ -10,7 +10,6 @@ import Arrow from "./Arrow.astro";
   <div class="wrap">
     <div class="overview-intro">
       <div class="overview-heading">
-        <span class="overview-eyebrow">Good people. Shared possibilities.</span>
         <h2 id="community-heading">
           You don’t have to<br />figure it out <em>alone.</em>
         </h2>
@@ -24,9 +23,6 @@ import Arrow from "./Arrow.astro";
           come together to exchange ideas, share practical knowledge, and turn
           online connections into real conversations.
         </p>
-        <a class="overview-link" href="/community"
-          >Get to know the community <Arrow /></a
-        >
       </div>
     </div>
 
@@ -110,7 +106,6 @@ import Arrow from "./Arrow.astro";
     text-transform: uppercase;
   }
   .overview-heading h2 {
-    margin-top: 25px;
     font-size: clamp(40px, 4.3vw, 64px);
     font-weight: 600;
     line-height: 1.08;
@@ -122,9 +117,6 @@ import Arrow from "./Arrow.astro";
     font-weight: 400;
     font-style: italic;
     letter-spacing: -0.065em;
-  }
-  .overview-copy {
-    padding-top: 36px;
   }
   .overview-lead {
     max-width: 450px;
@@ -140,27 +132,6 @@ import Arrow from "./Arrow.astro";
     color: #778476;
     font-size: 16px;
     line-height: 1.75;
-  }
-  .overview-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 27px;
-    margin-top: 27px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #315746;
-    color: #193f33;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.5;
-  }
-  .overview-link :global(.arrow-icon) {
-    width: 22px;
-    height: 22px;
-    stroke-width: 1;
-  }
-  .overview-link:hover {
-    color: #4a7958;
   }
   .overview-benefits {
     display: grid;
@@ -210,9 +181,6 @@ import Arrow from "./Arrow.astro";
     .overview-intro {
       gap: 55px;
     }
-    .overview-copy {
-      padding-top: 29px;
-    }
     .overview-lead {
       font-size: 22px;
     }
@@ -235,11 +203,7 @@ import Arrow from "./Arrow.astro";
       font-size: 9px;
     }
     .overview-heading h2 {
-      margin-top: 21px;
       font-size: clamp(36px, 9.2vw, 48px);
-    }
-    .overview-copy {
-      padding-top: 0;
     }
     .overview-lead {
       max-width: 100%;
@@ -248,9 +212,6 @@ import Arrow from "./Arrow.astro";
     .overview-description {
       max-width: 100%;
       font-size: 16px;
-    }
-    .overview-link {
-      margin-top: 23px;
     }
     .overview-benefits {
       grid-template-columns: 1fr;

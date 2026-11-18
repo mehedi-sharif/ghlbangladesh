@@ -2,6 +2,8 @@
 import Layout from "../layouts/CommunityLayout.astro";
 import Arrow from "../components/community/Arrow.astro";
 import Join from "../components/community/Join.astro";
+import AudienceStrip from "../components/community/AudienceStrip.astro";
+import MeetupRecap from "../components/community/MeetupRecap.astro";
 import { groupUrl } from "../data/community";
 const resources = [
   {
@@ -88,6 +90,7 @@ const resources = [
       >
     </div>
   </section>
+  <AudienceStrip />
   <section class="section wrap community-intro" id="community">
     <div class="intro-title">
       <span class="eyebrow">A stronger local community</span><h2>
@@ -202,6 +205,7 @@ const resources = [
       >
     </article>
   </section>
+  <MeetupRecap />
   <section class="resources-section" id="resources">
     <div class="wrap">
       <div class="section-head">

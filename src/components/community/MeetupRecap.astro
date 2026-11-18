@@ -1,0 +1,272 @@
+---
+import Photo from "./Photo.astro";
+import Arrow from "./Arrow.astro";
+import { groupUrl } from "../../data/community";
+---
+
+<section class="meetup-recap" id="meetup-recap" aria-labelledby="recap-heading">
+  <div class="wrap">
+    <div class="recap-heading-row">
+      <div>
+        <span class="recap-eyebrow">Offline connections. Lasting impact.</span
+        ><h2 id="recap-heading">
+          See you at the<br /><em>next conversation.</em>
+        </h2>
+      </div>
+      <a class="recap-link" href="/events">Explore our events <Arrow /></a>
+    </div>
+    <div class="recap-feature">
+      <a
+        class="recap-photo"
+        href="/events/meetup-2026"
+        aria-label="View GHL Meetup Bangladesh 2026 photos"
+        ><Photo
+          name="conversations"
+          alt="Members of GHL Bangladesh talking together around a table at the meetup"
+          sizes="(max-width:760px) 100vw, 52vw"
+        /><span class="recap-photo-label">From the community</span></a
+      >
+      <div class="recap-copy">
+        <span class="recap-eyebrow recap-lookback">A look back</span>
+        <h3>GHL Meetup<br />Bangladesh 2026</h3>
+        <p class="recap-description">
+          People, ideas, and a shared interest in building better.<br
+            class="recap-desktop-break"
+          /> Take a look inside our community gathering.
+        </p>
+        <a class="recap-link recap-detail-link" href="/events/meetup-2026"
+          >Inside the meetup <Arrow /></a
+        >
+        <div class="recap-next">
+          <span class="recap-dot" aria-hidden="true"></span><div>
+            <h4>What’s next?</h4><p>
+              Our next gathering is taking shape. Follow the Facebook group for
+              confirmed dates and details.
+            </p><a href={groupUrl} target="_blank" rel="noopener noreferrer"
+              >Get community updates <Arrow /></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .meetup-recap {
+    padding-block: 92px;
+    background: #edf0e6;
+    color: #193f33;
+    font-family: "Chapter Reference", "DM Sans", sans-serif;
+  }
+  .recap-heading-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 52px;
+  }
+  .recap-eyebrow {
+    display: block;
+    font:
+      600 10px/1.5 "DM Sans",
+      sans-serif;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+  .recap-heading-row h2 {
+    font-size: clamp(42px, 4.6vw, 66px);
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 1.07;
+    margin-top: 25px;
+  }
+  .recap-heading-row h2 em {
+    font-family: Georgia, serif;
+    font-size: 1.04em;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: -0.065em;
+  }
+  .recap-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 26px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #315746;
+  }
+  .recap-heading-row > .recap-link {
+    margin-bottom: 4px;
+    flex-shrink: 0;
+  }
+  .recap-link :global(.arrow-icon) {
+    width: 22px;
+    height: 22px;
+    stroke-width: 1;
+  }
+  .recap-link:hover,
+  .recap-next a:hover {
+    color: #4a7958;
+  }
+  .recap-feature {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .recap-photo {
+    position: relative;
+    display: block;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .recap-photo :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+  .recap-photo-label {
+    position: absolute;
+    bottom: 18px;
+    left: 18px;
+    background: #f9faf3;
+    border-radius: 2px;
+    padding: 7px 12px;
+    color: #254b3c;
+    font:
+      500 8px/1.6 "DM Sans",
+      sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .recap-lookback {
+    color: #6b8056;
+    margin-bottom: 20px;
+  }
+  .recap-copy h3 {
+    font-size: clamp(32px, 3.15vw, 46px);
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: -0.055em;
+  }
+  .recap-description {
+    color: #7b887b;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-top: 25px;
+  }
+  .recap-detail-link {
+    margin-top: 27px;
+  }
+  .recap-next {
+    display: flex;
+    gap: 12px;
+    border-top: 1px solid #d0d9c8;
+    padding-top: 24px;
+    margin-top: 32px;
+  }
+  .recap-dot {
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    background: #579b6c;
+    border-radius: 50%;
+    margin-top: 9px;
+  }
+  .recap-next h4 {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .recap-next p {
+    color: #7b887b;
+    font-size: 13px;
+    line-height: 1.8;
+    margin-top: 9px;
+  }
+  .recap-next a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-bottom: 1px solid #315746;
+    margin-top: 17px;
+  }
+  .recap-next a :global(.arrow-icon) {
+    width: 13px;
+    height: 13px;
+    stroke-width: 1;
+  }
+  @media (max-width: 1100px) {
+    .recap-feature {
+      gap: 38px;
+    }
+    .recap-description {
+      font-size: 15px;
+      margin-top: 20px;
+    }
+    .recap-detail-link {
+      margin-top: 23px;
+    }
+    .recap-next {
+      margin-top: 25px;
+      padding-top: 20px;
+    }
+    .recap-desktop-break {
+      display: none;
+    }
+  }
+  @media (max-width: 760px) {
+    .meetup-recap {
+      padding-block: 60px;
+    }
+    .recap-heading-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 25px;
+      margin-bottom: 32px;
+    }
+    .recap-heading-row h2 {
+      font-size: clamp(36px, 9.2vw, 48px);
+      margin-top: 21px;
+    }
+    .recap-eyebrow {
+      font-size: 9px;
+    }
+    .recap-heading-row > .recap-link {
+      margin-bottom: 0;
+    }
+    .recap-feature {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .recap-copy h3 {
+      font-size: 34px;
+    }
+    .recap-lookback {
+      margin-bottom: 17px;
+    }
+    .recap-description {
+      font-size: 16px;
+    }
+    .recap-photo-label {
+      bottom: 14px;
+      left: 14px;
+    }
+    .recap-link {
+      font-size: 14px;
+    }
+    .recap-next p {
+      font-size: 14px;
+    }
+    .recap-next a {
+      font-size: 13px;
+    }
+  }
+</style>

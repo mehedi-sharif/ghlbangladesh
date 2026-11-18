@@ -35,26 +35,26 @@ export const photos = [
   {
     name: "meetup",
     alt: "GHL Bangladesh meetup attendees gathered for a group photograph",
-    caption: "The people behind the community.",
+    caption: "The HighLevel Bangladesh community.",
   },
   {
     name: "conversations",
     alt: "Meetup attendees sitting together and exchanging ideas",
-    caption: "Good conversations start with showing up.",
+    caption: "Members talking together at the meetup.",
   },
   {
     name: "speaker",
     alt: "A speaker sharing ideas with the GHL Bangladesh meetup audience",
-    caption: "Knowledge shared, possibilities opened.",
+    caption: "A presentation at the Bangladesh meetup.",
   },
   {
     name: "building",
     alt: "A GHL Bangladesh attendee working on a laptop",
-    caption: "A community of people who build.",
+    caption: "An attendee working on a laptop.",
   },
   {
     name: "workshop",
     alt: "An attendee presenting alongside a projected screen at the meetup",
-    caption: "Learning from each other, in person.",
+    caption: "A session with a projected presentation.",
   },
 ];

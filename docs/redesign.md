@@ -33,3 +33,11 @@ DSC08667.JPG was excluded because it was identified as reference-only. No upload
 ## Deployment
 
 The existing Cloudflare Pages Git integration builds `main` using `npm run build` and publishes `dist`. Preview branches are enabled. Preserve existing DNS and domain bindings; the main domain already routes to `ghlbangladesh.pages.dev`. Validate a branch preview, then merge the reviewed release and verify production. Roll back using Cloudflare Pages deployment history if necessary.
+
+## Reference-led revision
+
+The user rejected the initial editorial concept and requested the full content and background video from https://ghl-bangladesh-website.pages.dev/, with an improved design. The homepage now preserves that reference’s introduction, learning/community benefits, event placeholder, resource links, chapter-leader introduction/credentials, and invitation. Mehedi’s portrait, community image, and original 25.9-second silent H.264 background video are served locally from the reference. The user-supplied `ghl-bangladesh-logo-fixed.svg` is used unchanged on dark backgrounds. The join destination remains the verified Facebook community group; the organizer’s profile is explicitly labeled as personal contact.
+
+Typography uses locally hosted DM Sans from Google Fonts. All arrow icons in the primary interface are SVGs. Video has a visible play/pause control, pauses when the page is hidden, and defaults to paused for reduced-motion preferences. Event dates remain unconfirmed. Production target confirmed by the user: ghlbangladesh.com; no marketer-version restoration is requested.
+
+GitHub write access was denied through both CLI and the connector. Source commits are retained locally. Direct uploads use the existing Cloudflare Pages project and domain bindings, preserving DNS.

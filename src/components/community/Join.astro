@@ -1,23 +1,23 @@
 ---
 import { groupUrl } from "../../data/community";
+import Arrow from "./Arrow.astro";
 ---
 
 <section class="join-section" id="join">
   <div class="wrap join-inner">
     <div>
-      <span class="eyebrow">YOUR PEOPLE. YOUR NEXT CHAPTER.</span><h2>
-        Great things start<br />with a <em>connection.</em>
-      </h2><p>
+      <span class="eyebrow">Your community. Your next step.</span><h2>
+        There’s a place<br />for you here.
+      </h2>
+    </div><div class="join-copy">
+      <p>
         Bring your questions, your experience, and your next big idea.<br
-          class="desktop-only"
-        /> There’s a place for you here.
-      </p>
-    </div><a
-      class="button button-lime"
-      href={groupUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      >Join the community <span aria-hidden="true">↗</span></a
-    ><span class="join-decoration" aria-hidden="true">↗</span>
+        />Let’s build something better, together.
+      </p><a
+        class="button button-green"
+        href={groupUrl}
+        target="_blank"
+        rel="noopener noreferrer">Join HighLevel Bangladesh <Arrow /></a>
+    </div>
   </div>
 </section>

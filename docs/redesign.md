@@ -27,6 +27,9 @@ User-supplied collection: https://www.playbook.com/s/ghlprojects/QpYamYiVaSVjLdK
 | speaker | DSC08669.JPG | Presentation |
 | building | DSC08236.JPG | Attendee working on a laptop |
 | workshop | DSC08662.JPG | Presentation with projected screen |
+| dsc08436 | DSC08436.JPG | Parliament view selected by Mehedi |
+| dsc08687 | DSC08687.JPG | Additional meetup group portrait selected by Mehedi |
+| dsc08672 | DSC08672.JPG | Updated chapter-leader portrait selected by Mehedi |
 
 DSC08667.JPG was excluded because it was identified as reference-only. No upload date was used as an event date. No stock imagery, invented testimonials, or fabricated statistics are used. The Urbanist font is served locally from the prior website asset, removing build-time Google Fonts requests.
 

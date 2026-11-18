@@ -1,30 +1,9 @@
 ---
 import Layout from "../layouts/CommunityLayout.astro";
 import Join from "../components/community/Join.astro";
-import Arrow from "../components/community/Arrow.astro";
+import ChapterLeader from "../components/community/ChapterLeader.astro";
 ---
 
 <Layout title="Mehedi Sharif — HighLevel Bangladesh Chapter Leader"
-  ><section class="leader-section wrap">
-    <div class="leader-photo">
-      <img
-        src="/images/community/mehedi.webp"
-        alt="Mehedi Sharif speaking at the Bangladesh meetup"
-        width="400"
-        height="357"
-      /><span class="photo-note">From our Bangladesh meetup</span>
-    </div><div class="leader-copy">
-      <span class="eyebrow">Meet your chapter leader</span><h1>
-        Mehedi<br />Sharif.
-      </h1><p>
-        A local point of connection for Bangladesh’s HighLevel community.
-      </p><p class="credentials">
-        HighLevel Certified Admin<br />Founder &amp; Investor
-      </p><a
-        class="text-link"
-        href="https://www.facebook.com/mehedi.sharif.titas"
-        target="_blank"
-        rel="noopener noreferrer">Connect with Mehedi <Arrow /></a>
-    </div>
-  </section><Join /></Layout
+  ><ChapterLeader headingTag="h1" /><Join /></Layout
 >

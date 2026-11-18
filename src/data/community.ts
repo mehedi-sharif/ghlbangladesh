@@ -57,4 +57,14 @@ export const photos = [
     alt: "An attendee presenting alongside a projected screen at the meetup",
     caption: "A session with a projected presentation.",
   },
+  {
+    name: "dsc08436",
+    alt: "Bangladesh Parliament building beyond green trees in Dhaka",
+    caption: "A view toward the Bangladesh Parliament building.",
+  },
+  {
+    name: "dsc08687",
+    alt: "GHL Bangladesh meetup members gathered in front of the event banner",
+    caption: "Together at the GHL Bangladesh meetup.",
+  },
 ];

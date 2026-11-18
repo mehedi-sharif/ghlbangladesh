@@ -1,5 +1,4 @@
 ---
-import Photo from "./Photo.astro";
 import EventGallery from "./EventGallery.astro";
 ---
 
@@ -11,23 +10,7 @@ import EventGallery from "./EventGallery.astro";
         See you at the<br /><em>next conversation.</em>
       </h2>
     </div>
-    <div class="recap-feature">
-      <a
-        class="recap-photo"
-        href="/images/community/conversations-1800.webp"
-        data-event-photo
-        data-caption="Members talking together at the meetup."
-        aria-label="Enlarge photo: Members of GHL Bangladesh talking together around a table at the meetup"
-        aria-haspopup="dialog"
-        aria-controls="meetup-photo-dialog"
-        ><Photo
-          name="conversations"
-          alt="Members of GHL Bangladesh talking together around a table at the meetup"
-          sizes="(max-width:760px) 100vw, 50vw"
-        /><span class="recap-photo-label">From the community</span></a
-      >
-      <EventGallery />
-    </div>
+    <EventGallery />
   </div>
 </section>
 
@@ -63,38 +46,6 @@ import EventGallery from "./EventGallery.astro";
     font-style: italic;
     letter-spacing: -0.065em;
   }
-  .recap-feature {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-  }
-  .recap-photo {
-    position: relative;
-    display: block;
-    border-radius: 5px;
-    overflow: hidden;
-    cursor: zoom-in;
-  }
-  .recap-photo :global(img) {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
-  }
-  .recap-photo-label {
-    position: absolute;
-    bottom: 18px;
-    left: 18px;
-    background: #f9faf3;
-    border-radius: 2px;
-    padding: 7px 12px;
-    color: #254b3c;
-    font:
-      500 8px/1.6 "DM Sans",
-      sans-serif;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
   @media (max-width: 760px) {
     .meetup-recap {
       padding-block: 60px;
@@ -108,17 +59,6 @@ import EventGallery from "./EventGallery.astro";
     }
     .recap-eyebrow {
       font-size: 9px;
-    }
-    .recap-feature {
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    .recap-photo :global(img) {
-      height: auto;
-    }
-    .recap-photo-label {
-      bottom: 14px;
-      left: 14px;
     }
   }
 </style>

@@ -1,7 +1,13 @@
 ---
 import Photo from "./Photo.astro";
 import { photos } from "../../data/community";
-const galleryPhotos = photos.filter((photo) => photo.name !== "conversations");
+const galleryPhotos = [
+  ...photos.filter((photo) => photo.name === "conversations"),
+  ...photos.filter((photo) => photo.name !== "conversations"),
+];
+const balanceLastRow = (galleryPhotos.length + 3) % 4 === 2;
+const isWide = (index: number) =>
+  balanceLastRow && index >= galleryPhotos.length - 2;
 ---
 
 <div
@@ -12,8 +18,13 @@ const galleryPhotos = photos.filter((photo) => photo.name !== "conversations");
 >
   <div class="event-gallery-grid">
     {
-      galleryPhotos.map((photo) => (
-        <figure>
+      galleryPhotos.map((photo, index) => (
+        <figure
+          class:list={{
+            "event-gallery-featured": photo.name === "conversations",
+            "event-gallery-wide": isWide(index),
+          }}
+        >
           <a
             class="event-gallery-photo"
             href={`/images/community/${photo.name}-1800.webp`}
@@ -26,8 +37,17 @@ const galleryPhotos = photos.filter((photo) => photo.name !== "conversations");
             <Photo
               name={photo.name}
               alt={photo.alt}
-              sizes="(max-width:760px) 45vw, 23vw"
+              sizes={
+                photo.name === "conversations"
+                  ? "(max-width:760px) 100vw, 50vw"
+                  : isWide(index)
+                    ? "(max-width:760px) 45vw, 50vw"
+                    : "(max-width:760px) 45vw, 23vw"
+              }
             />
+            {photo.name === "conversations" && (
+              <span class="event-gallery-label">From the community</span>
+            )}
           </a>
         </figure>
       ))
@@ -214,13 +234,21 @@ const galleryPhotos = photos.filter((photo) => photo.name !== "conversations");
   }
   .event-gallery-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
   }
   .event-gallery-grid figure {
     margin: 0;
   }
+  .event-gallery-featured {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .event-gallery-wide {
+    grid-column: span 2;
+  }
   .event-gallery-photo {
+    position: relative;
     display: block;
     border-radius: 4px;
     overflow: hidden;
@@ -236,6 +264,27 @@ const galleryPhotos = photos.filter((photo) => photo.name !== "conversations");
   }
   .event-gallery-photo:hover :global(img) {
     filter: brightness(0.94);
+  }
+  .event-gallery-featured .event-gallery-photo,
+  .event-gallery-featured :global(img) {
+    height: 100%;
+  }
+  .event-gallery-featured :global(img) {
+    object-fit: cover;
+  }
+  .event-gallery-label {
+    position: absolute;
+    bottom: 18px;
+    left: 18px;
+    background: #f9faf3;
+    border-radius: 2px;
+    padding: 7px 12px;
+    color: #254b3c;
+    font:
+      500 8px/1.6 "DM Sans",
+      sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
   .event-photo-dialog {
     width: min(1100px, calc(100vw - 32px));
@@ -326,6 +375,20 @@ const galleryPhotos = photos.filter((photo) => photo.name !== "conversations");
     .event-gallery-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
+    }
+    .event-gallery-featured {
+      grid-column: 1 / -1;
+      grid-row: auto;
+    }
+    .event-gallery-wide {
+      grid-column: auto;
+    }
+    .event-gallery-featured :global(img) {
+      height: auto;
+    }
+    .event-gallery-label {
+      bottom: 14px;
+      left: 14px;
     }
     .event-photo-dialog {
       width: calc(100vw - 20px);

@@ -1,6 +1,7 @@
 ---
 import Photo from "./Photo.astro";
 import Arrow from "./Arrow.astro";
+import EventGallery from "./EventGallery.astro";
 import { groupUrl } from "../../data/community";
 ---
 
@@ -18,8 +19,12 @@ import { groupUrl } from "../../data/community";
     <div class="recap-feature">
       <a
         class="recap-photo"
-        href="/events/meetup-2026"
-        aria-label="View GHL Meetup Bangladesh 2026 photos"
+        href="/images/community/conversations-1800.webp"
+        data-event-photo
+        data-caption="Members talking together at the meetup."
+        aria-label="Enlarge photo: Members of GHL Bangladesh talking together around a table at the meetup"
+        aria-haspopup="dialog"
+        aria-controls="meetup-photo-dialog"
         ><Photo
           name="conversations"
           alt="Members of GHL Bangladesh talking together around a table at the meetup"
@@ -34,8 +39,8 @@ import { groupUrl } from "../../data/community";
             class="recap-desktop-break"
           /> Take a look inside our community gathering.
         </p>
-        <a class="recap-link recap-detail-link" href="/events/meetup-2026"
-          >Inside the meetup <Arrow /></a
+        <a class="recap-link recap-detail-link" href="#meetup-gallery"
+          >View the event gallery <Arrow /></a
         >
         <div class="recap-next">
           <span class="recap-dot" aria-hidden="true"></span><div>
@@ -43,11 +48,13 @@ import { groupUrl } from "../../data/community";
               Our next gathering is taking shape. Follow the Facebook group for
               confirmed dates and details.
             </p><a href={groupUrl} target="_blank" rel="noopener noreferrer"
-              >Get community updates <Arrow /></a>
+              >Get community updates <Arrow /></a
+            >
           </div>
         </div>
       </div>
     </div>
+    <EventGallery />
   </div>
 </section>
 <style>
@@ -121,6 +128,7 @@ import { groupUrl } from "../../data/community";
     display: block;
     border-radius: 5px;
     overflow: hidden;
+    cursor: zoom-in;
   }
   .recap-photo :global(img) {
     width: 100%;

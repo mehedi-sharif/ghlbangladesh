@@ -1,7 +1,51 @@
 ---
-import Layout from '../../layouts/CommunityLayout.astro';
-import Photo from '../../components/community/Photo.astro';
-import Join from '../../components/community/Join.astro';
-import {groupUrl} from '../../data/community';
+import Layout from "../../layouts/CommunityLayout.astro";
+import Photo from "../../components/community/Photo.astro";
+import Join from "../../components/community/Join.astro";
+import { groupUrl } from "../../data/community";
 ---
-<Layout title="Meetups & Events — GHL Bangladesh"><section class="page-hero wrap"><span class="eyebrow">MEETUPS. IDEAS. REAL CONVERSATIONS.</span><h1>Good things happen<br/><em>when we show up.</em></h1><p>Step away from the screen. Meet the people behind the profiles, share what you’re learning, and leave with a fresh perspective.</p></section><section class="events-section section"><div class="wrap event-feature"><a href="/events/meetup-2026" class="event-image"><Photo name="meetup" alt="GHL Bangladesh meetup participants gathered together" eager/><span class="image-label">COMMUNITY GATHERING · 2026</span></a><div class="event-content"><span class="eyebrow">FROM THE COMMUNITY</span><h2>GHL Meetup<br/><em>Bangladesh 2026</em></h2><p style="margin-top:25px">A look inside a gathering of Bangladesh’s GHL community, through the people and moments that brought it to life.</p><a class="text-link" href="/events/meetup-2026">View the meetup gallery ↗</a></div></div></section><section class="section wrap split-content"><div><span class="eyebrow">THE NEXT CHAPTER</span><h2>More conversations.<br/><em>More connections.</em></h2></div><div><p class="large-copy">The next gathering starts with our community.</p><p>Dates, venues, and registration details will be shared once confirmed. Join the Facebook group to follow announcements and help shape the conversations you’d like to have.</p><a class="button" href={groupUrl} target="_blank" rel="noopener noreferrer">Follow event updates ↗</a></div></section><Join/></Layout>
+
+<Layout title="Meetups & Events — GHL Bangladesh"
+  ><section class="page-hero wrap">
+    <span class="eyebrow">MEETUPS. IDEAS. REAL CONVERSATIONS.</span><h1>
+      Good things happen<br /><em>when we show up.</em>
+    </h1><p>
+      Step away from the screen. Meet the people behind the profiles, share what
+      you’re learning, and leave with a fresh perspective.
+    </p>
+  </section><section class="events-section section">
+    <div class="wrap event-feature">
+      <a href="/events/meetup-2026" class="event-image"
+        ><Photo
+          name="meetup"
+          alt="GHL Bangladesh meetup participants gathered together"
+          eager
+        /><span class="image-label">COMMUNITY GATHERING · 2026</span></a
+      ><div class="event-content">
+        <span class="eyebrow">FROM THE COMMUNITY</span><h2>
+          GHL Meetup<br /><em>Bangladesh 2026</em>
+        </h2><p style="margin-top:25px">
+          A look inside a gathering of Bangladesh’s GHL community, through the
+          people and moments that brought it to life.
+        </p><a class="text-link" href="/events/meetup-2026"
+          >View the meetup gallery ↗</a>
+      </div>
+    </div>
+  </section><section class="section wrap split-content">
+    <div>
+      <span class="eyebrow">THE NEXT CHAPTER</span><h2>
+        More conversations.<br /><em>More connections.</em>
+      </h2>
+    </div><div>
+      <p class="large-copy">The next gathering starts with our community.</p><p>
+        Dates, venues, and registration details will be shared once confirmed.
+        Join the Facebook group to follow announcements and help shape the
+        conversations you’d like to have.
+      </p><a
+        class="button"
+        href={groupUrl}
+        target="_blank"
+        rel="noopener noreferrer">Follow event updates ↗</a>
+    </div>
+  </section><Join /></Layout
+>

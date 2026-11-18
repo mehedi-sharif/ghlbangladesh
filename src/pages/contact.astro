@@ -1,6 +1,41 @@
 ---
-import Layout from '../layouts/CommunityLayout.astro';
-import Join from '../components/community/Join.astro';
-import {groupUrl} from '../data/community';
+import Layout from "../layouts/CommunityLayout.astro";
+import Join from "../components/community/Join.astro";
+import { groupUrl } from "../data/community";
 ---
-<Layout title="Connect with the Organizer — GHL Bangladesh"><section class="page-hero wrap"><span class="eyebrow">LET’S START A CONVERSATION</span><h1>A question, an idea,<br/><em>or just a hello.</em></h1><p>Meet Mehedi Sharif, a local point of connection for Bangladesh’s GHL community. Reach out about community ideas, meetup topics, and ways to get involved.</p></section><div class="wrap contact-options"><article><span class="eyebrow">FOR COMMUNITY CONVERSATIONS</span><h2>Find your people.</h2><p>Introduce yourself, ask a question, or keep up with meetup announcements in the Facebook group.</p><a class="button" href={groupUrl} target="_blank" rel="noopener noreferrer">Open the Facebook group ↗</a></article><article><span class="eyebrow">CONTACT THE ORGANIZER</span><h2>Say hello to Mehedi.</h2><p>Have a topic to suggest or an idea for the community? Connect with Mehedi directly on Facebook.</p><a class="text-link" href="https://www.facebook.com/mehedi.sharif.titas" target="_blank" rel="noopener noreferrer">Visit Mehedi’s profile ↗</a></article></div><Join/></Layout>
+
+<Layout title="Connect with the Organizer — GHL Bangladesh"
+  ><section class="page-hero wrap">
+    <span class="eyebrow">LET’S START A CONVERSATION</span><h1>
+      A question, an idea,<br /><em>or just a hello.</em>
+    </h1><p>
+      Meet Mehedi Sharif, a local point of connection for Bangladesh’s GHL
+      community. Reach out about community ideas, meetup topics, and ways to get
+      involved.
+    </p>
+  </section><div class="wrap contact-options">
+    <article>
+      <span class="eyebrow">FOR COMMUNITY CONVERSATIONS</span><h2>
+        Find your people.
+      </h2><p>
+        Introduce yourself, ask a question, or keep up with meetup announcements
+        in the Facebook group.
+      </p><a
+        class="button"
+        href={groupUrl}
+        target="_blank"
+        rel="noopener noreferrer">Open the Facebook group ↗</a>
+    </article><article>
+      <span class="eyebrow">CONTACT THE ORGANIZER</span><h2>
+        Say hello to Mehedi.
+      </h2><p>
+        Have a topic to suggest or an idea for the community? Connect with
+        Mehedi directly on Facebook.
+      </p><a
+        class="text-link"
+        href="https://www.facebook.com/mehedi.sharif.titas"
+        target="_blank"
+        rel="noopener noreferrer">Visit Mehedi’s profile ↗</a>
+    </article>
+  </div><Join /></Layout
+>

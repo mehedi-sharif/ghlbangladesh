@@ -1,0 +1,147 @@
+---
+import "../styles/community.css";
+import Logo from "../components/community/Logo.astro";
+import Footer from "../components/community/Footer.astro";
+import Arrow from "../components/community/Arrow.astro";
+import { groupUrl } from "../data/community";
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = "HighLevel Bangladesh | Community, Meetups & Workshops",
+  description = "Connect with the HighLevel community in Bangladesh. Learn through meetups and workshops with chapter leader Mehedi Sharif.",
+} = Astro.props;
+const home = Astro.url.pathname === "/";
+const nav = [
+  ["Community", "community"],
+  ["Events", "events"],
+  ["Resources", "resources"],
+];
+const canonical = new URL(Astro.url.pathname, "https://ghlbangladesh.com");
+---
+
+<!doctype html>
+<html lang="en">
+  <head
+    ><meta charset="UTF-8" /><meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    /><meta name="theme-color" content="#061d30" /><title>{title}</title><meta
+      name="description"
+      content={description}
+    /><link rel="canonical" href={canonical} /><link
+      rel="icon"
+      href="/images/community/chapter-logo.svg"
+      type="image/svg+xml"
+    /><meta property="og:type" content="website" /><meta
+      property="og:locale"
+      content="en_BD"
+    /><meta property="og:title" content={title} /><meta
+      property="og:description"
+      content={description}
+    /><meta property="og:url" content={canonical} /><meta
+      property="og:image"
+      content="https://ghlbangladesh.com/images/community/community.webp"
+    /><meta name="twitter:card" content="summary_large_image" /><link
+      rel="preload"
+      href="/images/community/dm-sans-400.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    /><link
+      rel="preload"
+      href="/images/community/dm-sans-700.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    /></head
+  ><body class={home ? "home" : "inner-page"}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <Logo /><nav class="desktop-nav" aria-label="Main navigation">
+          {
+            nav.map(([label, id]) => (
+              <a
+                href={
+                  id === "resources"
+                    ? "/resources"
+                    : home
+                      ? `#${id}`
+                      : `/#${id}`
+                }
+              >
+                {label}
+              </a>
+            ))
+          }
+        </nav><a
+          class="header-join"
+          href={groupUrl}
+          target="_blank"
+          rel="noopener noreferrer">Join the community <Arrow /></a
+        ><button
+          class="menu-toggle"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+          aria-label="Open navigation"><span></span><span></span></button
+        >
+      </div><nav
+        id="mobile-nav"
+        class="mobile-nav"
+        aria-label="Mobile navigation"
+        hidden
+      >
+        {
+          nav.map(([label, id]) => (
+            <a
+              href={
+                id === "resources" ? "/resources" : home ? `#${id}` : `/#${id}`
+              }
+            >
+              {label}
+            </a>
+          ))
+        }<a href={groupUrl} target="_blank" rel="noopener noreferrer"
+          >Join the community <Arrow /></a
+        >
+      </nav>
+    </header>
+    <main id="main"><slot /></main>
+    <Footer />
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+      const nav = document.querySelector<HTMLElement>("#mobile-nav");
+      function closeMenu() {
+        toggle?.setAttribute("aria-expanded", "false");
+        toggle?.setAttribute("aria-label", "Open navigation");
+        if (nav) nav.hidden = true;
+      }
+      toggle?.addEventListener("click", () => {
+        const open = toggle.getAttribute("aria-expanded") !== "true";
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.setAttribute(
+          "aria-label",
+          open ? "Close navigation" : "Open navigation",
+        );
+        if (nav) nav.hidden = !open;
+      });
+      nav
+        ?.querySelectorAll("a")
+        .forEach((a) => a.addEventListener("click", closeMenu));
+      document.addEventListener("keydown", (e) => {
+        if (
+          e.key === "Escape" &&
+          toggle?.getAttribute("aria-expanded") === "true"
+        ) {
+          closeMenu();
+          toggle.focus();
+        }
+      });
+      matchMedia("(min-width: 761px)").addEventListener("change", (e) => {
+        if (e.matches) closeMenu();
+      });
+    </script></body
+  >
+</html>

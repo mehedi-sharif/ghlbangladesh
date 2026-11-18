@@ -1,0 +1,43 @@
+---
+import Layout from "../layouts/CommunityLayout.astro";
+import Join from "../components/community/Join.astro";
+import { groupUrl } from "../data/community";
+---
+
+<Layout title="The Community — HighLevel Bangladesh"
+  ><section class="page-hero wrap">
+    <span class="eyebrow">A stronger local community</span><h1>
+      Big ideas.<br />Local connections.
+    </h1><p>
+      You don’t have to figure it all out alone. Connect with people in
+      Bangladesh who understand the tools, the challenges, and the
+      possibilities.
+    </p><a
+      class="button button-green"
+      href={groupUrl}
+      target="_blank"
+      rel="noopener noreferrer">Join the Community</a>
+  </section><figure class="wrap page-photo">
+    <img
+      src="/images/community/community.webp"
+      srcset="/images/community/community-800.webp 800w, /images/community/community.webp 1600w"
+      sizes="90vw"
+      width="1600"
+      height="900"
+      alt="The HighLevel Bangladesh community gathered at a meetup"
+    />
+  </figure><section class="section wrap split-content">
+    <div>
+      <span class="eyebrow">Built around you</span><h2>
+        Better when we<br />build together.
+      </h2>
+    </div><div>
+      <p class="large-copy">
+        Practical learning. Open conversations. People who get it.
+      </p><p>
+        We’re here to share practical knowledge, learn from each other, and turn
+        online connections into real conversations.
+      </p><p>Just getting started or already building? You’re welcome here.</p>
+    </div>
+  </section><Join /></Layout
+>

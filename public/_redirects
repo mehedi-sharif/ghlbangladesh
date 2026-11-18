@@ -1,0 +1,8 @@
+/about /community 301
+/teams /community 301
+/donation /community 301
+/reviews /community 301
+/programs /events 301
+/programs/* /events 301
+/blog /resources 301
+/blog/* /resources 301

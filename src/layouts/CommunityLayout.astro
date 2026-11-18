@@ -1,0 +1,23 @@
+---
+import '../styles/community.css';
+import Logo from '../components/community/Logo.astro';
+import {groupUrl} from '../data/community';
+interface Props {title?:string; description?:string;}
+const {title='GHL Bangladesh — Learn. Connect. Grow.',description='A community of agencies, marketers, developers, and entrepreneurs building with GHL in Bangladesh. Learn together, meet your peers, and grow your business.'}=Astro.props;
+const nav=[['Community','/community'],['Events','/events'],['Resources','/resources']];
+const canonical=new URL(Astro.url.pathname,'https://ghlbangladesh.com');
+---
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="theme-color" content="#174838"/><title>{title}</title><meta name="description" content={description}/><link rel="canonical" href={canonical}/><link rel="icon" href="/community-icon.svg" type="image/svg+xml"/><meta property="og:type" content="website"/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonical}/><meta property="og:image" content="https://ghlbangladesh.com/images/community/meetup-1200.webp"/><meta name="twitter:card" content="summary_large_image"/><link rel="preload" href="/images/community/urbanist.woff2" as="font" type="font/woff2" crossorigin/></head><body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner"><Logo/><nav class="desktop-nav" aria-label="Main navigation">{nav.map(([label,url])=><a href={url} aria-current={Astro.url.pathname.replace(/\/$/,'')===url?'page':undefined}>{label}</a>)}</nav><a class="button button-small header-join" href={groupUrl} target="_blank" rel="noopener noreferrer">Join the community <span aria-hidden="true">↗</span></a><button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation"><span></span><span></span></button></div><nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden>{nav.map(([label,url])=><a href={url}>{label}</a>)}<a href={groupUrl} target="_blank" rel="noopener noreferrer">Join the community ↗</a></nav></header>
+<main id="main"><slot/></main>
+<footer class="site-footer"><div class="wrap"><div class="footer-top"><div><Logo/><p>Local connections.<br/>Shared knowledge. Bigger possibilities.</p></div><div class="footer-links"><span class="eyebrow">FIND YOUR WAY</span>{nav.map(([label,url])=><a href={url}>{label}</a>)}</div><div class="footer-links"><span class="eyebrow">LET’S CONNECT</span><a href={groupUrl} target="_blank" rel="noopener noreferrer">Facebook community ↗</a><a href="/contact">Contact the organizer</a><a href="https://chapters.gohighlevel.com/" target="_blank" rel="noopener noreferrer">Explore HighLevel chapters ↗</a></div></div><div class="footer-bottom"><span>© {new Date().getFullYear()} GHL Bangladesh</span><span>Made for the people building what’s next.</span><div><a href="/privacy-policy">Privacy</a><a href="/terms-and-conditions">Terms</a></div></div></div></footer>
+<script>
+const toggle=document.querySelector<HTMLButtonElement>('.menu-toggle');
+const nav=document.querySelector<HTMLElement>('#mobile-nav');
+function closeMenu(){toggle?.setAttribute('aria-expanded','false');toggle?.setAttribute('aria-label','Open navigation');if(nav)nav.hidden=true;}
+toggle?.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')!=='true';toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Close navigation':'Open navigation');if(nav)nav.hidden=!open;});
+nav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMenu();toggle?.focus();}});
+matchMedia('(min-width: 761px)').addEventListener('change',e=>{if(e.matches)closeMenu();});
+</script></body></html>

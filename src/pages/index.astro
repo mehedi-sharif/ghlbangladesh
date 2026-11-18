@@ -45,20 +45,6 @@ import { groupUrl } from "../data/community";
         ><a class="button button-outline" href="#events"
           >Explore Events <span aria-hidden="true">↓</span></a
         >
-        <button
-          class="video-toggle"
-          aria-label="Pause background video"
-          type="button"
-          hidden
-          ><svg
-            class="pause-symbol"
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-            fill="currentColor"
-            aria-hidden="true"><path d="M3 2h3v10H3zM8 2h3v10H8z"></path></svg
-          ><span>Pause video</span></button
-        >
       </div>
     </div>
   </section>
@@ -69,43 +55,17 @@ import { groupUrl } from "../data/community";
   <Join />
   <script>
     const video = document.querySelector<HTMLVideoElement>("#chapter-video");
-    const toggle = document.querySelector<HTMLButtonElement>(".video-toggle");
     const motion = matchMedia("(prefers-reduced-motion: reduce)");
-    let userPaused = false;
-    if (video && toggle) {
+    if (video) {
       video.muted = true;
       video.defaultMuted = true;
-      const update = () => {
-        const paused = video.paused;
-        const label = paused ? "Play video" : "Pause video";
-        const text = toggle.querySelector("span");
-        if (text) text.textContent = label;
-        toggle.setAttribute(
-          "aria-label",
-          paused ? "Play background video" : "Pause background video",
-        );
-        toggle.dataset.paused = String(paused);
-      };
       const sync = () => {
-        if (motion.matches || userPaused || document.hidden) {
+        if (motion.matches || document.hidden) {
           video.pause();
-          update();
           return;
         }
-        video.play().then(update).catch(update);
+        video.play().catch(() => {});
       };
-      toggle.hidden = false;
-      toggle.addEventListener("click", () => {
-        if (video.paused) {
-          userPaused = false;
-          video.play().then(update).catch(update);
-        } else {
-          userPaused = true;
-          video.pause();
-        }
-      });
-      video.addEventListener("play", update);
-      video.addEventListener("pause", update);
       video.addEventListener("loadeddata", sync, { once: true });
       document.addEventListener("visibilitychange", sync);
       motion.addEventListener("change", sync);

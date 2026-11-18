@@ -74,7 +74,8 @@ const canonical = new URL(Astro.url.pathname, "https://ghlbangladesh.com");
           class="menu-toggle"
           aria-expanded="false"
           aria-controls="mobile-nav"
-          aria-label="Open navigation"><span></span><span></span></button>
+          aria-label="Open navigation"><span></span><span></span></button
+        >
       </div><nav
         id="mobile-nav"
         class="mobile-nav"
@@ -86,21 +87,24 @@ const canonical = new URL(Astro.url.pathname, "https://ghlbangladesh.com");
             <a href={home ? `#${id}` : `/#${id}`}>{label}</a>
           ))
         }<a href={groupUrl} target="_blank" rel="noopener noreferrer"
-          >Join the community <Arrow /></a>
+          >Join the community <Arrow /></a
+        >
       </nav>
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer">
       <div class="wrap footer-main">
-        <Logo /><p>Bangladesh community<br />Learn. Connect. Grow.</p><a
+        <Logo /><p>Bangladesh community{" "}<br />Learn. Connect. Grow.</p><a
           href="https://chapters.gohighlevel.com/"
           target="_blank"
           rel="noopener noreferrer"
-          >Explore HighLevel Local Chapters <Arrow /></a>
+          >Explore HighLevel Local Chapters <Arrow /></a
+        >
       </div><div class="wrap footer-bottom">
         <span>© {new Date().getFullYear()} GHL Bangladesh</span><div>
           <a href="/contact">Contact</a><a href="/privacy-policy">Privacy</a><a
-            href="/terms-and-conditions">Terms</a>
+            href="/terms-and-conditions">Terms</a
+          >
         </div>
       </div>
     </footer>
@@ -136,5 +140,6 @@ const canonical = new URL(Astro.url.pathname, "https://ghlbangladesh.com");
       matchMedia("(min-width: 761px)").addEventListener("change", (e) => {
         if (e.matches) closeMenu();
       });
-    </script></body>
+    </script></body
+  >
 </html>

@@ -345,22 +345,6 @@ p + p {
   align-items: center;
   margin-top: 32px;
 }
-.hero-foot {
-  position: absolute;
-  bottom: 30px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid #ffffff35;
-  padding-top: 22px;
-}
-.hero-foot > p {
-  font-size: 11px;
-  color: #d1dce2;
-  letter-spacing: 0.015em;
-}
 .video-toggle {
   display: inline-flex;
   align-items: center;
@@ -1168,15 +1152,6 @@ p + p {
     gap: 18px;
     padding: 14px 17px;
     min-height: 49px;
-  }
-  .hero-foot {
-    bottom: 25px;
-    padding-top: 18px;
-    gap: 25px;
-    align-items: end;
-  }
-  .hero-foot > p {
-    font-size: 10px;
   }
   .video-toggle {
     font-size: 10px;

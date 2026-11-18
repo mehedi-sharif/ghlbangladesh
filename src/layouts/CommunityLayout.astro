@@ -1,6 +1,7 @@
 ---
 import "../styles/community.css";
 import Logo from "../components/community/Logo.astro";
+import Footer from "../components/community/Footer.astro";
 import Arrow from "../components/community/Arrow.astro";
 import { groupUrl } from "../data/community";
 interface Props {
@@ -62,7 +63,17 @@ const canonical = new URL(Astro.url.pathname, "https://ghlbangladesh.com");
         <Logo /><nav class="desktop-nav" aria-label="Main navigation">
           {
             nav.map(([label, id]) => (
-              <a href={home ? `#${id}` : `/#${id}`}>{label}</a>
+              <a
+                href={
+                  id === "resources"
+                    ? "/resources"
+                    : home
+                      ? `#${id}`
+                      : `/#${id}`
+                }
+              >
+                {label}
+              </a>
             ))
           }
         </nav><a
@@ -84,7 +95,13 @@ const canonical = new URL(Astro.url.pathname, "https://ghlbangladesh.com");
       >
         {
           nav.map(([label, id]) => (
-            <a href={home ? `#${id}` : `/#${id}`}>{label}</a>
+            <a
+              href={
+                id === "resources" ? "/resources" : home ? `#${id}` : `/#${id}`
+              }
+            >
+              {label}
+            </a>
           ))
         }<a href={groupUrl} target="_blank" rel="noopener noreferrer"
           >Join the community <Arrow /></a
@@ -92,22 +109,7 @@ const canonical = new URL(Astro.url.pathname, "https://ghlbangladesh.com");
       </nav>
     </header>
     <main id="main"><slot /></main>
-    <footer class="site-footer">
-      <div class="wrap footer-main">
-        <Logo /><p>Bangladesh community{" "}<br />Learn. Connect. Grow.</p><a
-          href="https://chapters.gohighlevel.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          >Explore HighLevel Local Chapters <Arrow /></a
-        >
-      </div><div class="wrap footer-bottom">
-        <span>© {new Date().getFullYear()} GHL Bangladesh</span><div>
-          <a href="/contact">Contact</a><a href="/privacy-policy">Privacy</a><a
-            href="/terms-and-conditions">Terms</a
-          >
-        </div>
-      </div>
-    </footer>
+    <Footer />
     <script>
       const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
       const nav = document.querySelector<HTMLElement>("#mobile-nav");

@@ -3,22 +3,167 @@ import { groupUrl } from "../../data/community";
 import Arrow from "./Arrow.astro";
 ---
 
-<section class="join-section" id="join">
-  <div class="wrap join-inner">
-    <div>
-      <span class="eyebrow">Your community. Your next step.</span><h2>
-        There’s a place{" "}<br />for you here.
+<section class="footer-invite" id="join" aria-labelledby="invite-heading">
+  <div class="wrap invite-inner">
+    <div class="invite-copy">
+      <span class="invite-label">Your people. Your next chapter.</span>
+      <h2 id="invite-heading">
+        Great things start{" "}<br />with a <em>connection.</em>
       </h2>
-    </div><div class="join-copy">
       <p>
         Bring your questions, your experience, and your next big idea.{" "}<br
-        />Let’s build something better, together.
-      </p><a
-        class="button button-green"
-        href={groupUrl}
-        target="_blank"
-        rel="noopener noreferrer">Join HighLevel Bangladesh <Arrow /></a
-      >
+        />There’s a place for you here.
+      </p>
     </div>
+    <a
+      class="invite-button"
+      href={groupUrl}
+      target="_blank"
+      rel="noopener noreferrer">Join the community <Arrow /></a
+    >
+    <svg
+      class="invite-backdrop"
+      viewBox="0 0 430 430"
+      fill="none"
+      aria-hidden="true"
+      ><path
+        d="M20 410 410 20M274 29 410 20l-9 136"
+        stroke="currentColor"
+        stroke-width="15"
+        stroke-linecap="square"></path></svg
+    >
   </div>
 </section>
+
+<style>
+  .footer-invite {
+    overflow: hidden;
+    background: #174838;
+    color: #f7f8f1;
+    font-family: "Chapter Reference", "DM Sans", sans-serif;
+  }
+  .invite-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.45fr 0.8fr;
+    align-items: center;
+    gap: 50px;
+    padding-block: 83px;
+    min-height: 415px;
+  }
+  .invite-copy,
+  .invite-button {
+    position: relative;
+    z-index: 1;
+  }
+  .invite-label {
+    display: block;
+    font:
+      600 10px/1.5 "DM Sans",
+      sans-serif;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #e1ebe2;
+    margin-bottom: 26px;
+  }
+  .invite-copy h2 {
+    margin: 0;
+    font-family: "Chapter Reference", "DM Sans", sans-serif;
+    font-size: clamp(44px, 4.6vw, 66px);
+    line-height: 1.08;
+    letter-spacing: -0.055em;
+    font-weight: 600;
+  }
+  .invite-copy h2 em {
+    font-family: Georgia, serif;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: -0.065em;
+    color: #d4e898;
+  }
+  .invite-copy p {
+    margin: 28px 0 0;
+    color: #b4c9ba;
+    font-size: 16px;
+    line-height: 1.8;
+  }
+  .invite-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    justify-self: end;
+    gap: 35px;
+    padding: 17px 24px;
+    margin-right: 32px;
+    border-radius: 6px;
+    background: #d4e898;
+    color: #193f33;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+    transition: background 0.2s ease;
+  }
+  .invite-button:hover {
+    background: #e2f0b7;
+  }
+  .invite-button :global(.arrow-icon) {
+    width: 24px;
+    height: 24px;
+    stroke-width: 1;
+  }
+  .invite-backdrop {
+    position: absolute;
+    z-index: 0;
+    top: -15px;
+    right: -20px;
+    width: 340px;
+    height: 340px;
+    color: #285a48;
+    pointer-events: none;
+  }
+  @media (max-width: 1100px) {
+    .invite-inner {
+      gap: 30px;
+    }
+    .invite-button {
+      margin-right: 0;
+    }
+  }
+  @media (max-width: 760px) {
+    .invite-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding-block: 60px;
+      min-height: 0;
+    }
+    .invite-label {
+      font-size: 9px;
+      margin-bottom: 23px;
+    }
+    .invite-copy h2 {
+      font-size: clamp(39px, 10.3vw, 53px);
+    }
+    .invite-copy p {
+      font-size: 15px;
+      margin-top: 25px;
+      max-width: 350px;
+    }
+    .invite-button {
+      justify-self: start;
+      gap: 30px;
+      font-size: 14px;
+      padding: 16px 21px;
+    }
+    .invite-backdrop {
+      width: 300px;
+      height: 300px;
+      top: 70px;
+      right: -120px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .invite-button {
+      transition: none;
+    }
+  }
+</style>

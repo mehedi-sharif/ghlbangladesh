@@ -1,0 +1,145 @@
+<section
+  class="community-story"
+  id="our-story"
+  aria-labelledby="community-story-heading"
+>
+  <div class="wrap story-inner">
+    <header class="story-heading">
+      <span class="story-label">Our story</span>
+      <h2 id="community-story-heading">How GHL Bangladesh began.</h2>
+      <p class="story-byline">A note from Mehedi Sharif</p>
+      <p class="story-credit">
+        Co-organised by Mehedi Sharif and <a
+          href="https://www.facebook.com/vidmshariful"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Shariful Islam on Facebook (opens in a new tab)"
+          >Shariful Islam</a
+        >
+      </p>
+    </header>
+    <div class="story-copy">
+      <p>
+        On <time datetime="2026-06-11">June 11, 2026</time>, I had the honour of
+        organising GHL Bangladesh MeetUp 2026 alongside Shariful Islam. It was
+        an unofficial, community-driven meetup.
+      </p>
+      <p>
+        It all started when Shariful and I kept talking about how many people in
+        Bangladesh work with GoHighLevel every day, yet we hardly ever meet in
+        person. So we decided to change that. Nothing fancy, just people who use
+        GHL sitting in one room, sharing what’s actually working for them.
+      </p>
+      <p>
+        I didn’t expect the room to fill up the way it did. The speakers were
+        open about their real experiences, people asked great questions, and the
+        conversations felt genuine.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .community-story {
+    background: #f6f8f1;
+    color: #193f33;
+    font-family: "Chapter Reference", "DM Sans", sans-serif;
+  }
+  .story-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+    gap: clamp(44px, 7vw, 100px);
+    padding-block: 76px 88px;
+    border-top: 1px solid #d6ddcf;
+  }
+  .story-label {
+    display: block;
+    margin-bottom: 20px;
+    color: #64745f;
+    font:
+      600 10px/1.5 "DM Sans",
+      sans-serif;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+  .story-heading h2 {
+    max-width: 360px;
+    margin: 0;
+    color: #193f33;
+    font-family: "Chapter Reference", "DM Sans", sans-serif;
+    font-size: clamp(34px, 3.4vw, 44px);
+    font-weight: 600;
+    line-height: 1.14;
+    letter-spacing: -0.045em;
+  }
+  .story-byline {
+    margin-top: 22px;
+    color: #687568;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .story-credit {
+    max-width: 305px;
+    margin-top: 26px;
+    color: #315344;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.7;
+  }
+  .story-credit a {
+    white-space: nowrap;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  .story-credit a:hover {
+    color: #52714b;
+  }
+  .story-credit a:focus-visible {
+    outline: 2px solid #315344;
+    outline-offset: 4px;
+  }
+  .story-copy {
+    max-width: 660px;
+  }
+  .story-copy p {
+    margin: 0;
+    color: #536b5b;
+    font-size: 17px;
+    line-height: 1.85;
+  }
+  .story-copy p + p {
+    margin-top: 23px;
+  }
+  @media (max-width: 760px) {
+    .story-inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 30px;
+      padding-block: 48px 56px;
+    }
+    .story-label {
+      margin-bottom: 16px;
+    }
+    .story-heading h2 {
+      max-width: 340px;
+      font-size: clamp(33px, 8vw, 40px);
+    }
+    .story-byline {
+      margin-top: 18px;
+    }
+    .story-credit {
+      max-width: 340px;
+      margin-top: 20px;
+    }
+    .story-copy {
+      max-width: 100%;
+    }
+    .story-copy p {
+      line-height: 1.8;
+    }
+    .story-copy p + p {
+      margin-top: 21px;
+    }
+  }
+</style>

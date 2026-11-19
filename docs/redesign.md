@@ -13,6 +13,7 @@ Use Node 22.12 or newer. Run `npm ci`, `npm run dev`, `npm run check`, and `npm 
 - Design styles and responsive behavior: `src/styles/community.css`.
 - Reusable photo, resource, join, and logo components: `src/components/community/`.
 - The homepage origin story is in `src/components/community/CommunityStory.astro`, placed after the photo gallery and directly before “Meet your chapter leader.” It is told in Mehedi’s first-person voice and credits Shariful Islam as co-organiser, linking to his supplied Facebook profile.
+- The story pairs Mehedi’s DSC08672.JPG with Shariful’s DSC08253.JPG, identified by Mehedi. Shariful’s portrait uses explicit intrinsic dimensions so it reserves the correct space before loading.
 - Mehedi’s supplied story confirms that GHL Bangladesh MeetUp 2026 took place on June 11, 2026, as an unofficial, community-driven meetup co-organised with Shariful Islam. This is the meetup date, not a claimed founding date for the group. Future event dates, venues, registration links, new credentials, or official affiliation still require confirmation.
 - The primary join destination is the HighLevel Bangladesh Facebook group. The personal profile appears only as a clearly labeled organizer contact.
 - Obsolete charity template routes have been removed; former top-level routes redirect to relevant community pages. Unused original theme content/components remain in source but are not published as pages.
@@ -28,6 +29,7 @@ User-supplied collection: https://www.playbook.com/s/ghlprojects/QpYamYiVaSVjLdK
 | speaker | DSC08669.JPG | Presentation |
 | building | DSC08236.JPG | Attendee working on a laptop |
 | workshop | DSC08662.JPG | Presentation with projected screen |
+| dsc08253 | DSC08253.JPG | Shariful Islam portrait in Our story; identified by Mehedi |
 | dsc08436 | DSC08436.JPG | Parliament view selected by Mehedi |
 | dsc08687 | DSC08687.JPG | Additional meetup group portrait selected by Mehedi |
 | dsc08636 | DSC08636.JPG | Selected event gallery photo |

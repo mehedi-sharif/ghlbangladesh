@@ -1,3 +1,7 @@
+---
+import Photo from "./Photo.astro";
+---
+
 <section
   class="community-story"
   id="our-story"
@@ -17,6 +21,26 @@
           >Shariful Islam</a
         >
       </p>
+      <div class="story-people" role="group" aria-label="Meetup co-organisers">
+        <figure class="story-person">
+          <Photo
+            name="dsc08672"
+            alt="Mehedi Sharif holding a microphone beside the GHL Bangladesh meetup banner"
+            sizes="(max-width: 760px) 45vw, 225px"
+          />
+          <figcaption>Mehedi Sharif</figcaption>
+        </figure>
+        <figure class="story-person">
+          <Photo
+            name="dsc08253"
+            alt="Shariful Islam at the GHL Bangladesh meetup"
+            width={1800}
+            height={2699}
+            sizes="(max-width: 760px) 45vw, 225px"
+          />
+          <figcaption>Shariful Islam</figcaption>
+        </figure>
+      </div>
     </header>
     <div class="story-copy">
       <p>
@@ -112,6 +136,32 @@
     outline: 2px solid #315344;
     outline-offset: 4px;
   }
+  .story-people {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 30px;
+  }
+  .story-person {
+    min-width: 0;
+    margin: 0;
+  }
+  .story-person :global(img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 3px;
+  }
+  .story-person figcaption {
+    margin-top: 8px;
+    color: #315344;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
   .story-copy {
     max-width: 660px;
   }
@@ -143,6 +193,13 @@
     .story-credit {
       max-width: 340px;
       margin-top: 20px;
+    }
+    .story-people {
+      gap: 12px;
+      margin-top: 26px;
+    }
+    .story-person figcaption {
+      font-size: 13px;
     }
     .story-copy {
       max-width: 100%;

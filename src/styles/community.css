@@ -1,10 +1,4 @@
 @font-face {
-  font-family: "Chapter Reference";
-  src: url("/images/community/urbanist.woff2") format("woff2");
-  font-weight: 100 900;
-  font-display: swap;
-}
-@font-face {
   font-family: "DM Sans";
   src: url("/images/community/dm-sans-400.ttf") format("truetype");
   font-weight: 400;
@@ -70,20 +64,21 @@ figure {
 h1,
 h2,
 h3 {
-  letter-spacing: -0.055em;
-  line-height: 1.08;
-  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  font-weight: 700;
 }
 h1 {
-  font-size: clamp(52px, 6.5vw, 90px);
+  font-size: clamp(48px, 5.8vw, 80px);
 }
 h2 {
-  font-size: clamp(38px, 4.4vw, 62px);
+  font-size: clamp(34px, 3.6vw, 52px);
 }
 h3 {
   font-size: 30px;
 }
-em {
+em,
+i {
   font-style: normal;
 }
 a {
@@ -326,10 +321,10 @@ p + p {
   left: 7px;
 }
 .hero-content h1 {
-  font-weight: 500;
+  font-weight: 700;
   max-width: 1100px;
-  letter-spacing: -0.06em;
-  line-height: 1.045;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
 }
 .hero-content h1 > span {
   color: #bce7d3;
@@ -592,7 +587,7 @@ p + p {
 }
 .resource h3 {
   font-size: 23px;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.015em;
   line-height: 1.2;
   margin-bottom: 14px;
 }
@@ -727,7 +722,7 @@ p + p {
   margin-bottom: 25px;
 }
 .page-hero h1 {
-  font-size: clamp(48px, 6vw, 78px);
+  font-size: clamp(40px, 4.8vw, 64px);
 }
 .page-hero > p {
   font-size: 18px;
@@ -1000,9 +995,6 @@ p + p {
   .hero-content {
     padding-top: 210px;
   }
-  .hero-content h1 {
-    font-size: 100px;
-  }
 }
 @media (max-width: 1100px) {
   .wrap {
@@ -1021,9 +1013,6 @@ p + p {
     margin-left: 5px;
     font-size: 11px;
     padding-inline: 12px;
-  }
-  .hero-content h1 {
-    font-size: 76px;
   }
   .hero-content {
     padding-top: 180px;
@@ -1127,9 +1116,9 @@ p + p {
     padding-bottom: 150px;
   }
   .hero-content h1 {
-    font-size: clamp(45px, 9.2vw, 68px);
-    line-height: 1.09;
-    letter-spacing: -0.055em;
+    font-size: clamp(40px, 6.3vw, 48px);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
   }
   .hero-content > p {
     font-size: 15px;
@@ -1407,7 +1396,7 @@ p + p {
     padding-block: 45px;
   }
   .page-hero h1 {
-    font-size: clamp(41px, 9vw, 60px);
+    font-size: clamp(36px, 8.5vw, 48px);
   }
   .page-hero > p {
     font-size: 16px;
@@ -1499,7 +1488,7 @@ p + p {
     width: 180px;
   }
   .hero-content h1 {
-    font-size: 43px;
+    font-size: 38px;
   }
   .hero-actions {
     gap: 10px;

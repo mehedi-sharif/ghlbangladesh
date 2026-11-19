@@ -28,7 +28,15 @@ import Photo from "./Photo.astro";
             height={2699}
             sizes="(max-width: 760px) 45vw, 225px"
           />
-          <figcaption>Shariful Islam</figcaption>
+          <figcaption>
+            <a
+              href="https://www.facebook.com/vidmshariful"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Shariful Islam on Facebook (opens in a new tab)"
+              >Shariful Islam</a
+            >
+          </figcaption>
         </figure>
       </div>
     </header>
@@ -94,16 +102,19 @@ import Photo from "./Photo.astro";
     line-height: 1.2;
     letter-spacing: -0.02em;
   }
-  .story-copy a {
+  .story-copy a,
+  .story-person figcaption a {
     white-space: nowrap;
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
   }
-  .story-copy a:hover {
+  .story-copy a:hover,
+  .story-person figcaption a:hover {
     color: #52714b;
   }
-  .story-copy a:focus-visible {
+  .story-copy a:focus-visible,
+  .story-person figcaption a:focus-visible {
     outline: 2px solid #315344;
     outline-offset: 4px;
   }

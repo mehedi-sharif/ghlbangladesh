@@ -37,14 +37,26 @@ const Heading = headingTag;
         HighLevel. I organise our local meetups so we can put faces to names,
         ask questions, and share what we’re learning.
       </p>
-      <a
-        class="chapter-profile-link"
-        href="https://mehedisharif.com"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Connect with Mehedi <Arrow />
-      </a>
+      <div class="chapter-profile-actions">
+        <a
+          class="chapter-profile-link"
+          href="https://www.facebook.com/mehedi.sharif.titas"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Mehedi Sharif on Facebook (opens in a new tab)"
+        >
+          Facebook <Arrow />
+        </a>
+        <a
+          class="chapter-profile-link"
+          href="https://mehedisharif.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Mehedi Sharif’s website (opens in a new tab)"
+        >
+          Website <Arrow />
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -105,13 +117,19 @@ const Heading = headingTag;
   .chapter-profile-description {
     margin-top: 14px;
   }
+  .chapter-profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 32px;
+    margin-top: 22px;
+  }
   .chapter-profile-link {
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
     gap: 32px;
     min-height: 44px;
-    margin-top: 22px;
     padding-block: 5px 8px;
     border-bottom: 1px solid currentColor;
     color: #193f33;
@@ -152,7 +170,7 @@ const Heading = headingTag;
     .chapter-profile-intro {
       margin-top: 20px;
     }
-    .chapter-profile-link {
+    .chapter-profile-actions {
       margin-top: 20px;
     }
   }

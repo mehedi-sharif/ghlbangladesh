@@ -14,9 +14,9 @@ Use Node 22.12 or newer. Run `npm ci`, `npm run dev`, `npm run check`, and `npm 
 - Design styles and responsive behavior: `src/styles/community.css`.
 - Reusable photo, resource, join, and logo components: `src/components/community/`.
 - The homepage origin story is in `src/components/community/CommunityStory.astro`, placed after the photo gallery and directly before the chapter-leader section. It is told in Mehedi’s first-person voice and credits Shariful Islam as co-organiser, linking to his supplied Facebook profile.
-- The story pairs Mehedi’s DSC08672.JPG with Shariful’s DSC08253.JPG, identified by Mehedi. Shariful’s portrait uses explicit intrinsic dimensions so it reserves the correct space before loading.
-- The chapter-leader section uses the supplied transparent black-polo portrait, sourced from the matching image on Mehedi’s website. Its `mehedi-chapter-leader` WebP variants retain transparency and the source’s 1165×1350 aspect ratio. The label reads “HighLevel Bangladesh chapter leader.”
-- The chapter-leader profile offers Facebook (`https://www.facebook.com/mehedi.sharif.titas`) and website (`https://mehedisharif.com`) links. Shariful’s name below his story photo links to his supplied Facebook profile. The footer links to `/volunteers`, which says opportunities will open soon and offers community updates without an application form.
+- The story pairs Mehedi’s seated DSC08548.JPG with Shariful’s speaking DSC08543.JPG, matching the two photos supplied by Mehedi. Portrait frames use individual crop positions; the source images remain intact. Names and Shariful’s Facebook link remain below the correct photos.
+- The chapter-leader section uses the earlier meetup portrait at Mehedi’s request. The label reads “HighLevel Bangladesh chapter leader.”
+- The chapter-leader profile offers Facebook (`https://www.facebook.com/mehedi.sharif.titas`) and website (`https://mehedisharif.com`) links. Shariful’s name below his story photo links to his supplied Facebook profile. The top navigation and footer link to `/volunteers`, which says opportunities will open soon and offers community updates without an application form.
 - Mehedi’s supplied story confirms that GHL Bangladesh MeetUp 2026 took place on June 11, 2026, as an unofficial, community-driven meetup co-organised with Shariful Islam. This is the meetup date, not a claimed founding date for the group. Future event dates, venues, registration links, new credentials, or official affiliation still require confirmation.
 - The primary join destination is the HighLevel Bangladesh Facebook group.
 - Obsolete charity template routes have been removed; former top-level routes redirect to relevant community pages. Unused original theme content/components remain in source but are not published as pages.
@@ -48,8 +48,8 @@ User-supplied collection: https://www.playbook.com/s/ghlprojects/QpYamYiVaSVjLdK
 | dsc08278 | DSC08278.JPG | Selected event gallery photo |
 | dsc08260 | DSC08260.JPG | Selected event gallery photo |
 | dsc08237 | DSC08237.JPG | Selected event gallery photo |
-| mehedi-portrait | DSC08672.JPG | Our story photo, re-exported from the original 7952×5304 JPEG at higher quality |
-| mehedi-chapter-leader | Supplied cutout; matching source at https://mehedisharif.com/images/optimized/5599a26cef87acea-1165.webp | Chapter-leader portrait on home and contact pages |
+| dsc08548 | DSC08548.JPG | Mehedi’s seated story photo, exported from the original 7952×5304 JPEG |
+| mehedi-portrait | DSC08672.JPG | Chapter-leader photo, re-exported from the original 7952×5304 JPEG at higher quality |
 
 DSC08667.JPG was excluded because it was identified as reference-only. No upload date was used as an event date. No stock imagery, invented testimonials, or fabricated statistics are used. The Urbanist font is served locally from the prior website asset, removing build-time Google Fonts requests.
 
@@ -59,7 +59,7 @@ The existing Cloudflare Pages Git integration builds `main` using `npm run build
 
 ## Reference-led revision
 
-The user rejected the initial editorial concept and requested the content and background video from https://ghl-bangladesh-website.pages.dev/, with an improved design. The homepage now contains the background video, introduction, community benefits, event gallery, origin story, chapter-leader profile, and invitation. Mehedi’s story photo is sourced from the original Playbook JPEG; the chapter-leader section uses his selected cutout portrait. The reference’s 25.9-second silent H.264 background video is served locally. The user-supplied `ghl-bangladesh-logo-fixed.svg` is used unchanged on dark backgrounds. The join destination remains the verified Facebook community group; the chapter-leader profile offers Facebook and website links.
+The user rejected the initial editorial concept and requested the content and background video from https://ghl-bangladesh-website.pages.dev/, with an improved design. The homepage now contains the background video, introduction, community benefits, event gallery, origin story, chapter-leader profile, and invitation. Mehedi’s story and chapter-leader photos are sourced from original Playbook JPEGs. The reference’s 25.9-second silent H.264 background video is served locally. The user-supplied `ghl-bangladesh-logo-fixed.svg` is used unchanged on dark backgrounds. The join destination remains the verified Facebook community group; the chapter-leader profile offers Facebook and website links.
 
 Typography uses locally hosted DM Sans from Google Fonts, with upright headings and body copy; italic and serif heading accents have been removed. Small subtitles and labels use natural casing while retaining brand acronyms. All arrow icons in the primary interface are SVGs. Video pauses when the page is hidden and defaults to paused for reduced-motion preferences. Future event dates remain unconfirmed. Production target confirmed by the user: ghlbangladesh.com; no marketer-version restoration is requested.
 

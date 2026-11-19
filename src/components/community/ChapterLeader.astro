@@ -1,5 +1,6 @@
 ---
 import Arrow from "./Arrow.astro";
+import Photo from "./Photo.astro";
 
 interface Props {
   headingTag?: "h1" | "h2";
@@ -16,15 +17,10 @@ const Heading = headingTag;
 >
   <div class="wrap chapter-profile-inner">
     <div class="chapter-profile-visual">
-      <img
-        src="/images/community/mehedi-chapter-leader-1000.webp"
-        srcset="/images/community/mehedi-chapter-leader-640.webp 640w, /images/community/mehedi-chapter-leader-1000.webp 1000w, /images/community/mehedi-chapter-leader-1165.webp 1165w"
-        sizes="(max-width: 460px) calc(100vw - 40px), 420px"
-        width="1165"
-        height="1350"
-        alt="Portrait of Mehedi Sharif"
-        loading="lazy"
-        decoding="async"
+      <Photo
+        name="mehedi-portrait"
+        alt="Mehedi Sharif holding a microphone beside the GHL Bangladesh meetup banner"
+        sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1362px) 42vw, 525px"
       />
     </div>
     <div class="chapter-profile-copy">
@@ -82,9 +78,6 @@ const Heading = headingTag;
     border-top: 1px solid #d6ddcf;
   }
   .chapter-profile-visual {
-    width: 100%;
-    max-width: 420px;
-    justify-self: center;
     overflow: hidden;
     border-radius: 4px;
   }

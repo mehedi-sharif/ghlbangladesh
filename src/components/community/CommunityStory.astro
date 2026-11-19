@@ -12,20 +12,20 @@ import Photo from "./Photo.astro";
       <span class="story-label">Our story</span>
       <h2 id="community-story-heading">How we started.</h2>
       <div class="story-people" role="group" aria-label="Meetup co-organisers">
-        <figure class="story-person">
+        <figure class="story-person story-person-mehedi">
           <Photo
-            name="mehedi-portrait"
-            alt="Mehedi Sharif holding a microphone beside the GHL Bangladesh meetup banner"
+            name="dsc08548"
+            alt="Mehedi Sharif seated with his phone at the GHL Bangladesh meetup"
             sizes="(max-width: 760px) 45vw, 225px"
           />
           <figcaption>Mehedi Sharif</figcaption>
         </figure>
-        <figure class="story-person">
+        <figure class="story-person story-person-shariful">
           <Photo
-            name="dsc08253"
-            alt="Shariful Islam at the GHL Bangladesh meetup"
+            name="dsc08543"
+            alt="Shariful Islam speaking into a microphone at the GHL Bangladesh meetup"
             width={1800}
-            height={2699}
+            height={1201}
             sizes="(max-width: 760px) 45vw, 225px"
           />
           <figcaption>
@@ -136,6 +136,12 @@ import Photo from "./Photo.astro";
     object-fit: cover;
     object-position: center;
     border-radius: 3px;
+  }
+  .story-person-shariful :global(img) {
+    object-position: 62% center;
+  }
+  .story-person-mehedi :global(img) {
+    object-position: 72% center;
   }
   .story-person figcaption {
     margin-top: 8px;

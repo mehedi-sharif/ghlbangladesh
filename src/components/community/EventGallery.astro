@@ -1,9 +1,10 @@
 ---
 import Photo from "./Photo.astro";
 import { photos } from "../../data/community";
+const featuredPhotoName = "meetup";
 const galleryPhotos = [
-  ...photos.filter((photo) => photo.name === "conversations"),
-  ...photos.filter((photo) => photo.name !== "conversations"),
+  ...photos.filter((photo) => photo.name === featuredPhotoName),
+  ...photos.filter((photo) => photo.name !== featuredPhotoName),
 ];
 const balanceLastRow = (galleryPhotos.length + 3) % 4 === 2;
 const isWide = (index: number) =>
@@ -21,7 +22,7 @@ const isWide = (index: number) =>
       galleryPhotos.map((photo, index) => (
         <figure
           class:list={{
-            "event-gallery-featured": photo.name === "conversations",
+            "event-gallery-featured": photo.name === featuredPhotoName,
             "event-gallery-wide": isWide(index),
           }}
         >
@@ -38,14 +39,14 @@ const isWide = (index: number) =>
               name={photo.name}
               alt={photo.alt}
               sizes={
-                photo.name === "conversations"
+                photo.name === featuredPhotoName
                   ? "(max-width:760px) 100vw, 50vw"
                   : isWide(index)
                     ? "(max-width:760px) 45vw, 50vw"
                     : "(max-width:760px) 45vw, 23vw"
               }
             />
-            {photo.name === "conversations" && (
+            {photo.name === featuredPhotoName && (
               <span class="event-gallery-label">From the community</span>
             )}
           </a>

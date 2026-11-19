@@ -12,7 +12,7 @@ Use Node 22.12 or newer. Run `npm ci`, `npm run dev`, `npm run check`, and `npm 
 - Shared layout, navigation, and metadata: `src/layouts/CommunityLayout.astro`.
 - Design styles and responsive behavior: `src/styles/community.css`.
 - Reusable photo, resource, join, and logo components: `src/components/community/`.
-- The homepage origin story is in `src/components/community/CommunityStory.astro`, placed before the photo gallery. It is told in Mehedi’s first-person voice and credits Shariful Islam as co-organiser, linking to his supplied Facebook profile.
+- The homepage origin story is in `src/components/community/CommunityStory.astro`, placed after the photo gallery and directly before “Meet your chapter leader.” It is told in Mehedi’s first-person voice and credits Shariful Islam as co-organiser, linking to his supplied Facebook profile.
 - Mehedi’s supplied story confirms that GHL Bangladesh MeetUp 2026 took place on June 11, 2026, as an unofficial, community-driven meetup co-organised with Shariful Islam. This is the meetup date, not a claimed founding date for the group. Future event dates, venues, registration links, new credentials, or official affiliation still require confirmation.
 - The primary join destination is the HighLevel Bangladesh Facebook group. The personal profile appears only as a clearly labeled organizer contact.
 - Obsolete charity template routes have been removed; former top-level routes redirect to relevant community pages. Unused original theme content/components remain in source but are not published as pages.

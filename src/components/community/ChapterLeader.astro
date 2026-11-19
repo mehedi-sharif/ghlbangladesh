@@ -1,6 +1,5 @@
 ---
 import Arrow from "./Arrow.astro";
-import Photo from "./Photo.astro";
 
 interface Props {
   headingTag?: "h1" | "h2";
@@ -17,14 +16,21 @@ const Heading = headingTag;
 >
   <div class="wrap chapter-profile-inner">
     <div class="chapter-profile-visual">
-      <Photo
-        name="mehedi-portrait"
-        alt="Mehedi Sharif holding a microphone beside the GHL Bangladesh meetup banner"
-        sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1362px) 42vw, 525px"
+      <img
+        src="/images/community/mehedi-chapter-leader-1000.webp"
+        srcset="/images/community/mehedi-chapter-leader-640.webp 640w, /images/community/mehedi-chapter-leader-1000.webp 1000w, /images/community/mehedi-chapter-leader-1165.webp 1165w"
+        sizes="(max-width: 460px) calc(100vw - 40px), 420px"
+        width="1165"
+        height="1350"
+        alt="Portrait of Mehedi Sharif"
+        loading="lazy"
+        decoding="async"
       />
     </div>
     <div class="chapter-profile-copy">
-      <span class="chapter-profile-label">Meet your chapter leader</span>
+      <span class="chapter-profile-label"
+        >HighLevel Bangladesh chapter leader</span
+      >
       <Heading id="chapter-profile-name" class="chapter-profile-name">
         Mehedi Sharif
       </Heading>
@@ -76,6 +82,9 @@ const Heading = headingTag;
     border-top: 1px solid #d6ddcf;
   }
   .chapter-profile-visual {
+    width: 100%;
+    max-width: 420px;
+    justify-self: center;
     overflow: hidden;
     border-radius: 4px;
   }
@@ -92,7 +101,7 @@ const Heading = headingTag;
       600 10px/1.5 "DM Sans",
       sans-serif;
     letter-spacing: 0.08em;
-    text-transform: uppercase;
+    text-transform: none;
   }
   .chapter-profile-name {
     margin: 0;

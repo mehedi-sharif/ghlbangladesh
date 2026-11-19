@@ -1,6 +1,12 @@
 ---
 import Arrow from "./Arrow.astro";
 import { resources } from "../../data/community";
+const resourceLabels: Record<string, string> = {
+  "GET UNSTUCK": "Get unstuck",
+  "EXPLORE THE PLATFORM": "Explore the platform",
+  "BUILD YOUR SKILLS": "Build your skills",
+  "STAY IN THE LOOP": "Stay in the loop",
+};
 ---
 
 <div class="resource-list">
@@ -16,7 +22,7 @@ import { resources } from "../../data/community";
           <span class="resource-number">{r.number}</span>
           <div>
             <>
-              <span class="eyebrow">{r.type}</span>
+              <span class="eyebrow">{resourceLabels[r.type] ?? r.type}</span>
               <h3>{r.title}</h3>
               <p>{r.description}</p>
             </>

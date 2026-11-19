@@ -10,6 +10,7 @@ Use Node 22.12 or newer. Run `npm ci`, `npm run dev`, `npm run check`, and `npm 
 
 - Shared community links and resource listings: `src/data/community.ts`.
 - Shared layout, navigation, and metadata: `src/layouts/CommunityLayout.astro`.
+- Social sharing uses `public/images/community/ghl-bangladesh-og.jpg`, a 1200×630 JPEG based on the supplied Bangladesh landmark artwork with “MeetUp 2026” removed. The shared layout declares matching Open Graph and Twitter image metadata.
 - Design styles and responsive behavior: `src/styles/community.css`.
 - Reusable photo, resource, join, and logo components: `src/components/community/`.
 - The homepage origin story is in `src/components/community/CommunityStory.astro`, placed after the photo gallery and directly before “Meet your chapter leader.” It is told in Mehedi’s first-person voice and credits Shariful Islam as co-organiser, linking to his supplied Facebook profile.

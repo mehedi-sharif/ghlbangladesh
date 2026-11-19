@@ -241,13 +241,15 @@ p + p {
   align-items: center;
   gap: 15px;
   margin-left: 30px;
-  border: 1px solid #ffffff65;
+  border: 1px solid transparent;
   border-radius: 3px;
   padding: 10px 15px;
+  min-height: 44px;
   font-size: 12px;
-}
-.header-join:hover {
-  background: #ffffff18;
+  font-weight: 600;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 .menu-toggle {
   display: none;
@@ -1102,6 +1104,19 @@ p + p {
     gap: 20px;
     padding: 11px 0;
     font-size: 15px;
+  }
+  .mobile-nav .mobile-nav-join {
+    width: fit-content;
+    min-height: 44px;
+    padding: 12px 16px;
+    margin-top: 8px;
+    border-radius: 3px;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    transition:
+      background 0.2s,
+      color 0.2s;
   }
   .chapter-hero {
     min-height: 760px;

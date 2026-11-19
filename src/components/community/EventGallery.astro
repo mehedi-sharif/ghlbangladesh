@@ -46,9 +46,6 @@ const isWide = (index: number) =>
                     : "(max-width:760px) 45vw, 23vw"
               }
             />
-            {photo.name === featuredPhotoName && (
-              <span class="event-gallery-label">From the community</span>
-            )}
           </a>
         </figure>
       ))
@@ -273,20 +270,6 @@ const isWide = (index: number) =>
   .event-gallery-featured :global(img) {
     object-fit: cover;
   }
-  .event-gallery-label {
-    position: absolute;
-    bottom: 18px;
-    left: 18px;
-    background: #f9faf3;
-    border-radius: 2px;
-    padding: 7px 12px;
-    color: #254b3c;
-    font:
-      500 8px/1.6 "DM Sans",
-      sans-serif;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
   .event-photo-dialog {
     width: min(1100px, calc(100vw - 32px));
     max-width: none;
@@ -386,10 +369,6 @@ const isWide = (index: number) =>
     }
     .event-gallery-featured :global(img) {
       height: auto;
-    }
-    .event-gallery-label {
-      bottom: 14px;
-      left: 14px;
     }
     .event-photo-dialog {
       width: calc(100vw - 20px);

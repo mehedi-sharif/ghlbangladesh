@@ -1,13 +1,11 @@
 ---
 import Layout from "../layouts/CommunityLayout.astro";
-import Arrow from "../components/community/Arrow.astro";
 import Join from "../components/community/Join.astro";
 import AudienceStrip from "../components/community/AudienceStrip.astro";
 import MeetupRecap from "../components/community/MeetupRecap.astro";
 import CommunityOverview from "../components/community/CommunityOverview.astro";
 import CommunityStory from "../components/community/CommunityStory.astro";
 import ChapterLeader from "../components/community/ChapterLeader.astro";
-import { groupUrl } from "../data/community";
 ---
 
 <Layout>
@@ -38,12 +36,7 @@ import { groupUrl } from "../data/community";
           class="desktop-only"
         /> Meet your peers, share what works, and take the next step together.
       </p><div class="hero-actions">
-        <a
-          class="button button-green"
-          href={groupUrl}
-          target="_blank"
-          rel="noopener noreferrer">Join the Community <Arrow /></a
-        ><a class="button button-outline" href="#events"
+        <a class="button button-outline" href="#events"
           >Explore Events <span aria-hidden="true">↓</span></a
         >
       </div>

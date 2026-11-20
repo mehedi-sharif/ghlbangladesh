@@ -1,14 +1,29 @@
 ---
 import Photo from "./Photo.astro";
+import Button from "./Button.astro";
 import { photos } from "../../data/community";
 const featuredPhotoName = "meetup";
 const galleryPhotos = [
   ...photos.filter((photo) => photo.name === featuredPhotoName),
   ...photos.filter((photo) => photo.name !== featuredPhotoName),
 ];
-const balanceLastRow = (galleryPhotos.length + 3) % 4 === 2;
-const isWide = (index: number) =>
-  balanceLastRow && index >= galleryPhotos.length - 2;
+// Bento layout: two large tiles (2 × 2 cells) and six wide tiles (2 cells across).
+// Every other photo takes one cell. On phones the grid has two columns.
+const tiles: Record<string, "big" | "wide"> = {
+  meetup: "big",
+  dsc08501: "big",
+  dsc08436: "wide",
+  dsc08636: "wide",
+  dsc08546: "wide",
+  dsc08489: "wide",
+  dsc08339: "wide",
+  dsc08260: "wide",
+};
+const sizes = {
+  big: "(max-width:900px) 100vw, 50vw",
+  wide: "(max-width:900px) 50vw, 50vw",
+  single: "(max-width:900px) 50vw, 25vw",
+};
 ---
 
 <div
@@ -19,12 +34,15 @@ const isWide = (index: number) =>
 >
   <div class="event-gallery-grid">
     {
-      galleryPhotos.map((photo, index) => (
+      galleryPhotos.map((photo) => (
         <figure
-          class:list={{
-            "event-gallery-featured": photo.name === featuredPhotoName,
-            "event-gallery-wide": isWide(index),
-          }}
+          class:list={[
+            "reveal",
+            {
+              "event-gallery-big": tiles[photo.name] === "big",
+              "event-gallery-wide": tiles[photo.name] === "wide",
+            },
+          ]}
         >
           <a
             class="event-gallery-photo"
@@ -38,13 +56,7 @@ const isWide = (index: number) =>
             <Photo
               name={photo.name}
               alt={photo.alt}
-              sizes={
-                photo.name === featuredPhotoName
-                  ? "(max-width:760px) 100vw, 50vw"
-                  : isWide(index)
-                    ? "(max-width:760px) 45vw, 50vw"
-                    : "(max-width:760px) 45vw, 23vw"
-              }
+              sizes={sizes[tiles[photo.name] ?? "single"]}
             />
           </a>
         </figure>
@@ -58,78 +70,92 @@ const isWide = (index: number) =>
     aria-describedby="meetup-photo-caption"
   >
     <div class="event-photo-dialog-header">
-      <h3 id="meetup-photo-dialog-title">GHL Meetup Bangladesh 2026</h3>
-      <button
+      <h3 id="meetup-photo-dialog-title">
+        GHL Meetup Bangladesh 2026<span class="event-photo-counter"></span>
+      </h3>
+      <Button
         class="event-photo-close"
-        type="button"
+        variant="ghost"
+        size="sm"
+        icon="x"
+        label="Close"
         aria-label="Close photo viewer"
         autofocus
-        >Close <svg
-          width="14"
-          height="14"
-          viewBox="0 0 14 14"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.3"
-          aria-hidden="true"><path d="m3 3 8 8M11 3l-8 8"></path></svg
-        ></button
-      >
+      />
     </div>
+    <!-- the photo is positioned against this frame, so it can never grow over the caption or the buttons -->
     <div class="event-photo-image-frame">
       <img
         class="event-photo-full"
         src="/images/community/meetup-1200.webp"
         alt="GHL Bangladesh meetup photo"
-        width="1800"
-        height="1201"
-        loading="lazy"
-        decoding="async"
       />
     </div>
     <div class="event-photo-dialog-footer">
-      <div
-        class="event-photo-description"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        <p id="meetup-photo-caption"></p><span class="event-photo-counter"
-        ></span>
-      </div>
+      <p id="meetup-photo-caption" aria-live="polite"></p>
       <div class="event-photo-controls">
-        <button
+        <Button
           class="event-photo-previous"
-          type="button"
+          variant="ghost"
+          size="sm"
+          icon="left"
+          iconFirst
+          label="Previous"
           aria-label="Previous photo"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 20 20"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.2"
-            aria-hidden="true"><path d="M16 10H4m5-5-5 5 5 5"></path></svg
-          >Previous</button
-        ><button class="event-photo-next" type="button" aria-label="Next photo"
-          >Next<svg
-            width="16"
-            height="16"
-            viewBox="0 0 20 20"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.2"
-            aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5"></path></svg
-          ></button
-        >
+        />
+        <Button
+          class="event-photo-next"
+          variant="ghost"
+          size="sm"
+          icon="right"
+          label="Next"
+          aria-label="Next photo"
+        />
       </div>
     </div>
   </dialog>
 </div>
 
+<!-- green disc that follows the mouse over the gallery -->
+<div class="cursor-view" aria-hidden="true">View</div>
+
 <script>
+  const root = document.documentElement;
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   document
     .querySelectorAll<HTMLElement>(".event-gallery")
     .forEach((gallery) => {
-      const recap = gallery.closest<HTMLElement>(".meetup-recap");
+      const grid = gallery.querySelector<HTMLElement>(".event-gallery-grid");
+      const cursor = document.querySelector<HTMLElement>(".cursor-view");
+
+      // "View" disc: mouse users only
+      if (
+        grid &&
+        cursor &&
+        !reduceMotion &&
+        matchMedia("(hover:hover) and (pointer:fine)").matches
+      ) {
+        root.classList.add("has-cursor");
+        grid.addEventListener("mousemove", (event) => {
+          const overPhoto = (event.target as Element).closest(
+            "a[data-event-photo]",
+          );
+          cursor.style.setProperty("--x", event.clientX + "px");
+          cursor.style.setProperty("--y", event.clientY + "px");
+          cursor.style.setProperty("--s", overPhoto ? "1" : "0");
+        });
+        grid.addEventListener("mouseleave", () =>
+          cursor.style.setProperty("--s", "0"),
+        );
+        window.addEventListener(
+          "scroll",
+          () => cursor.style.setProperty("--s", "0"),
+          { passive: true },
+        );
+      }
+
+      // Photo viewer. Without scripts each photo opens as a normal link.
       const dialog = gallery.querySelector<HTMLDialogElement>(
         "#meetup-photo-dialog",
       );
@@ -142,7 +168,6 @@ const isWide = (index: number) =>
         ".event-photo-counter",
       );
       if (
-        !recap ||
         !dialog ||
         !image ||
         !caption ||
@@ -151,7 +176,7 @@ const isWide = (index: number) =>
       )
         return;
       const links = Array.from(
-        recap.querySelectorAll<HTMLAnchorElement>("a[data-event-photo]"),
+        gallery.querySelectorAll<HTMLAnchorElement>("a[data-event-photo]"),
       );
       if (!links.length) return;
       let activeIndex = 0;
@@ -202,14 +227,12 @@ const isWide = (index: number) =>
           showPhoto(activeIndex + (event.key === "ArrowLeft" ? -1 : 1));
         }
       });
+      // a click on the dark area around the photo closes the viewer
       dialog.addEventListener("click", (event) => {
-        if (event.target !== dialog) return;
-        const bounds = dialog.getBoundingClientRect();
+        const target = event.target as HTMLElement;
         if (
-          event.clientX < bounds.left ||
-          event.clientX > bounds.right ||
-          event.clientY < bounds.top ||
-          event.clientY > bounds.bottom
+          target === dialog ||
+          target.classList.contains("event-photo-image-frame")
         )
           dialog.close();
       });
@@ -221,194 +244,206 @@ const isWide = (index: number) =>
 </script>
 
 <style>
-  .event-gallery {
-    min-width: 0;
-    align-self: center;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    color: #193f33;
-    font-family: "DM Sans", Arial, sans-serif;
-  }
   .event-gallery-grid {
+    position: relative;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: clamp(150px, 15vw, 220px);
+    grid-auto-flow: dense;
+    gap: 12px;
   }
   .event-gallery-grid figure {
+    position: relative;
     margin: 0;
-  }
-  .event-gallery-featured {
-    grid-column: span 2;
-    grid-row: span 2;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--navy-2);
   }
   .event-gallery-wide {
     grid-column: span 2;
   }
+  .event-gallery-big {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  /* tiles rise in one after another */
+  :global(.js) .event-gallery-grid figure:global(.reveal) {
+    transform: translateY(30px) scale(0.97);
+  }
+  :global(.js) .event-gallery-grid figure:global(.reveal.in) {
+    transform: none;
+  }
+  .event-gallery-grid figure:nth-child(4n + 2) {
+    transition-delay: 0.06s;
+  }
+  .event-gallery-grid figure:nth-child(4n + 3) {
+    transition-delay: 0.12s;
+  }
+  .event-gallery-grid figure:nth-child(4n + 4) {
+    transition-delay: 0.18s;
+  }
   .event-gallery-photo {
-    position: relative;
     display: block;
-    border-radius: 4px;
-    overflow: hidden;
-    background: #dfe5d8;
+    width: 100%;
+    height: 100%;
     cursor: zoom-in;
   }
   .event-gallery-photo :global(img) {
     width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 2;
-    object-fit: contain;
-    transition: filter 0.2s ease;
-  }
-  .event-gallery-photo:hover :global(img) {
-    filter: brightness(0.94);
-  }
-  .event-gallery-featured .event-gallery-photo,
-  .event-gallery-featured :global(img) {
     height: 100%;
-  }
-  .event-gallery-featured :global(img) {
     object-fit: cover;
+    transition:
+      transform 0.7s var(--ease),
+      filter 0.4s;
   }
+  /* the caption slides up over the photo on hover and keyboard focus */
+  .event-gallery-photo::after {
+    content: attr(data-caption);
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 40px 16px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    background: linear-gradient(transparent, rgba(6, 29, 48, 0.85));
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.35s,
+      transform 0.35s;
+  }
+  .event-gallery-photo:hover :global(img),
+  .event-gallery-photo:focus-visible :global(img) {
+    transform: scale(1.06);
+  }
+  .event-gallery-photo:hover::after,
+  .event-gallery-photo:focus-visible::after {
+    opacity: 1;
+    transform: none;
+  }
+  @media (max-width: 900px) {
+    .event-gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: clamp(110px, 28vw, 220px);
+      gap: 8px;
+    }
+    .event-gallery-wide {
+      grid-column: span 1;
+    }
+  }
+
+  /* with a mouse, the green "View" disc replaces the pointer */
+  .cursor-view {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 40;
+    pointer-events: none;
+    width: 84px;
+    height: 84px;
+    margin: -42px 0 0 -42px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--green);
+    color: #03210f;
+    font: 600 14px var(--body);
+    transform: translate3d(var(--x, -200px), var(--y, -200px), 0)
+      scale(var(--s, 0));
+    transition: transform 0.18s ease-out;
+    will-change: transform;
+  }
+  :global(html:not(.has-cursor)) .cursor-view {
+    display: none;
+  }
+  :global(.has-cursor) .event-gallery-photo {
+    cursor: none;
+  }
+
+  /* full-screen photo viewer */
   .event-photo-dialog {
-    width: min(1100px, calc(100vw - 32px));
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
     max-width: none;
-    max-height: calc(100svh - 32px);
-    padding: 20px;
+    max-height: none;
+    margin: 0;
+    padding: 0;
     border: 0;
-    border-radius: 6px;
-    background: #f6f8f1;
-    color: #193f33;
-    font-family: "DM Sans", Arial, sans-serif;
+    background: rgba(3, 14, 24, 0.94);
+    color: #fff;
   }
   .event-photo-dialog::backdrop {
-    background: #0c241de8;
+    background: rgba(3, 14, 24, 0.6);
+    backdrop-filter: blur(6px);
+  }
+  .event-photo-dialog[open] {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
   }
   .event-photo-dialog-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 25px;
-    margin-bottom: 14px;
+    gap: 16px;
+    padding: 16px clamp(16px, 3vw, 32px);
   }
   .event-photo-dialog-header h3 {
     font-size: 20px;
-    line-height: 1.3;
-    letter-spacing: -0.015em;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
-  .event-photo-close,
-  .event-photo-controls button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    min-width: 44px;
-    min-height: 44px;
-    padding: 10px 13px;
-    border: 1px solid #cbd6c3;
-    border-radius: 3px;
-    background: transparent;
-    color: #234b3d;
-    font-family: inherit;
-    font-size: 13px;
-    line-height: 1.4;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s ease;
-  }
-  .event-photo-close:hover,
-  .event-photo-controls button:hover {
-    background: #e6eddf;
+  .event-photo-counter {
+    margin-left: 12px;
+    font-family: var(--body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--on-dark-2);
   }
   .event-photo-image-frame {
-    background: #e7ede1;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    padding: 0 clamp(8px, 6vw, 96px);
   }
   .event-photo-full {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: calc(100svh - 200px);
+    position: absolute;
+    inset: 0 clamp(8px, 6vw, 96px);
+    margin: auto;
+    max-width: calc(100% - 2 * clamp(8px, 6vw, 96px));
+    max-height: 100%;
     object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
   }
   .event-photo-dialog-footer {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 25px;
-    margin-top: 15px;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px clamp(16px, 3vw, 32px) 22px;
   }
-  .event-photo-description p {
+  .event-photo-dialog-footer p {
     margin: 0;
-    color: #425f4c;
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 16px;
+    color: var(--on-dark);
   }
-  .event-photo-counter {
-    display: block;
-    margin-top: 6px;
-    color: #7b887b;
-    font-size: 11px;
-    line-height: 1.4;
+  .event-photo-dialog :global(.btn) {
+    flex: none;
   }
   .event-photo-controls {
     display: flex;
-    gap: 9px;
+    gap: 8px;
   }
-  @media (max-width: 760px) {
-    .event-gallery-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .event-gallery-featured {
-      grid-column: 1 / -1;
-      grid-row: auto;
-    }
-    .event-gallery-wide {
-      grid-column: auto;
-    }
-    .event-gallery-featured :global(img) {
-      height: auto;
-    }
-    .event-photo-dialog {
-      width: calc(100vw - 20px);
-      max-height: calc(100svh - 20px);
-      padding: 13px;
-    }
-    .event-photo-dialog-header {
-      align-items: flex-start;
-      gap: 14px;
-      margin-bottom: 12px;
-    }
-    .event-photo-dialog-header h3 {
-      font-size: 18px;
-      padding-top: 9px;
-    }
-    .event-photo-close {
-      font-size: 12px;
-      padding-inline: 11px;
-    }
-    .event-photo-full {
-      max-height: max(160px, calc(100svh - 245px));
-    }
+  @media (max-width: 600px) {
     .event-photo-dialog-footer {
       flex-direction: column;
       align-items: stretch;
-      gap: 16px;
-      margin-top: 13px;
-    }
-    .event-photo-description p {
-      font-size: 13px;
     }
     .event-photo-controls {
       justify-content: space-between;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .event-gallery-photo :global(img),
-    .event-photo-close,
-    .event-photo-controls button {
-      transition: none;
     }
   }
 </style>

@@ -8,26 +8,32 @@ import Photo from "./Photo.astro";
   aria-labelledby="community-story-heading"
 >
   <div class="wrap story-inner">
-    <header class="story-heading">
-      <span class="story-label">Our story</span>
-      <h2 id="community-story-heading">How we started.</h2>
+    <div>
+      <header class="story-heading reveal">
+        <span class="kicker">Our story</span>
+        <h2 id="community-story-heading">How we started.</h2>
+      </header>
       <div class="story-people" role="group" aria-label="Meetup co-organisers">
-        <figure class="story-person story-person-mehedi">
-          <Photo
-            name="dsc08548"
-            alt="Mehedi Sharif seated with his phone at the GHL Bangladesh meetup"
-            sizes="(max-width: 760px) 45vw, 225px"
-          />
+        <figure class="story-person story-person-mehedi reveal">
+          <div class="story-photo">
+            <Photo
+              name="dsc08548"
+              alt="Mehedi Sharif seated with his phone at the GHL Bangladesh meetup"
+              sizes="(max-width: 900px) 45vw, 280px"
+            />
+          </div>
           <figcaption>Mehedi Sharif</figcaption>
         </figure>
-        <figure class="story-person story-person-shariful">
-          <Photo
-            name="dsc08543"
-            alt="Shariful Islam speaking into a microphone at the GHL Bangladesh meetup"
-            width={1800}
-            height={1201}
-            sizes="(max-width: 760px) 45vw, 225px"
-          />
+        <figure class="story-person story-person-shariful reveal">
+          <div class="story-photo">
+            <Photo
+              name="dsc08543"
+              alt="Shariful Islam speaking into a microphone at the GHL Bangladesh meetup"
+              width={1800}
+              height={1201}
+              sizes="(max-width: 900px) 45vw, 280px"
+            />
+          </div>
           <figcaption>
             <a
               href="https://www.facebook.com/vidmshariful"
@@ -39,8 +45,9 @@ import Photo from "./Photo.astro";
           </figcaption>
         </figure>
       </div>
-    </header>
-    <div class="story-copy">
+    </div>
+    <!-- each word lights up as the reader scrolls through the story -->
+    <div class="story-copy reveal">
       <p>
         GHL Bangladesh began with conversations between
         <a
@@ -68,128 +75,201 @@ import Photo from "./Photo.astro";
   </div>
 </section>
 
+<script>
+  const story = document.querySelector<HTMLElement>(".story-copy");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (story && !reduceMotion) {
+    const words: HTMLSpanElement[] = [];
+    const lit = new WeakMap<HTMLSpanElement, boolean>();
+    const wrap = (node: Node) => {
+      Array.from(node.childNodes).forEach((child) => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const fragment = document.createDocumentFragment();
+          (child.textContent || "").split(/(\s+)/).forEach((part) => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) {
+              fragment.appendChild(document.createTextNode(part));
+            } else {
+              const word = document.createElement("span");
+              word.className = "w";
+              word.textContent = part;
+              fragment.appendChild(word);
+              words.push(word);
+            }
+          });
+          node.replaceChild(fragment, child);
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          wrap(child);
+        }
+      });
+    };
+    wrap(story);
+    story.classList.add("words");
+
+    let ticking = false;
+    const paint = () => {
+      ticking = false;
+      const rect = story.getBoundingClientRect();
+      const viewport = window.innerHeight;
+      const progress = Math.max(
+        0,
+        Math.min(
+          1,
+          (viewport * 0.82 - rect.top) / (rect.height + viewport * 0.25),
+        ),
+      );
+      const reached = Math.round(progress * words.length);
+      words.forEach((word, index) => {
+        const on = index < reached;
+        if (lit.get(word) !== on) {
+          lit.set(word, on);
+          word.classList.toggle("on", on);
+        }
+      });
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(paint);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    paint();
+  }
+</script>
+
 <style>
   .community-story {
-    background: #f6f8f1;
-    color: #193f33;
-    font-family: "DM Sans", Arial, sans-serif;
+    padding: clamp(80px, 11vw, 150px) 0;
   }
   .story-inner {
     display: grid;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(40px, 7vw, 110px);
     align-items: start;
-    gap: clamp(44px, 7vw, 100px);
-    padding-block: 76px 88px;
-    border-top: 1px solid #d6ddcf;
-  }
-  .story-label {
-    display: block;
-    margin-bottom: 20px;
-    color: #64745f;
-    font:
-      600 10px/1.5 "DM Sans",
-      sans-serif;
-    letter-spacing: 0.08em;
-    text-transform: none;
   }
   .story-heading h2 {
-    max-width: 360px;
-    margin: 0;
-    color: #193f33;
-    font-family: "DM Sans", Arial, sans-serif;
-    font-size: clamp(32px, 3.2vw, 42px);
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-  }
-  .story-copy a,
-  .story-person figcaption a {
-    white-space: nowrap;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-  }
-  .story-copy a:hover,
-  .story-person figcaption a:hover {
-    color: #52714b;
-  }
-  .story-copy a:focus-visible,
-  .story-person figcaption a:focus-visible {
-    outline: 2px solid #315344;
-    outline-offset: 4px;
+    font-size: clamp(40px, 6vw, 84px);
+    margin-top: 18px;
   }
   .story-people {
+    position: relative;
+    margin-top: 48px;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-    margin-top: 30px;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
   }
   .story-person {
-    min-width: 0;
     margin: 0;
   }
-  .story-person :global(img) {
-    display: block;
+  .story-person-shariful {
+    margin-top: 56px;
+  }
+  .story-photo {
+    border-radius: var(--radius);
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    background: var(--paper-2);
+    box-shadow: 0 30px 60px -35px rgba(6, 29, 48, 0.5);
+  }
+  .story-photo :global(img) {
     width: 100%;
-    aspect-ratio: 4 / 5;
-    height: auto;
+    height: 100%;
     object-fit: cover;
-    object-position: center;
-    border-radius: 3px;
+    transition: transform 0.7s;
   }
-  .story-person-shariful :global(img) {
-    object-position: 62% center;
-  }
-  .story-person-mehedi :global(img) {
+  /* individual crop positions keep each person in frame; the source photos stay intact */
+  .story-person-mehedi .story-photo :global(img) {
     object-position: 72% center;
   }
+  .story-person-shariful .story-photo :global(img) {
+    object-position: 62% center;
+  }
+  .story-person:hover .story-photo :global(img) {
+    transform: scale(1.04);
+  }
   .story-person figcaption {
-    margin-top: 8px;
-    color: #315344;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .story-person figcaption::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+  .story-person-shariful figcaption::before {
+    background: var(--blue);
+  }
+  .story-person figcaption a {
+    text-decoration: underline;
+    text-decoration-color: var(--blue);
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
   }
   .story-copy {
-    max-width: 660px;
+    position: relative;
+    padding-top: clamp(0px, 4vw, 60px);
+  }
+  /* large gradient quote mark */
+  .story-copy::before {
+    content: "\201C";
+    position: absolute;
+    top: clamp(-40px, -2vw, 0px);
+    left: -8px;
+    font-family: var(--display);
+    font-size: 180px;
+    line-height: 1;
+    font-weight: 800;
+    opacity: 0.9;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    pointer-events: none;
   }
   .story-copy p {
-    margin: 0;
-    color: #536b5b;
-    font-size: 17px;
-    line-height: 1.85;
+    position: relative;
+    margin: 0 0 22px;
+    color: var(--ink-2);
   }
-  .story-copy p + p {
-    margin-top: 23px;
+  .story-copy p:first-child {
+    font-family: var(--display);
+    font-size: clamp(22px, 2.1vw, 27px);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    padding-top: 80px;
   }
-  @media (max-width: 760px) {
+  .story-copy a {
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--blue);
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+  }
+  .story-copy strong {
+    font-weight: inherit;
+  }
+  :global(.js) .story-copy:global(.words .w) {
+    opacity: 0.25;
+    transition: opacity 0.5s ease;
+  }
+  :global(.js) .story-copy:global(.words .w.on) {
+    opacity: 1;
+  }
+  @media (max-width: 900px) {
     .story-inner {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 30px;
-      padding-block: 48px 56px;
-    }
-    .story-label {
-      margin-bottom: 16px;
-    }
-    .story-heading h2 {
-      max-width: 340px;
-      font-size: clamp(30px, 7.5vw, 36px);
-    }
-    .story-people {
-      gap: 12px;
-      margin-top: 26px;
-    }
-    .story-person figcaption {
-      font-size: 13px;
-    }
-    .story-copy {
-      max-width: 100%;
-    }
-    .story-copy p {
-      line-height: 1.8;
-    }
-    .story-copy p + p {
-      margin-top: 21px;
+      grid-template-columns: 1fr;
     }
   }
 </style>

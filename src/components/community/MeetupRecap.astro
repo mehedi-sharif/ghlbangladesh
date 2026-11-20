@@ -2,12 +2,16 @@
 import EventGallery from "./EventGallery.astro";
 ---
 
-<section class="meetup-recap" id="events" aria-labelledby="recap-heading">
+<section
+  class="meetup-recap on-dark"
+  id="events"
+  aria-labelledby="recap-heading"
+>
   <div class="wrap" id="meetup-recap">
-    <div class="recap-heading-row">
-      <span class="recap-eyebrow">Offline connections. Lasting impact.</span>
+    <div class="recap-heading-row reveal">
+      <span class="kicker">Offline connections. Lasting impact.</span>
       <h2 id="recap-heading">
-        See you at the<br />next conversation.
+        See you at the<br /><span class="grad-text">next conversation.</span>
       </h2>
     </div>
     <EventGallery />
@@ -16,42 +20,41 @@ import EventGallery from "./EventGallery.astro";
 
 <style>
   .meetup-recap {
-    padding-block: 92px;
-    background: #edf0e6;
-    color: #193f33;
-    font-family: "DM Sans", Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
+    padding: clamp(80px, 11vw, 150px) 0;
+    background: var(--navy);
+    color: var(--on-dark);
+  }
+  .meetup-recap::before {
+    content: "";
+    position: absolute;
+    left: -20%;
+    top: -30%;
+    width: 70%;
+    height: 80%;
+    background: radial-gradient(
+      closest-side,
+      rgba(11, 206, 85, 0.16),
+      transparent
+    );
+    pointer-events: none;
   }
   .recap-heading-row {
-    margin-bottom: 44px;
+    position: relative;
+    text-align: center;
+    margin-bottom: clamp(40px, 5vw, 64px);
   }
-  .recap-eyebrow {
-    display: block;
-    font:
-      600 10px/1.5 "DM Sans",
-      sans-serif;
-    letter-spacing: 0.08em;
-    text-transform: none;
+  /* centred title: a second gradient dash after the label */
+  .recap-heading-row .kicker::after {
+    content: "";
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--grad);
   }
   .recap-heading-row h2 {
-    font-size: clamp(38px, 4vw, 56px);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1.15;
-    margin-top: 25px;
-  }
-  @media (max-width: 760px) {
-    .meetup-recap {
-      padding-block: 60px;
-    }
-    .recap-heading-row {
-      margin-bottom: 32px;
-    }
-    .recap-heading-row h2 {
-      font-size: clamp(32px, 8vw, 44px);
-      margin-top: 21px;
-    }
-    .recap-eyebrow {
-      font-size: 9px;
-    }
+    font-size: clamp(34px, 7.2vw, 84px);
+    margin-top: 18px;
   }
 </style>

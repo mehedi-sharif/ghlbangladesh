@@ -141,30 +141,40 @@ p{margin:0}
 section{scroll-margin-top:70px}
 .section{padding:clamp(80px,11vw,150px) 0}
 
-/* community — editorial: sticky intro + photo-led list */
-.community-layout{display:grid;grid-template-columns:.9fr 1.25fr;gap:clamp(40px,7vw,110px);align-items:start}
-.overview-intro{position:sticky;top:110px}
-.overview-intro h2{font-size:clamp(36px,4.4vw,62px);line-height:1.04;margin-top:18px}
+/* community — the three rising GHL arrows: learn → connect → grow */
+.overview-intro{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(32px,6vw,96px);align-items:end}
+.overview-intro h2{font-size:clamp(38px,5vw,72px);line-height:1.04;margin-top:18px}
 .overview-intro h2 em{font-style:normal;color:var(--forest)}
-.overview-copy{margin-top:28px;padding-top:28px;border-top:1px solid var(--line)}
-.overview-copy .lead{font-family:var(--display);font-size:clamp(19px,1.6vw,22px);font-weight:600;line-height:1.4;color:var(--ink);margin-bottom:14px}
+.overview-copy .lead{font-family:var(--display);font-size:clamp(19px,1.7vw,23px);font-weight:600;line-height:1.4;color:var(--ink);margin-bottom:14px}
 .overview-copy p:not(.lead){color:var(--ink-2)}
-.overview-benefits{counter-reset:b}
-.overview-benefit{display:grid;grid-template-columns:clamp(160px,17vw,240px) 1fr;gap:clamp(20px,3vw,40px);align-items:start;padding:clamp(24px,3vw,36px) 0;border-top:1px solid var(--line)}
-.overview-benefit:first-child{border-top:0;padding-top:0}
-.overview-benefit:last-child{padding-bottom:0}
-.overview-benefit .shot{position:relative;margin:0;aspect-ratio:4/5;border-radius:12px;overflow:hidden;background:var(--paper-2)}
-.overview-benefit .shot img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
-.overview-benefit:hover .shot img{transform:scale(1.06)}
-.overview-benefit .num{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
-.overview-benefit .num::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
-.overview-benefit h3{font-size:clamp(24px,2.3vw,34px);line-height:1.1;margin-bottom:14px}
-.overview-benefit p{color:var(--ink-2);max-width:440px}
-.overview-benefit:nth-child(1){--accent:var(--green)}
-.overview-benefit:nth-child(2){--accent:var(--blue)}
-.overview-benefit:nth-child(3){--accent:var(--yellow)}
-@media (max-width:960px){.community-layout{grid-template-columns:1fr}.overview-intro{position:static}}
-@media (max-width:560px){.overview-benefit{grid-template-columns:1fr}.overview-benefit .shot{aspect-ratio:16/10}}
+.overview-benefits{margin-top:clamp(64px,8vw,120px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,4vw,64px);align-items:end;border-bottom:2px solid var(--ink);position:relative}
+.overview-benefit{display:flex;flex-direction:column;align-items:flex-start}
+.overview-benefit .num{display:block;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:12px}
+.overview-benefit h3{font-size:clamp(22px,2.2vw,32px);line-height:1.1;margin-bottom:12px}
+.overview-benefit p{color:var(--ink-2);font-size:15.5px;max-width:330px}
+.overview-benefit .rise{display:block;margin-top:32px;width:clamp(64px,7vw,96px);height:var(--h);background:var(--accent);
+  clip-path:polygon(50% 0,100% 46px,70% 46px,70% 100%,30% 100%,30% 46px,0 46px);transform-origin:bottom;transition:transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.overview-benefit:nth-child(1){--accent:var(--yellow);--accent-ink:#b08f00;--h:clamp(90px,10vw,150px)}
+.overview-benefit:nth-child(2){--accent:var(--blue);--accent-ink:var(--blue);--h:clamp(150px,17vw,250px)}
+.overview-benefit:nth-child(3){--accent:var(--green);--accent-ink:#07a944;--h:clamp(210px,24vw,350px)}
+.js .overview-benefits .rise{transform:scaleY(0)}
+.js .overview-benefits.in .rise{transform:none}
+.js .overview-benefits.in .overview-benefit:nth-child(2) .rise{transition-delay:.15s}
+.js .overview-benefits.in .overview-benefit:nth-child(3) .rise{transition-delay:.3s}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .overview-benefit:nth-child(1){--accent-ink:var(--yellow)}:root:not([data-theme="light"]) .overview-benefit:nth-child(3){--accent-ink:var(--green)}}
+:root[data-theme="dark"] .overview-benefit:nth-child(1){--accent-ink:var(--yellow)}
+:root[data-theme="dark"] .overview-benefit:nth-child(3){--accent-ink:var(--green)}
+@media (max-width:960px){.overview-intro{grid-template-columns:1fr;align-items:start}}
+@media (max-width:760px){
+  .overview-benefits{grid-template-columns:1fr;gap:0;border-bottom:0;border-left:2px solid var(--ink);padding-left:0}
+  .overview-benefit{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto auto;column-gap:20px;padding:22px 0}
+  .overview-benefit .rise{grid-column:1;grid-row:1/4;margin:0;width:var(--h);height:44px;align-self:center;transform-origin:left;
+    clip-path:polygon(100% 50%,calc(100% - 30px) 0,calc(100% - 30px) 30%,0 30%,0 70%,calc(100% - 30px) 70%,calc(100% - 30px) 100%)}
+  .overview-benefit:nth-child(1){--h:44px}.overview-benefit:nth-child(2){--h:68px}.overview-benefit:nth-child(3){--h:92px}
+  .overview-benefit .num,.overview-benefit h3,.overview-benefit p{grid-column:2}
+  .js .overview-benefits .rise{transform:scaleX(0)}
+  .js .overview-benefits.in .rise{transform:none}
+}
 
 /* events / gallery */
 .meetup-recap{background:var(--navy);color:var(--on-dark);position:relative;overflow:hidden}
@@ -241,13 +251,19 @@ section{scroll-margin-top:70px}
 .pill-link svg{transition:transform .25s}.pill-link:hover svg{transform:translate(2px,-2px)}
 @media (max-width:900px){.profile-card{grid-template-columns:1fr}.profile-media{min-height:0;aspect-ratio:4/4.4}}
 
-/* invite */
+/* invite — the three GHL arrows rise behind the call to action */
 .footer-invite{padding:0 0 clamp(80px,10vw,130px)}
-.invite-card{position:relative;overflow:hidden;isolation:isolate;border-radius:calc(var(--radius) + 10px);background:var(--navy);color:#fff;padding:clamp(48px,8vw,110px) clamp(28px,6vw,90px);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:36px}
-.invite-card::before{content:"";position:absolute;z-index:-1;width:620px;height:620px;right:-160px;top:-260px;border-radius:50%;background:conic-gradient(from 180deg,var(--green),var(--blue),var(--yellow),var(--green));filter:blur(90px);opacity:.45}
-.invite-card::after{content:"";position:absolute;z-index:-1;inset:0;background-image:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1px);background-size:22px 22px;mask-image:linear-gradient(90deg,transparent,#000)}
-.invite-card h2{font-size:clamp(42px,6.4vw,92px);font-weight:800;letter-spacing:-.04em;max-width:12ch}
+.invite-card{position:relative;overflow:hidden;isolation:isolate;border-radius:calc(var(--radius) + 10px);background:var(--navy);color:#fff;padding:clamp(48px,8vw,110px) clamp(28px,6vw,90px);min-height:clamp(420px,46vw,620px);display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:36px}
+.invite-card h2{font-size:clamp(42px,6.4vw,96px);font-weight:800;letter-spacing:-.04em;max-width:11ch}
 .invite-card .btn{padding:18px 28px;font-size:17px}
+.invite-arrows{position:absolute;z-index:-1;right:clamp(16px,6vw,90px);bottom:0;height:88%;display:flex;align-items:flex-end;gap:clamp(10px,2vw,28px)}
+.invite-arrows span{--head:clamp(32px,5.8vw,84px);display:block;width:clamp(44px,8.2vw,124px);background:var(--c);clip-path:polygon(50% 0,100% var(--head),70% var(--head),70% 100%,30% 100%,30% var(--head),0 var(--head));transform-origin:bottom;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.invite-arrows span:nth-child(1){--c:var(--yellow);height:52%}
+.invite-arrows span:nth-child(2){--c:var(--blue);height:74%;transition-delay:.12s}
+.invite-arrows span:nth-child(3){--c:var(--green);height:100%;transition-delay:.24s}
+.js .invite-card .invite-arrows span{transform:scaleY(0)}
+.js .invite-card.in .invite-arrows span{transform:none}
+@media (max-width:760px){.invite-arrows{opacity:.28;right:12px;height:70%}}
 
 /* footer */
 .chapter-footer{border-top:1px solid var(--line);padding:64px 0 28px}
@@ -268,6 +284,26 @@ section{scroll-margin-top:70px}
 .footer-bottom a:hover{color:var(--ink)}
 @media (max-width:760px){.footer-top{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1/-1}}
 
+/* polish: motion and small details */
+::selection{background:var(--green);color:#03210f}
+.scroll-progress{position:fixed;inset:0 0 auto 0;height:3px;z-index:60;background:var(--grad);transform:scaleX(var(--sp,0));transform-origin:left;pointer-events:none}
+.site-header{transition:background .3s ease,box-shadow .3s ease,padding .3s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
+.site-header.away{transform:translateY(-110%)}
+.grad-text{background-size:150% 100%;animation:sheen 8s ease-in-out infinite alternate}
+@keyframes sheen{to{background-position:100% 0}}
+.hero-media video{transform:translate3d(0,var(--py,0px),0) scale(1.2)}
+.hero-content{transform:translate3d(0,var(--cy,0px),0);opacity:var(--co,1)}
+.js .story-text.words .w{opacity:.25;transition:opacity .5s ease}
+.js .story-text.words .w.on{opacity:1}
+.js .event-gallery-grid figure.reveal{transform:translateY(30px) scale(.97)}
+.js .event-gallery-grid figure.reveal.in{transform:none}
+.event-gallery-grid figure:nth-child(4n+2){transition-delay:.06s}
+.event-gallery-grid figure:nth-child(4n+3){transition-delay:.12s}
+.event-gallery-grid figure:nth-child(4n+4){transition-delay:.18s}
+.cursor-view{position:fixed;left:0;top:0;z-index:40;pointer-events:none;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;display:grid;place-items:center;background:var(--green);color:#03210f;font:600 14px var(--body);transform:translate3d(var(--x,-200px),var(--y,-200px),0) scale(var(--s,0));transition:transform .18s ease-out;will-change:transform}
+html:not(.has-cursor) .cursor-view{display:none}
+.has-cursor .event-gallery-photo{cursor:none}
+
 /* reveal */
 .js .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}
 .js .reveal.in{opacity:1;transform:none}
@@ -284,6 +320,7 @@ section{scroll-margin-top:70px}
 </head>
 <body class="home">
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="scroll-progress" aria-hidden="true"></div>
 
 <header class="site-header" id="site-header">
   <div class="wrap header-inner">
@@ -334,40 +371,36 @@ section{scroll-margin-top:70px}
   </div>
 
   <section class="community-overview section" id="community" aria-labelledby="community-heading">
-    <div class="wrap community-layout">
-      <div class="overview-intro reveal">
-        <span class="kicker">Community</span>
-        <h2 id="community-heading">You don’t have to <em>figure it out alone.</em></h2>
-        <div class="overview-copy">
+    <div class="wrap">
+      <div class="overview-intro">
+        <div class="reveal">
+          <span class="kicker">Community</span>
+          <h2 id="community-heading">You don’t have to <em>figure it out alone.</em></h2>
+        </div>
+        <div class="overview-copy reveal">
           <p class="lead">The best next step is often a conversation with someone who gets it.</p>
           <p>We’re a community of people in Bangladesh building with HighLevel. We come together to exchange ideas, share practical knowledge, and turn online connections into real conversations.</p>
         </div>
       </div>
-      <div class="overview-benefits">
-          <article class="overview-benefit reveal">
-            <figure class="shot"><img src="../images/community/dsc08567-1200.webp" alt="A speaker addressing meetup attendees in front of a projected screen as an audience member raises a hand" loading="lazy" decoding="async"></figure>
-            <div>
-              <span class="num">01 / Learn</span>
-              <h3>Real questions. Practical answers.</h3>
-              <p>Explore real use cases, ask the questions on your mind, and learn from people working with the same tools.</p>
-            </div>
-          </article>
-          <article class="overview-benefit reveal">
-            <figure class="shot"><img src="../images/community/conversations-1200.webp" alt="Meetup attendees sitting together and exchanging ideas" loading="lazy" decoding="async"></figure>
-            <div>
-              <span class="num">02 / Connect</span>
-              <h3>Meet peers. Find your people.</h3>
-              <p>Swap stories with local agency owners, marketers, and builders. Make connections that go beyond a comment thread.</p>
-            </div>
-          </article>
-          <article class="overview-benefit reveal">
-            <figure class="shot"><img src="../images/community/building-1200.webp" alt="A GHL Bangladesh attendee working on a laptop" loading="lazy" decoding="async"></figure>
-            <div>
-              <span class="num">03 / Grow</span>
-              <h3>New perspectives. Bigger possibilities.</h3>
-              <p>Build confidence, sharpen your skills, and find fresh approaches to the challenges in your business.</p>
-            </div>
-          </article>
+      <div class="overview-benefits reveal">
+        <article class="overview-benefit">
+          <span class="num">01 / Learn</span>
+          <h3>Real questions. Practical answers.</h3>
+          <p>Explore real use cases, ask the questions on your mind, and learn from people working with the same tools.</p>
+          <span class="rise" aria-hidden="true"></span>
+        </article>
+        <article class="overview-benefit">
+          <span class="num">02 / Connect</span>
+          <h3>Meet peers. Find your people.</h3>
+          <p>Swap stories with local agency owners, marketers, and builders. Make connections that go beyond a comment thread.</p>
+          <span class="rise" aria-hidden="true"></span>
+        </article>
+        <article class="overview-benefit">
+          <span class="num">03 / Grow</span>
+          <h3>New perspectives. Bigger possibilities.</h3>
+          <p>Build confidence, sharpen your skills, and find fresh approaches to the challenges in your business.</p>
+          <span class="rise" aria-hidden="true"></span>
+        </article>
       </div>
     </div>
   </section>
@@ -473,6 +506,7 @@ section{scroll-margin-top:70px}
   <section class="footer-invite" id="join" aria-labelledby="invite-heading">
     <div class="wrap">
       <div class="invite-card reveal">
+        <div class="invite-arrows" aria-hidden="true"><span></span><span></span><span></span></div>
         <h2 id="invite-heading">Great things start with a <span class="grad-text">connection.</span></h2>
         <a class="btn btn-green" href="https://www.facebook.com/groups/highlevelbangladesh" target="_blank" rel="noopener noreferrer">Join the community <svg class="arrow-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a>
       </div>
@@ -505,11 +539,30 @@ section{scroll-margin-top:70px}
   </div>
 </footer>
 
+<div class="cursor-view" aria-hidden="true">View</div>
+
 <script>
 (function(){
   var header=document.getElementById('site-header');
-  function onScroll(){header.classList.toggle('scrolled',window.scrollY>40)}
-  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root=document.documentElement,hero=document.querySelector('.chapter-hero'),heroMedia=document.querySelector('.hero-media'),heroContent=document.querySelector('.hero-content');
+  var lastY=window.scrollY,ticking=false,storyPaint=null;
+  function frame(){
+    ticking=false;
+    var y=window.scrollY,max=root.scrollHeight-window.innerHeight,menuOpen=mnav&&!mnav.hidden;
+    header.classList.toggle('scrolled',menuOpen||y>40);
+    if(menuOpen||y<=500||y<lastY-4)header.classList.remove('away');
+    else if(y>lastY+4)header.classList.add('away');
+    lastY=y;
+    root.style.setProperty('--sp',max>0?(y/max).toFixed(4):0);
+    if(!reduce&&hero&&heroMedia&&heroContent){
+      var hh=hero.offsetHeight;
+      if(y<hh){heroMedia.style.setProperty('--py',(y*0.18).toFixed(1)+'px');heroContent.style.setProperty('--cy',(y*-0.12).toFixed(1)+'px');heroContent.style.setProperty('--co',Math.max(0,1-y/(hh*0.75)).toFixed(3))}
+    }
+    if(storyPaint)storyPaint();
+  }
+  function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(frame)}}
+  window.addEventListener('scroll',onScroll,{passive:true});window.addEventListener('resize',onScroll);
 
   var toggle=document.querySelector('.menu-toggle'),mnav=document.getElementById('mobile-nav');
   function setMenu(open){toggle.setAttribute('aria-expanded',open);toggle.setAttribute('aria-label',open?'Close navigation':'Open navigation');mnav.hidden=!open;document.body.style.overflow=open?'hidden':'';header.classList.toggle('scrolled',open||window.scrollY>40)}
@@ -519,6 +572,27 @@ section{scroll-margin-top:70px}
 
   var v=document.getElementById('chapter-video');
   if(v&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){v.removeAttribute('autoplay');try{v.pause()}catch(e){}}
+
+  document.querySelectorAll('.event-gallery-grid figure').forEach(function(el){el.classList.add('reveal')});
+
+  var st=document.querySelector('.story-text');
+  if(st&&!reduce){
+    var words=[];
+    (function walk(n){[].slice.call(n.childNodes).forEach(function(c){
+      if(c.nodeType===3){var f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(function(t){if(!t)return;if(/^\s+$/.test(t))f.appendChild(document.createTextNode(t));else{var w=document.createElement('span');w.className='w';w.textContent=t;f.appendChild(w);words.push(w)}});n.replaceChild(f,c)}
+      else if(c.nodeType===1)walk(c);
+    })})(st);
+    st.classList.add('words');
+    storyPaint=function(){var r=st.getBoundingClientRect(),vh=window.innerHeight,p=(vh*0.82-r.top)/(r.height+vh*0.25);p=Math.max(0,Math.min(1,p));var n=Math.round(p*words.length);for(var i=0;i<words.length;i++){var on=i<n;if(words[i]._on!==on){words[i]._on=on;words[i].classList.toggle('on',on)}}};
+  }
+
+  var cv=document.querySelector('.cursor-view'),grid=document.querySelector('.event-gallery-grid');
+  if(cv&&grid&&!reduce&&window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    root.classList.add('has-cursor');
+    grid.addEventListener('mousemove',function(e){cv.style.setProperty('--x',e.clientX+'px');cv.style.setProperty('--y',e.clientY+'px');cv.style.setProperty('--s',e.target.closest('.event-gallery-photo')?1:0)});
+    grid.addEventListener('mouseleave',function(){cv.style.setProperty('--s',0)});
+    window.addEventListener('scroll',function(){cv.style.setProperty('--s',0)},{passive:true});
+  }
 
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.08});
@@ -537,6 +611,7 @@ section{scroll-margin-top:70px}
     dlg.addEventListener('click',function(e){if(e.target===dlg||e.target.classList.contains('dlg-stage'))dlg.close()});
     dlg.addEventListener('close',function(){if(last)last.focus()});
   }
+  frame();
 })();
 </script>
 </body>

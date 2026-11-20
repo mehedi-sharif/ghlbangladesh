@@ -11,8 +11,8 @@ Use Node 22.12 or newer. Run `npm ci`, `npm run dev`, `npm run check`, and `npm 
 - Shared community links and resource listings: `src/data/community.ts`.
 - Shared layout, navigation, and metadata: `src/layouts/CommunityLayout.astro`.
 - Social sharing uses `public/images/community/ghl-bangladesh-og.jpg`, a 1200×630 JPEG based on the supplied Bangladesh landmark artwork with “MeetUp 2026” removed. The shared layout declares matching Open Graph and Twitter image metadata.
-- Design styles and responsive behavior: `src/styles/community.css`.
-- Reusable photo, resource, join, and logo components: `src/components/community/`.
+- Design styles and responsive behavior: `src/styles/community.css` (shared: fonts, colour tokens, buttons, header, hero, scroll reveal). Each homepage section keeps its own styles inside its component.
+- Reusable photo, resource, join, logo, and button components: `src/components/community/`.
 - The homepage origin story is in `src/components/community/CommunityStory.astro`, placed after the photo gallery and directly before the chapter-leader section. It is told in Mehedi’s first-person voice and credits Shariful Islam as co-organiser, linking to his supplied Facebook profile.
 - The story pairs Mehedi’s seated DSC08548.JPG with Shariful’s speaking DSC08543.JPG, matching the two photos supplied by Mehedi. Portrait frames use individual crop positions; the source images remain intact. Names and Shariful’s Facebook link remain below the correct photos.
 - The chapter-leader section uses the earlier meetup portrait at Mehedi’s request. The label reads “HighLevel Bangladesh chapter leader.”
@@ -61,6 +61,21 @@ The existing Cloudflare Pages Git integration builds `main` using `npm run build
 
 The user rejected the initial editorial concept and requested the content and background video from https://ghl-bangladesh-website.pages.dev/, with an improved design. The homepage now contains the background video, introduction, community benefits, event gallery, origin story, chapter-leader profile, and invitation. Mehedi’s story and chapter-leader photos are sourced from original Playbook JPEGs. The reference’s 25.9-second silent H.264 background video is served locally. The user-supplied `ghl-bangladesh-logo-fixed.svg` is used unchanged on dark backgrounds. The join destination remains the verified Facebook community group; the chapter-leader profile offers Facebook and website links.
 
-Typography uses locally hosted DM Sans from Google Fonts, with upright headings and body copy; italic and serif heading accents have been removed. Small subtitles and labels use natural casing while retaining brand acronyms. All arrow icons in the primary interface are SVGs. Video pauses when the page is hidden and defaults to paused for reduced-motion preferences. Future event dates remain unconfirmed. Production target confirmed by the user: ghlbangladesh.com; no marketer-version restoration is requested.
+Typography originally used locally hosted DM Sans from Google Fonts (superseded by Plus Jakarta Sans in the Home v1 redesign below), with upright headings and body copy; italic and serif heading accents have been removed. Small subtitles and labels use natural casing while retaining brand acronyms. All arrow icons in the primary interface are SVGs. Video pauses when the page is hidden and defaults to paused for reduced-motion preferences. Future event dates remain unconfirmed. Production target confirmed by the user: ghlbangladesh.com; no marketer-version restoration is requested.
 
 GitHub write access was denied through both CLI and the connector. Source commits are retained locally. Direct uploads use the existing Cloudflare Pages project and domain bindings, preserving DNS.
+
+## Home v1 redesign
+
+A homepage redesign proposed by Ridoy. All homepage text, photos, captions, links, and the background video are unchanged; only the presentation changes. The section order stays the same: hero, audience strip, community benefits, event gallery, origin story, chapter leader, invitation.
+
+- Typography: Plus Jakarta Sans (Google Fonts, SIL Open Font License), served locally as two variable WOFF2 files in `public/images/community/` (`plus-jakarta-sans-latin.woff2`, `plus-jakarta-sans-latin-ext.woff2`), declared in `community.css`. DM Sans is no longer referenced; its files remain in place.
+- Colours: navy hero and gallery panels with the three logo arrow colours (yellow `#F8D325`, blue `#20A9ED`, green `#0BCE55`) as accents and a warm paper background. The homepage follows the visitor's light or dark device setting; inner pages stay light.
+- Hero: full-screen background video with a navy veil, round Bangladesh flag label, and a gradient accent on “Together in Bangladesh.” The video is scaled up slightly because its opening seconds have black side bars. Existing video behaviour is kept: muted, paused when the page is hidden, paused for reduced motion.
+- Header: centred pill navigation with the green “Join the community” button. On the homepage it floats over the video, turns frosted navy after scrolling, and hides while scrolling down. Inner pages use the same header as a solid navy bar. Below 1001px a full-screen menu replaces the navigation.
+- Buttons: one component (`Button.astro`), a label plus a round arrow chip in three sizes, used for the header, hero, chapter-leader links, invitation, and photo viewer.
+- Community benefits: learn, connect, grow stand on three rising arrows in the logo colours, which grow in when scrolled into view.
+- Event gallery: bento grid (two large tiles, six wide tiles) with captions on hover and a full-screen photo viewer with previous, next, keyboard arrows, and a counter.
+- Origin story: large quote mark, words light up while scrolling; the existing photos, crop positions, captions, and Shariful Islam’s Facebook link are kept.
+- Chapter leader and invitation: card layouts; the invitation shows the three logo arrows rising behind the heading.
+- Motion respects reduced-motion preferences; content stays visible when JavaScript is off.

@@ -6,6 +6,7 @@ import MeetupRecap from "../components/community/MeetupRecap.astro";
 import CommunityOverview from "../components/community/CommunityOverview.astro";
 import CommunityStory from "../components/community/CommunityStory.astro";
 import ChapterLeader from "../components/community/ChapterLeader.astro";
+import Button from "../components/community/Button.astro";
 ---
 
 <Layout>
@@ -24,23 +25,32 @@ import ChapterLeader from "../components/community/ChapterLeader.astro";
           type="video/mp4"
         /></video
       >
-    </div><div class="wrap hero-content">
-      <span class="eyebrow chapter-label"
+    </div>
+    <div class="wrap hero-content">
+      <span class="chapter-label"
         ><span class="flag-mark" aria-hidden="true"></span> Bangladesh local chapter</span
-      ><h1 id="hero-heading">
-        Learn. Connect.{" "}<br />Grow. <span
-          >Together{" "}<br class="hero-break" /> in Bangladesh.</span
+      >
+      <h1 id="hero-heading">
+        Learn. Connect. Grow. <span class="grad-text"
+          >Together in Bangladesh.</span
         >
-      </h1><p>
-        A local home for people building with HighLevel.{" "}<br
-          class="desktop-only"
-        /> Meet your peers, share what works, and take the next step together.
-      </p><div class="hero-actions">
-        <a class="button button-outline" href="#events"
-          >Explore Events <span aria-hidden="true">↓</span></a
-        >
+      </h1>
+      <div class="hero-bottom">
+        <p>
+          <strong>A local home for people building with HighLevel.</strong> Meet your
+          peers, share what works, and take the next step together.
+        </p>
+        <Button
+          variant="ghost"
+          size="lg"
+          icon="down"
+          glyph="↓"
+          label="Explore Events"
+          href="#events"
+        />
       </div>
     </div>
+    <span class="scroll-cue" aria-hidden="true">Scroll</span>
   </section>
   <AudienceStrip />
   <CommunityOverview />
@@ -65,6 +75,36 @@ import ChapterLeader from "../components/community/ChapterLeader.astro";
       document.addEventListener("visibilitychange", sync);
       motion.addEventListener("change", sync);
       sync();
+    }
+
+    // Gentle parallax: the video drifts down and the text fades up while the hero scrolls away.
+    const hero = document.querySelector<HTMLElement>(".chapter-hero");
+    const media = document.querySelector<HTMLElement>(".hero-media");
+    const content = document.querySelector<HTMLElement>(".hero-content");
+    if (hero && media && content && !motion.matches) {
+      let ticking = false;
+      const paint = () => {
+        ticking = false;
+        const y = window.scrollY;
+        const height = hero.offsetHeight;
+        if (y < height) {
+          media.style.setProperty("--py", (y * 0.18).toFixed(1) + "px");
+          content.style.setProperty("--cy", (y * -0.12).toFixed(1) + "px");
+          content.style.setProperty(
+            "--co",
+            Math.max(0, 1 - y / (height * 0.75)).toFixed(3),
+          );
+        }
+      };
+      const onScroll = () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(paint);
+        }
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      paint();
     }
   </script>
 </Layout>

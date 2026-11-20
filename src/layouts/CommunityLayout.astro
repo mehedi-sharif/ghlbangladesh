@@ -2,7 +2,7 @@
 import "../styles/community.css";
 import Logo from "../components/community/Logo.astro";
 import Footer from "../components/community/Footer.astro";
-import Arrow from "../components/community/Arrow.astro";
+import Button from "../components/community/Button.astro";
 import { groupUrl } from "../data/community";
 interface Props {
   title?: string;
@@ -58,30 +58,29 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
       content={socialImage}
     /><meta name="twitter:image:alt" content={socialImageAlt} /><link
       rel="preload"
-      href="/images/community/dm-sans-400.ttf"
+      href="/images/community/plus-jakarta-sans-latin.woff2"
       as="font"
-      type="font/ttf"
+      type="font/woff2"
       crossorigin
-    /><link
-      rel="preload"
-      href="/images/community/dm-sans-700.ttf"
-      as="font"
-      type="font/ttf"
-      crossorigin
-    /></head
+    /><script is:inline>
+      // lets the stylesheet hide reveal-on-scroll content only when scripts run
+      document.documentElement.classList.add("js");
+    </script></head
   ><body class={home ? "home" : "inner-page"}>
     <a class="skip-link" href="#main">Skip to content</a>
+    {home && <div class="scroll-progress" aria-hidden="true" />}
     <header class="site-header">
       <div class="wrap header-inner">
         <Logo /><nav class="desktop-nav" aria-label="Main navigation">
           {nav.map(([label, href]) => <a href={href}>{label}</a>)}
-        </nav><a
-          class="header-join button-green"
+        </nav><Button
+          class="header-join"
+          size="sm"
+          label="Join the community"
           href={groupUrl}
-          target="_blank"
-          rel="noopener noreferrer">Join the community <Arrow /></a
-        ><button
+        /><button
           class="menu-toggle"
+          type="button"
           aria-expanded="false"
           aria-controls="mobile-nav"
           aria-label="Open navigation"><span></span><span></span></button
@@ -92,48 +91,101 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
         aria-label="Mobile navigation"
         hidden
       >
-        {nav.map(([label, href]) => <a href={href}>{label}</a>)}<a
-          class="mobile-nav-join button-green"
+        {nav.map(([label, href]) => <a href={href}>{label}</a>)}<Button
+          class="mobile-nav-join"
+          size="lg"
+          label="Join the community"
           href={groupUrl}
-          target="_blank"
-          rel="noopener noreferrer">Join the community <Arrow /></a
-        >
+        />
       </nav>
     </header>
     <main id="main"><slot /></main>
     <Footer />
     <script>
+      const header = document.querySelector<HTMLElement>(".site-header");
       const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
       const nav = document.querySelector<HTMLElement>("#mobile-nav");
-      function closeMenu() {
-        toggle?.setAttribute("aria-expanded", "false");
-        toggle?.setAttribute("aria-label", "Open navigation");
-        if (nav) nav.hidden = true;
-      }
-      toggle?.addEventListener("click", () => {
-        const open = toggle.getAttribute("aria-expanded") !== "true";
-        toggle.setAttribute("aria-expanded", String(open));
-        toggle.setAttribute(
+      const isHome = document.body.classList.contains("home");
+      const root = document.documentElement;
+
+      // Homepage header: frosted after 40px, slides away while scrolling down past
+      // the hero and comes back on the first scroll up. The progress bar fills as
+      // the page is read.
+      let lastY = window.scrollY;
+      let ticking = false;
+      const paint = () => {
+        ticking = false;
+        const y = window.scrollY;
+        const menuOpen = !!nav && !nav.hidden;
+        if (isHome && header) {
+          header.classList.toggle("scrolled", menuOpen || y > 40);
+          if (menuOpen || y <= 500 || y < lastY - 4)
+            header.classList.remove("away");
+          else if (y > lastY + 4) header.classList.add("away");
+          const max = root.scrollHeight - window.innerHeight;
+          root.style.setProperty("--sp", max > 0 ? (y / max).toFixed(4) : "0");
+        }
+        lastY = y;
+      };
+      const onScroll = () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(paint);
+        }
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+
+      // Full-screen mobile menu
+      function setMenu(open: boolean) {
+        toggle?.setAttribute("aria-expanded", String(open));
+        toggle?.setAttribute(
           "aria-label",
           open ? "Close navigation" : "Open navigation",
         );
         if (nav) nav.hidden = !open;
-      });
+        document.body.style.overflow = open ? "hidden" : "";
+        header?.classList.toggle("menu-open", open);
+        if (isHome)
+          header?.classList.toggle("scrolled", open || window.scrollY > 40);
+        if (open) header?.classList.remove("away");
+      }
+      toggle?.addEventListener("click", () =>
+        setMenu(toggle.getAttribute("aria-expanded") !== "true"),
+      );
       nav
         ?.querySelectorAll("a")
-        .forEach((a) => a.addEventListener("click", closeMenu));
+        .forEach((a) => a.addEventListener("click", () => setMenu(false)));
       document.addEventListener("keydown", (e) => {
         if (
           e.key === "Escape" &&
           toggle?.getAttribute("aria-expanded") === "true"
         ) {
-          closeMenu();
+          setMenu(false);
           toggle.focus();
         }
       });
-      matchMedia("(min-width: 821px)").addEventListener("change", (e) => {
-        if (e.matches) closeMenu();
+      matchMedia("(min-width: 1001px)").addEventListener("change", (e) => {
+        if (e.matches) setMenu(false);
       });
+
+      // Scroll reveal: anything with the class "reveal" fades up once it enters the screen.
+      const targets = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) =>
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in");
+                observer.unobserve(entry.target);
+              }
+            }),
+          { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
+        );
+        targets.forEach((el) => observer.observe(el));
+      } else targets.forEach((el) => el.classList.add("in"));
+
+      paint();
     </script></body
   >
 </html>

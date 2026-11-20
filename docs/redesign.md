@@ -1,0 +1,66 @@
+# GHL Bangladesh redesign
+
+The community website stays in the main Astro repository and deploys through the existing `ghlbangladesh` Cloudflare Pages project. Production domains: https://ghlbangladesh.com and https://www.ghlbangladesh.com. The marketer’s `tffarhad/ghl-bangladesh-website` repository is a content-structure reference, not this source repository.
+
+## Development
+
+Use Node 22.12 or newer. Run `npm ci`, `npm run dev`, `npm run check`, and `npm run build`. The build output is `dist/`. npm is the package manager; `.npmrc` retains compatibility with an unused template integration whose peer range predates Astro 6. The new pages do not use that integration.
+
+## Content
+
+- Shared community links and resource listings: `src/data/community.ts`.
+- Shared layout, navigation, and metadata: `src/layouts/CommunityLayout.astro`.
+- Social sharing uses `public/images/community/ghl-bangladesh-og.jpg`, a 1200×630 JPEG based on the supplied Bangladesh landmark artwork with “MeetUp 2026” removed. The shared layout declares matching Open Graph and Twitter image metadata.
+- Design styles and responsive behavior: `src/styles/community.css`.
+- Reusable photo, resource, join, and logo components: `src/components/community/`.
+- The homepage origin story is in `src/components/community/CommunityStory.astro`, placed after the photo gallery and directly before the chapter-leader section. It is told in Mehedi’s first-person voice and credits Shariful Islam as co-organiser, linking to his supplied Facebook profile.
+- The story pairs Mehedi’s seated DSC08548.JPG with Shariful’s speaking DSC08543.JPG, matching the two photos supplied by Mehedi. Portrait frames use individual crop positions; the source images remain intact. Names and Shariful’s Facebook link remain below the correct photos.
+- The chapter-leader section uses the earlier meetup portrait at Mehedi’s request. The label reads “HighLevel Bangladesh chapter leader.”
+- The chapter-leader profile offers Facebook (`https://www.facebook.com/mehedi.sharif.titas`) and website (`https://mehedisharif.com`) links. Shariful’s name below his story photo links to his supplied Facebook profile. The top navigation and footer link to `/volunteers`, which says opportunities will open soon and offers community updates without an application form.
+- Mehedi’s supplied story confirms that GHL Bangladesh MeetUp 2026 took place on June 11, 2026, as an unofficial, community-driven meetup co-organised with Shariful Islam. This is the meetup date, not a claimed founding date for the group. Future event dates, venues, registration links, new credentials, or official affiliation still require confirmation.
+- The primary join destination is the HighLevel Bangladesh Facebook group.
+- Obsolete charity template routes have been removed; former top-level routes redirect to relevant community pages. Unused original theme content/components remain in source but are not published as pages.
+
+## Photography
+
+User-supplied collection: https://www.playbook.com/s/ghlprojects/QpYamYiVaSVjLdKCfJoqWhuU (`GHL Meetup Bangladesh 2026`). Public previews and official Playbook WEBP exports were resized to 640, 1200, and 1800px WebP files. All 15 gallery filenames selected by Mehedi are imported, alongside the five existing photos; his DSC08672.JPG portrait is used separately in the story section. The public website serves local optimized copies, not expiring Playbook URLs or 18–26MB originals.
+
+| Local name | Source filename | Use |
+| --- | --- | --- |
+| meetup | DSC08684.JPG | Community group photo and hero |
+| conversations | DSC08234.JPG | Candid discussion |
+| speaker | DSC08669.JPG | Presentation |
+| building | DSC08236.JPG | Attendee working on a laptop |
+| workshop | DSC08662.JPG | Presentation with projected screen |
+| dsc08253 | DSC08253.JPG | Shariful Islam portrait in Our story; identified by Mehedi |
+| dsc08436 | DSC08436.JPG | Parliament view selected by Mehedi |
+| dsc08687 | DSC08687.JPG | Additional meetup group portrait selected by Mehedi |
+| dsc08636 | DSC08636.JPG | Selected event gallery photo |
+| dsc08567 | DSC08567.JPG | Selected event gallery photo |
+| dsc08546 | DSC08546.JPG | Selected event gallery photo |
+| dsc08543 | DSC08543.JPG | Selected event gallery photo |
+| dsc08517 | DSC08517.JPG | Selected event gallery photo |
+| dsc08501 | DSC08501.JPG | Selected event gallery photo |
+| dsc08489 | DSC08489.JPG | Selected event gallery photo |
+| dsc08463 | DSC08463.JPG | Selected event gallery photo |
+| dsc08408 | DSC08408.JPG | Selected event gallery photo |
+| dsc08339 | DSC08339.JPG | Selected event gallery photo |
+| dsc08278 | DSC08278.JPG | Selected event gallery photo |
+| dsc08260 | DSC08260.JPG | Selected event gallery photo |
+| dsc08237 | DSC08237.JPG | Selected event gallery photo |
+| dsc08548 | DSC08548.JPG | Mehedi’s seated story photo, exported from the original 7952×5304 JPEG |
+| mehedi-portrait | DSC08672.JPG | Chapter-leader photo, re-exported from the original 7952×5304 JPEG at higher quality |
+
+DSC08667.JPG was excluded because it was identified as reference-only. No upload date was used as an event date. No stock imagery, invented testimonials, or fabricated statistics are used. The Urbanist font is served locally from the prior website asset, removing build-time Google Fonts requests.
+
+## Deployment
+
+The existing Cloudflare Pages Git integration builds `main` using `npm run build` and publishes `dist`. Preview branches are enabled. Preserve existing DNS and domain bindings; the main domain already routes to `ghlbangladesh.pages.dev`. Validate a branch preview, then merge the reviewed release and verify production. Roll back using Cloudflare Pages deployment history if necessary.
+
+## Reference-led revision
+
+The user rejected the initial editorial concept and requested the content and background video from https://ghl-bangladesh-website.pages.dev/, with an improved design. The homepage now contains the background video, introduction, community benefits, event gallery, origin story, chapter-leader profile, and invitation. Mehedi’s story and chapter-leader photos are sourced from original Playbook JPEGs. The reference’s 25.9-second silent H.264 background video is served locally. The user-supplied `ghl-bangladesh-logo-fixed.svg` is used unchanged on dark backgrounds. The join destination remains the verified Facebook community group; the chapter-leader profile offers Facebook and website links.
+
+Typography uses locally hosted DM Sans from Google Fonts, with upright headings and body copy; italic and serif heading accents have been removed. Small subtitles and labels use natural casing while retaining brand acronyms. All arrow icons in the primary interface are SVGs. Video pauses when the page is hidden and defaults to paused for reduced-motion preferences. Future event dates remain unconfirmed. Production target confirmed by the user: ghlbangladesh.com; no marketer-version restoration is requested.
+
+GitHub write access was denied through both CLI and the connector. Source commits are retained locally. Direct uploads use the existing Cloudflare Pages project and domain bindings, preserving DNS.

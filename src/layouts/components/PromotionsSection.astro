@@ -1,0 +1,119 @@
+---
+import DynamicIcon from "@/helpers/DynamicIcon";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import Counter from "../functional-component/Counter";
+import ImageMod from "./ImageMod.astro";
+import TitleBadge from "./TitleBadge.astro";
+
+type Props = {
+  promotions: CollectionEntry<"homepage">["data"]["promotions"];
+};
+
+const { promotions } = Astro.props;
+---
+
+{
+  promotions?.enable && (
+    <section class="section p-0">
+      <div class="container">
+        {/* section title  */}
+        <div
+          data-aos="fade-up-sm"
+          data-aos-delay="100"
+          class="row justify-center"
+        >
+          <div class="col-10 lg:col-7">
+            {promotions?.badge.enable && (
+              <TitleBadge
+                icon={promotions!.badge.icon}
+                label={promotions?.badge.label}
+                bg_color={promotions?.badge.bg_color}
+              />
+            )}
+
+            <h2
+              class="py-4 text-center"
+              set:html={markdownify(promotions?.title || "")}
+            />
+            <p
+              class="text-center text-balance"
+              set:html={promotions?.description || ""}
+            />
+          </div>
+        </div>
+
+        <div
+          data-aos="fade-up-sm"
+          data-aos-delay="100"
+          class="metrics-cards pt-14"
+        >
+          {promotions?.cards &&
+            promotions?.cards.length > 0 &&
+            promotions?.cards.map((card, i) => (
+              <div class="card">
+                <p class={`h1 font-semibold text-white`}>
+                  <Counter
+                    client:only="react"
+                    count={card.counter.count}
+                    suffix={card.counter.count_suffix}
+                    prefix={card.counter.count_prefix}
+                    duration={card.counter.count_duration}
+                  />
+                </p>
+
+                <h6
+                  class={`text-base font-medium tracking-wider text-white pb-8 pt-2`}
+                  set:html={markdownify(card?.title || "")}
+                />
+
+                <ul class="text-center lg:text-left">
+                  {card?.list.map((item) => (
+                    <li class="w-full">
+                      <div class="mx-auto lg:mx-0 w-fit bg-body text-dark text-sm font-medium px-4 py-px rounded-full mb-px z-20 break-words text-wrap">
+                        {item}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                <div class="mt-auto pt-8 max-lg:mx-auto">
+                  {card.button.enable && (
+                    <a
+                      class="btn btn-icon"
+                      href={card.button.link}
+                      aria-label={"External Link Button"}
+                    >
+                      <span class="icon-wrapper">
+                        <span class="icon">
+                          <DynamicIcon icon={"FaArrowRight"} />
+                        </span>
+                        <span class="icon" aria-hidden="true">
+                          <DynamicIcon icon={"FaArrowRight"} />
+                        </span>
+                      </span>
+                    </a>
+                  )}
+                </div>
+
+                {card.image && (
+                  <ImageMod
+                    src={card.image}
+                    alt={card.title}
+                    class={`absolute ${
+                      i === 0
+                        ? "bottom-0 right-0"
+                        : "-bottom-[35%] left-1/2 -translate-x-1/2"
+                    } -z-10 overflow-hidden`}
+                    width={0}
+                    height={0}
+                    format="webp"
+                  />
+                )}
+              </div>
+            ))}
+        </div>
+      </div>
+    </section>
+  )
+}

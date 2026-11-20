@@ -1,0 +1,57 @@
+---
+import EventGallery from "./EventGallery.astro";
+---
+
+<section class="meetup-recap" id="events" aria-labelledby="recap-heading">
+  <div class="wrap" id="meetup-recap">
+    <div class="recap-heading-row">
+      <span class="recap-eyebrow">Offline connections. Lasting impact.</span>
+      <h2 id="recap-heading">
+        See you at the<br />next conversation.
+      </h2>
+    </div>
+    <EventGallery />
+  </div>
+</section>
+
+<style>
+  .meetup-recap {
+    padding-block: 92px;
+    background: #edf0e6;
+    color: #193f33;
+    font-family: "DM Sans", Arial, sans-serif;
+  }
+  .recap-heading-row {
+    margin-bottom: 44px;
+  }
+  .recap-eyebrow {
+    display: block;
+    font:
+      600 10px/1.5 "DM Sans",
+      sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: none;
+  }
+  .recap-heading-row h2 {
+    font-size: clamp(38px, 4vw, 56px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-top: 25px;
+  }
+  @media (max-width: 760px) {
+    .meetup-recap {
+      padding-block: 60px;
+    }
+    .recap-heading-row {
+      margin-bottom: 32px;
+    }
+    .recap-heading-row h2 {
+      font-size: clamp(32px, 8vw, 44px);
+      margin-top: 21px;
+    }
+    .recap-eyebrow {
+      font-size: 9px;
+    }
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+import Layout from "../layouts/CommunityLayout.astro";
+import Join from "../components/community/Join.astro";
+import AudienceStrip from "../components/community/AudienceStrip.astro";
+import MeetupRecap from "../components/community/MeetupRecap.astro";
+import CommunityOverview from "../components/community/CommunityOverview.astro";
+import CommunityStory from "../components/community/CommunityStory.astro";
+import ChapterLeader from "../components/community/ChapterLeader.astro";
+---
+
+<Layout>
+  <section class="chapter-hero" aria-labelledby="hero-heading">
+    <div class="hero-media" aria-hidden="true">
+      <video
+        id="chapter-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="/images/community/community.webp"
+        ><source
+          src="/images/community/chapter-meetup.mp4"
+          type="video/mp4"
+        /></video
+      >
+    </div><div class="wrap hero-content">
+      <span class="eyebrow chapter-label"
+        ><span class="flag-mark" aria-hidden="true"></span> Bangladesh local chapter</span
+      ><h1 id="hero-heading">
+        Learn. Connect.{" "}<br />Grow. <span
+          >Together{" "}<br class="hero-break" /> in Bangladesh.</span
+        >
+      </h1><p>
+        A local home for people building with HighLevel.{" "}<br
+          class="desktop-only"
+        /> Meet your peers, share what works, and take the next step together.
+      </p><div class="hero-actions">
+        <a class="button button-outline" href="#events"
+          >Explore Events <span aria-hidden="true">↓</span></a
+        >
+      </div>
+    </div>
+  </section>
+  <AudienceStrip />
+  <CommunityOverview />
+  <MeetupRecap />
+  <CommunityStory />
+  <ChapterLeader />
+  <Join />
+  <script>
+    const video = document.querySelector<HTMLVideoElement>("#chapter-video");
+    const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    if (video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      const sync = () => {
+        if (motion.matches || document.hidden) {
+          video.pause();
+          return;
+        }
+        video.play().catch(() => {});
+      };
+      video.addEventListener("loadeddata", sync, { once: true });
+      document.addEventListener("visibilitychange", sync);
+      motion.addEventListener("change", sync);
+      sync();
+    }
+  </script>
+</Layout>

@@ -1,0 +1,135 @@
+---
+import { groupUrl } from "../../data/community";
+import Arrow from "./Arrow.astro";
+---
+
+<section class="footer-invite" id="join" aria-labelledby="invite-heading">
+  <div class="wrap invite-inner">
+    <div class="invite-copy">
+      <h2 id="invite-heading">
+        Great things start{" "}<br />with a <span class="invite-accent"
+          >connection.</span
+        >
+      </h2>
+    </div>
+    <a
+      class="invite-button"
+      href={groupUrl}
+      target="_blank"
+      rel="noopener noreferrer">Join the community <Arrow /></a
+    >
+    <svg
+      class="invite-backdrop"
+      viewBox="0 0 430 430"
+      fill="none"
+      aria-hidden="true"
+      ><path
+        d="M20 410 410 20M274 29 410 20l-9 136"
+        stroke="currentColor"
+        stroke-width="15"
+        stroke-linecap="square"></path></svg
+    >
+  </div>
+</section>
+
+<style>
+  .footer-invite {
+    overflow: hidden;
+    background: #174838;
+    color: #f7f8f1;
+    font-family: "DM Sans", Arial, sans-serif;
+  }
+  .invite-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.45fr 0.8fr;
+    align-items: center;
+    gap: 50px;
+    padding-block: 83px;
+  }
+  .invite-copy,
+  .invite-button {
+    position: relative;
+    z-index: 1;
+  }
+  .invite-copy h2 {
+    margin: 0;
+    font-family: "DM Sans", Arial, sans-serif;
+    font-size: clamp(38px, 4.2vw, 58px);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+  }
+  .invite-accent {
+    color: #d4e898;
+  }
+  .invite-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    justify-self: end;
+    gap: 35px;
+    padding: 17px 24px;
+    margin-right: 32px;
+    border-radius: 6px;
+    background: #d4e898;
+    color: #193f33;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+    transition: background 0.2s ease;
+  }
+  .invite-button:hover {
+    background: #e2f0b7;
+  }
+  .invite-button :global(.arrow-icon) {
+    width: 24px;
+    height: 24px;
+    stroke-width: 1;
+  }
+  .invite-backdrop {
+    position: absolute;
+    z-index: 0;
+    top: -15px;
+    right: -20px;
+    width: 340px;
+    height: 340px;
+    color: #285a48;
+    pointer-events: none;
+  }
+  @media (max-width: 1100px) {
+    .invite-inner {
+      gap: 30px;
+    }
+    .invite-button {
+      margin-right: 0;
+    }
+  }
+  @media (max-width: 760px) {
+    .invite-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding-block: 60px;
+    }
+    .invite-copy h2 {
+      font-size: clamp(34px, 9vw, 48px);
+    }
+    .invite-button {
+      justify-self: start;
+      gap: 30px;
+      font-size: 14px;
+      padding: 16px 21px;
+    }
+    .invite-backdrop {
+      width: 300px;
+      height: 300px;
+      top: 70px;
+      right: -120px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .invite-button {
+      transition: none;
+    }
+  }
+</style>

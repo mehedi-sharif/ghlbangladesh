@@ -1,0 +1,24 @@
+{
+  "main": [
+    {
+      "name": "GHL Bangladesh",
+      "icon": "FaFacebook",
+      "link": "https://www.facebook.com/groups/highlevelbangladesh"
+    },
+    {
+      "name": "x",
+      "icon": "FaXTwitter",
+      "link": "https://x.com/"
+    },
+    {
+      "name": "github",
+      "icon": "FaGithub",
+      "link": "https://www.github.com/"
+    },
+    {
+      "name": "linkedin",
+      "icon": "FaLinkedin",
+      "link": "https://www.linkedin.com/"
+    }
+  ]
+}

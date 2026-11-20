@@ -1,0 +1,180 @@
+---
+import { groupUrl } from "../../data/community";
+import Arrow from "./Arrow.astro";
+---
+
+<footer class="chapter-footer">
+  <div class="wrap footer-columns">
+    <div class="footer-identity">
+      <a href="/" class="footer-brand" aria-label="GHL Bangladesh home"
+        ><img
+          src="/images/community/chapter-logo-dark.svg"
+          width="1430"
+          height="266"
+          alt="GHL Bangladesh"
+          loading="lazy"
+        /></a
+      >
+    </div>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <span class="footer-label">Find your way</span>
+      <a href="/#community">Community</a>
+      <a href="/#events">Events</a>
+      <a href="/resources">Resources</a>
+    </nav>
+    <div class="footer-nav footer-contact">
+      <span class="footer-label">Let’s connect</span>
+      <a href={groupUrl} target="_blank" rel="noopener noreferrer"
+        >Facebook community <Arrow /></a
+      >
+      <a href="/volunteers">Volunteers</a>
+    </div>
+  </div>
+  <div class="wrap footer-legal">
+    <span>© {new Date().getFullYear()} GHL Bangladesh</span>
+    <span class="footer-signoff">Made for the people building what’s next.</span
+    >
+    <nav aria-label="Legal links">
+      <a href="/privacy-policy">Privacy</a><a href="/terms-and-conditions"
+        >Terms</a
+      >
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .chapter-footer {
+    padding-top: 0;
+    background: #f6f8f1;
+    color: #234b3d;
+    font-family: "DM Sans", Arial, sans-serif;
+  }
+  .footer-columns {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 65px;
+    padding-block: 65px 62px;
+  }
+  .footer-brand {
+    display: inline-flex;
+    align-items: center;
+  }
+  .footer-brand img {
+    display: block;
+    width: 245px;
+    height: auto;
+  }
+  .footer-label {
+    display: block;
+    margin-bottom: 15px;
+    color: #738176;
+    font:
+      600 9px/1.5 "DM Sans",
+      sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: none;
+  }
+  .footer-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    padding-top: 0;
+  }
+  .footer-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-decoration: none;
+  }
+  .footer-nav a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .footer-nav a :global(.arrow-icon) {
+    width: 15px;
+    height: 15px;
+    stroke-width: 1;
+  }
+  .footer-legal {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 25px;
+    border-top: 1px solid #d7dfd1;
+    padding-block: 23px;
+    color: #7b877b;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .footer-legal nav {
+    display: flex;
+    justify-self: end;
+    gap: 22px;
+  }
+  .footer-legal a:hover {
+    color: #234b3d;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  @media (max-width: 1100px) {
+    .footer-columns {
+      gap: 40px;
+    }
+    .footer-brand img {
+      width: 220px;
+    }
+    .footer-nav a {
+      font-size: 13px;
+    }
+    .footer-legal {
+      font-size: 10px;
+      gap: 20px;
+    }
+  }
+  @media (max-width: 760px) {
+    .footer-columns {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 25px;
+      row-gap: 38px;
+      padding-block: 45px 38px;
+    }
+    .footer-identity {
+      grid-column: 1 / -1;
+    }
+    .footer-brand img {
+      width: 215px;
+    }
+    .footer-nav {
+      gap: 14px;
+    }
+    .footer-label {
+      font-size: 8px;
+      margin-bottom: 9px;
+    }
+    .footer-nav a {
+      font-size: 13px;
+    }
+    .footer-nav a :global(.arrow-icon) {
+      width: 13px;
+      height: 13px;
+    }
+    .footer-legal {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 10px;
+      padding-block: 22px;
+    }
+    .footer-signoff {
+      display: none;
+    }
+    .footer-legal nav {
+      gap: 18px;
+      margin-left: auto;
+    }
+  }
+</style>

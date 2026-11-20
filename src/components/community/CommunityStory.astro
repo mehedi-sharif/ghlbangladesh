@@ -1,0 +1,195 @@
+---
+import Photo from "./Photo.astro";
+---
+
+<section
+  class="community-story"
+  id="our-story"
+  aria-labelledby="community-story-heading"
+>
+  <div class="wrap story-inner">
+    <header class="story-heading">
+      <span class="story-label">Our story</span>
+      <h2 id="community-story-heading">How we started.</h2>
+      <div class="story-people" role="group" aria-label="Meetup co-organisers">
+        <figure class="story-person story-person-mehedi">
+          <Photo
+            name="dsc08548"
+            alt="Mehedi Sharif seated with his phone at the GHL Bangladesh meetup"
+            sizes="(max-width: 760px) 45vw, 225px"
+          />
+          <figcaption>Mehedi Sharif</figcaption>
+        </figure>
+        <figure class="story-person story-person-shariful">
+          <Photo
+            name="dsc08543"
+            alt="Shariful Islam speaking into a microphone at the GHL Bangladesh meetup"
+            width={1800}
+            height={1201}
+            sizes="(max-width: 760px) 45vw, 225px"
+          />
+          <figcaption>
+            <a
+              href="https://www.facebook.com/vidmshariful"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Shariful Islam on Facebook (opens in a new tab)"
+              >Shariful Islam</a
+            >
+          </figcaption>
+        </figure>
+      </div>
+    </header>
+    <div class="story-copy">
+      <p>
+        GHL Bangladesh began with conversations between
+        <a
+          href="https://www.facebook.com/vidmshariful"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Shariful Islam on Facebook (opens in a new tab)"
+          ><strong>Shariful Islam</strong></a
+        > and me. We kept talking about how many people in Bangladesh work with GoHighLevel
+        every day, yet hardly ever meet in person. We wanted a chance to sit together,
+        compare experiences, and get to know the people doing the same work.
+      </p>
+      <p>
+        So we decided to organise an unofficial, community-driven meetup. The
+        idea was simple: GHL users in one room, asking questions and sharing
+        what was actually working for them.
+      </p>
+      <p>
+        Shariful and I organised that gathering together. For me, starting GHL
+        Bangladesh was a way to make those conversations happen: people here
+        meeting face to face, sharing practical knowledge, and learning from one
+        another.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .community-story {
+    background: #f6f8f1;
+    color: #193f33;
+    font-family: "DM Sans", Arial, sans-serif;
+  }
+  .story-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+    gap: clamp(44px, 7vw, 100px);
+    padding-block: 76px 88px;
+    border-top: 1px solid #d6ddcf;
+  }
+  .story-label {
+    display: block;
+    margin-bottom: 20px;
+    color: #64745f;
+    font:
+      600 10px/1.5 "DM Sans",
+      sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: none;
+  }
+  .story-heading h2 {
+    max-width: 360px;
+    margin: 0;
+    color: #193f33;
+    font-family: "DM Sans", Arial, sans-serif;
+    font-size: clamp(32px, 3.2vw, 42px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  .story-copy a,
+  .story-person figcaption a {
+    white-space: nowrap;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  .story-copy a:hover,
+  .story-person figcaption a:hover {
+    color: #52714b;
+  }
+  .story-copy a:focus-visible,
+  .story-person figcaption a:focus-visible {
+    outline: 2px solid #315344;
+    outline-offset: 4px;
+  }
+  .story-people {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 30px;
+  }
+  .story-person {
+    min-width: 0;
+    margin: 0;
+  }
+  .story-person :global(img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 3px;
+  }
+  .story-person-shariful :global(img) {
+    object-position: 62% center;
+  }
+  .story-person-mehedi :global(img) {
+    object-position: 72% center;
+  }
+  .story-person figcaption {
+    margin-top: 8px;
+    color: #315344;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .story-copy {
+    max-width: 660px;
+  }
+  .story-copy p {
+    margin: 0;
+    color: #536b5b;
+    font-size: 17px;
+    line-height: 1.85;
+  }
+  .story-copy p + p {
+    margin-top: 23px;
+  }
+  @media (max-width: 760px) {
+    .story-inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 30px;
+      padding-block: 48px 56px;
+    }
+    .story-label {
+      margin-bottom: 16px;
+    }
+    .story-heading h2 {
+      max-width: 340px;
+      font-size: clamp(30px, 7.5vw, 36px);
+    }
+    .story-people {
+      gap: 12px;
+      margin-top: 26px;
+    }
+    .story-person figcaption {
+      font-size: 13px;
+    }
+    .story-copy {
+      max-width: 100%;
+    }
+    .story-copy p {
+      line-height: 1.8;
+    }
+    .story-copy p + p {
+      margin-top: 21px;
+    }
+  }
+</style>

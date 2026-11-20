@@ -1,0 +1,122 @@
+---
+import Layout from "../layouts/CommunityLayout.astro";
+import Arrow from "../components/community/Arrow.astro";
+import { groupUrl } from "../data/community";
+---
+
+<Layout
+  title="Volunteers — GHL Bangladesh"
+  description="Volunteer opportunities for GHL Bangladesh are coming soon. Follow the community for roles and details on how to get involved."
+>
+  <section class="volunteer-page" aria-labelledby="volunteer-heading">
+    <div class="wrap volunteer-inner">
+      <span class="volunteer-label">GHL Bangladesh</span>
+      <h1 id="volunteer-heading">Volunteer with us.</h1>
+      <p class="volunteer-lead">
+        We’ll open volunteer opportunities very soon.
+      </p>
+      <p class="volunteer-description">
+        We’ll share the available roles and how to get involved when
+        opportunities open.
+      </p>
+      <a
+        class="volunteer-updates"
+        href={groupUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Get community updates <Arrow />
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .volunteer-page {
+    background: #f6f8f1;
+    color: #193f33;
+    font-family: "DM Sans", Arial, sans-serif;
+  }
+  .volunteer-inner {
+    padding-block: 100px 110px;
+  }
+  .volunteer-label {
+    display: block;
+    margin-bottom: 22px;
+    color: #64745f;
+    font:
+      600 10px/1.5 "DM Sans",
+      sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: none;
+  }
+  .volunteer-inner h1 {
+    max-width: 700px;
+    margin: 0;
+    font-family: "DM Sans", Arial, sans-serif;
+    font-size: clamp(38px, 4.5vw, 56px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+  }
+  .volunteer-lead {
+    max-width: 620px;
+    margin-top: 28px;
+    color: #315344;
+    font-size: 23px;
+    line-height: 1.5;
+    letter-spacing: normal;
+  }
+  .volunteer-description {
+    max-width: 520px;
+    margin-top: 16px;
+    color: #687568;
+    font-size: 17px;
+    line-height: 1.75;
+  }
+  .volunteer-updates {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    min-height: 44px;
+    margin-top: 28px;
+    padding-block: 6px 8px;
+    border-bottom: 1px solid currentColor;
+    color: #193f33;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .volunteer-updates :global(.arrow-icon) {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    stroke-width: 1.2;
+  }
+  .volunteer-updates:hover {
+    color: #52714b;
+  }
+  .volunteer-updates:focus-visible {
+    outline: 2px solid #315344;
+    outline-offset: 6px;
+  }
+  @media (max-width: 760px) {
+    .volunteer-inner {
+      padding-block: 60px 70px;
+    }
+    .volunteer-label {
+      margin-bottom: 18px;
+    }
+    .volunteer-inner h1 {
+      font-size: clamp(36px, 8.5vw, 46px);
+    }
+    .volunteer-lead {
+      margin-top: 24px;
+      font-size: 21px;
+    }
+    .volunteer-description {
+      font-size: 16px;
+    }
+  }
+</style>

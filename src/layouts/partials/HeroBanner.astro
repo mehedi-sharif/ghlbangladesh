@@ -1,0 +1,289 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import { FaAngleRight } from "react-icons/fa6";
+import Counter from "../functional-component/Counter";
+import VideoPlayer from "../functional-component/VideoPlayer";
+
+type Props = {
+  banner: CollectionEntry<"homepage">["data"]["banner"];
+};
+const { banner } = Astro.props;
+const { badge, partners, media_section, impact_metrics } = banner;
+---
+
+<section class="section pt-[9.25rem]">
+  <div class="container flex flex-col-reverse xl:flex-row gap-5">
+    <!-- Left Column (Text, Buttons, and Brands) -->
+    <div
+      data-aos="fade-up-sm"
+      data-aos-delay="150"
+      class="w-full md:w-[80%] xl:w-[45%] space-y-8 max-xl:flex max-xl:flex-col max-xl:items-center max-xl:text-center mx-auto max-xl:mt-8"
+    >
+      <!-- Badge -->
+      {
+        badge.enable && (
+          <div class="flex items-center gap-1.5">
+            {badge.images?.map((image, i) => (
+              <ImageMod
+                width={20}
+                height={20}
+                class={`w-6 p-px border-1 border-border aspect-square rounded-full -mr-3 bg-white relative`}
+                style={{ zIndex: badge.images.length - i }}
+                src={image}
+                alt="Badge"
+                loading={"eager"}
+              />
+            ))}
+            <span class="text-text text-sm font-medium px-4">
+              {badge.label}
+            </span>
+          </div>
+        )
+      }
+
+      <!-- Banner Title and Content -->
+      <h1
+        set:html={markdownify(banner.title)}
+        class="text-h2 -mt-4 lg:text-[80px] font-semibold tracking-tight xl:leading-[92px]"
+      />
+      <p
+        set:html={markdownify(banner.content)}
+        class="text-lg text-balance text-text"
+      />
+
+      <!-- Buttons Section -->
+      <div class="flex gap-3 flex-col lg:flex-row items-center">
+        {
+          banner.button_solid.enable && (
+            <div class="flex items-center group -space-x-2">
+              <a
+                class="btn btn-primary"
+                href={banner.button_solid.link}
+                target={
+                  banner.button_solid.link.startsWith("http")
+                    ? "_blank"
+                    : "_self"
+                }
+                rel="noopener"
+              >
+                {banner.button_solid.label}
+              </a>
+              <a
+                class="btn btn-primary p-3 relative"
+                href={banner.button_solid.link}
+                target={
+                  banner.button_solid.link.startsWith("http")
+                    ? "_blank"
+                    : "_self"
+                }
+                rel="noopener"
+                aria-label="External Link"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--token-96b06de6-276f-47e3-a541-f01772f9ea0a, rgb(255, 255, 255))"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="transition-transform duration-300 group-hover:-rotate-45"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </a>
+            </div>
+          )
+        }
+
+        <!-- Learn More Button -->
+        {
+          banner.button_link.enable && (
+            <a
+              href={banner.button_link.link}
+              target="_blank"
+              rel="noopener"
+              class="btn btn-secondary flex items-center group"
+            >
+              {banner.button_link.label}{" "}
+              <FaAngleRight className="ml-2 transition-transform duration-300 group-hover:translate-x-2" />
+            </a>
+          )
+        }
+      </div>
+
+      <!-- Brand Logos -->
+      <div>
+        {
+          partners?.logos && (
+            <div class="pt-10 space-y-6">
+              <p
+                set:html={markdownify(partners.title)}
+                class="text-lg max-lg:text-center"
+              />
+              <div class="swiper brand-slider">
+                <div class="swiper-wrapper">
+                  {partners.logos.map((item) => (
+                    <div class="swiper-slide w-fit!">
+                      <ImageMod
+                        src={item}
+                        alt="brand"
+                        width={0}
+                        height={32}
+                        class="w-full h-[32px] grayscale opacity-70"
+                        loading={"eager"}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    <!-- Right Column (Banner Image, Video, Testimonials) -->
+    <div
+      class="w-full md:w-[70%] xl:w-[53%] mx-auto relative -mt-[8%] lg:-mt-[15%] xl:-mt-[11.5%]"
+    >
+      {
+        banner.image && (
+          <>
+            <ImageMod
+              src={banner.image}
+              height={1000}
+              width={911}
+              alt="banner"
+              format="webp"
+              class="size-full max-md:h-[600px] object-cover rounded-4xl"
+              loading={"eager"}
+            />
+
+            {banner.testimonial_image && (
+              <img
+                data-aos="fade-up-sm"
+                data-aos-delay="150"
+                src={banner.testimonial_image}
+                class="absolute top-[10%] md:top-[23%] left-1/2 max-md:-translate-x-1/2 md:left-[15%] w-[364px] h-[64px] max-md:scale-70"
+                alt="testimonial"
+              />
+            )}
+
+            {media_section.enable && (
+              <VideoPlayer video={media_section} client:load />
+            )}
+
+            {/* Testimonial Content  */}
+            <div
+              data-aos="fade-up-sm"
+              data-aos-delay="150"
+              class="absolute bottom-10 w-[85%] left-1/2 -translate-x-1/2"
+            >
+              <div class="flex flex-col md:flex-row items-center gap-y-6 text-center md:text-left">
+                <ul class="flex-1 mt-auto -space-y-1.5">
+                  {impact_metrics.secondary_labels &&
+                    impact_metrics.secondary_labels.map((item, i) => (
+                      <li
+                        data-aos="fade-up-sm"
+                        data-aos-delay={i * 200 + 100}
+                        class="w-full md:text-left text-center"
+                      >
+                        <span class="mx-auto lg:mx-0 w-max bg-body text-text-dark text-sm font-medium px-4 py-px rounded-full mb-px">
+                          {item}
+                        </span>
+                      </li>
+                    ))}
+                </ul>
+
+                <div
+                  data-aos="fade-up-sm"
+                  data-aos-delay="150"
+                  class="bg-body rounded-4xl p-6 w-52"
+                >
+                  <h6
+                    class="text-base font-semibold"
+                    set:html={markdownify(impact_metrics.label)}
+                  />
+                  <p
+                    class="text-xs mt-2 mb-6"
+                    set:html={markdownify(impact_metrics.description)}
+                  />
+
+                  <div class="flex">
+                    {impact_metrics.team && (
+                      <div class="flex items-center  -space-x-2">
+                        {impact_metrics.team?.map((image, i) => (
+                          <div
+                            data-aos="fade-right-sm"
+                            data-aos-delay={i * 200 + 100}
+                          >
+                            <ImageMod
+                              width={40}
+                              height={40}
+                              class="w-8 aspect-square rounded-full bg-yellow-300"
+                              src={image}
+                              alt="Badge"
+                              format="webp"
+                              loading={"eager"}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {impact_metrics.counter && (
+                      <p class="h4 font-semibold text-dark ml-auto">
+                        <Counter
+                          client:only="react"
+                          duration={impact_metrics.counter.count_duration}
+                          count={impact_metrics.counter.count}
+                          suffix={impact_metrics.counter.count_suffix}
+                          prefix={impact_metrics.counter.count_prefix}
+                        />
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import { Swiper } from "swiper";
+  import "swiper/css";
+  import { Autoplay } from "swiper/modules";
+
+  document.addEventListener("astro:page-load", () => {
+    new Swiper(".brand-slider", {
+      modules: [Autoplay],
+      spaceBetween: 40,
+      loop: true,
+      centeredSlides: true,
+      speed: 8000,
+      allowTouchMove: false,
+      autoplay: {
+        delay: 0,
+        disableOnInteraction: false,
+      },
+      breakpoints: {
+        0: {
+          slidesPerView: "auto",
+        },
+        1200: {
+          slidesPerView: 3,
+        },
+      },
+    });
+  });
+</script>

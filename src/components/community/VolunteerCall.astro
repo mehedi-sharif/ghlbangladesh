@@ -9,31 +9,50 @@ import { groupUrl } from "../../data/community";
   id="volunteer"
   aria-labelledby="volunteer-call-heading"
 >
-  <div class="wrap">
-    <div class="volunteer-inner reveal">
-      <div class="volunteer-title">
-        <span class="kicker">Become a volunteer</span>
-        <h2 id="volunteer-call-heading">Volunteer with us.</h2>
-      </div>
-      <div class="volunteer-copy">
-        <span class="volunteer-status"
-          ><span class="volunteer-dot" aria-hidden="true"></span>Opening soon</span
+  <div class="wrap volunteer-inner reveal">
+    <div class="volunteer-title">
+      <span class="kicker">Become a volunteer</span>
+      <h2 id="volunteer-call-heading">
+        Volunteer <span class="grad-text">with us.</span>
+      </h2>
+    </div>
+
+    <!-- a slowly turning stamp around a pulsing dot: opportunities are opening soon -->
+    <div class="volunteer-stamp" aria-hidden="true">
+      <svg viewBox="0 0 160 160">
+        <defs>
+          <path
+            id="volunteer-ring"
+            d="M80 80m-62 0a62 62 0 1 1 124 0a62 62 0 1 1-124 0"></path>
+        </defs>
+        <circle class="stamp-line" cx="80" cy="80" r="76"></circle>
+        <text
+          ><textPath
+            href="#volunteer-ring"
+            textLength="386"
+            lengthAdjust="spacing">Opening soon · Volunteer with us ·</textPath
+          ></text
         >
-        <p class="volunteer-lead">
-          We’ll open volunteer opportunities very soon.
-        </p>
-        <p class="volunteer-description">
-          We’ll share the available roles and how to get involved when
-          opportunities open.
-        </p>
-        <div class="volunteer-actions">
-          <Button
-            variant="outline"
-            label="Get community updates"
-            href={groupUrl}
-          />
-          <a class="volunteer-more" href="/volunteers">Volunteers page</a>
-        </div>
+      </svg>
+      <span class="stamp-dot"></span>
+    </div>
+
+    <div class="volunteer-copy">
+      <p class="volunteer-status">Opening soon.</p>
+      <p class="volunteer-lead">
+        We’ll open volunteer opportunities very soon.
+      </p>
+      <p class="volunteer-description">
+        We’ll share the available roles and how to get involved when
+        opportunities open.
+      </p>
+      <div class="volunteer-actions">
+        <Button
+          variant="outline"
+          label="Get community updates"
+          href={groupUrl}
+        />
+        <a class="volunteer-more" href="/volunteers">Volunteers page</a>
       </div>
     </div>
   </div>
@@ -41,56 +60,94 @@ import { groupUrl } from "../../data/community";
 
 <style>
   .volunteer-call {
-    padding: 0 0 clamp(64px, 8vw, 110px);
+    padding: clamp(24px, 4vw, 56px) 0 clamp(72px, 9vw, 120px);
   }
   .volunteer-inner {
     display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: clamp(24px, 6vw, 96px);
-    align-items: start;
-    padding-top: clamp(40px, 5vw, 64px);
-    border-top: 1px solid var(--line);
+    grid-template-columns: minmax(0, 1.05fr) auto minmax(0, 1.15fr);
+    gap: clamp(28px, 4vw, 64px);
+    align-items: center;
   }
   .volunteer-title h2 {
     margin-top: 18px;
-    font-size: clamp(34px, 4.4vw, 60px);
-    line-height: 1.04;
+    font-size: clamp(44px, 6.6vw, 96px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.98;
   }
-  .volunteer-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 14px 6px 10px;
-    border-radius: 999px;
-    background: var(--paper-2);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ink-2);
+  .volunteer-title h2 .grad-text {
+    display: inline-block;
+    padding-bottom: 0.06em;
   }
-  .volunteer-dot {
+
+  /* rotating stamp */
+  .volunteer-stamp {
     position: relative;
-    width: 10px;
-    height: 10px;
+    width: clamp(132px, 12vw, 168px);
+    aspect-ratio: 1;
+  }
+  .volunteer-stamp svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    animation: stamp-turn 24s linear infinite;
+  }
+  .stamp-line {
+    fill: none;
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+  .volunteer-stamp text {
+    fill: var(--ink-2);
+    font-family: var(--body);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  @keyframes stamp-turn {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .stamp-dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 22px;
+    height: 22px;
+    margin: -11px 0 0 -11px;
     border-radius: 50%;
     background: var(--yellow);
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--yellow) 18%, transparent);
   }
-  .volunteer-dot::after {
+  .stamp-dot::after {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    animation: volunteer-pulse 2.4s ease-out infinite;
+    animation: stamp-pulse 2.4s ease-out infinite;
   }
-  @keyframes volunteer-pulse {
+  @keyframes stamp-pulse {
     0% {
-      box-shadow: 0 0 0 0 color-mix(in srgb, var(--yellow) 60%, transparent);
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--yellow) 55%, transparent);
     }
     100% {
-      box-shadow: 0 0 0 10px transparent;
+      box-shadow: 0 0 0 26px transparent;
     }
   }
+
+  /* the stamp says "opening soon" visually; this line says it for screen readers */
+  .volunteer-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
   .volunteer-lead {
-    margin: 18px 0 0;
+    margin: 0;
     font-family: var(--display);
     font-size: clamp(19px, 1.7vw, 23px);
     font-weight: 600;
@@ -118,9 +175,22 @@ import { groupUrl } from "../../data/community";
     text-decoration-thickness: 2px;
     text-underline-offset: 4px;
   }
-  @media (max-width: 760px) {
+  @media (max-width: 1000px) {
     .volunteer-inner {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+    .volunteer-copy {
+      grid-column: 1 / -1;
+    }
+  }
+  /* phones: a smaller stamp sits beside the heading */
+  @media (max-width: 560px) {
+    .volunteer-stamp {
+      width: 92px;
+      align-self: start;
+    }
+    .volunteer-stamp text {
+      font-size: 14px;
     }
   }
 </style>

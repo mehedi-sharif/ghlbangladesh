@@ -34,10 +34,12 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
     /><meta name="robots" content="noindex" /><meta
       name="theme-color"
       content="#030e18"
-    /><meta name="color-scheme" content="dark" /><title>{title}</title><meta
-      name="description"
-      content={description}
-    /><link rel="canonical" href={canonical} /><link
+    /><meta name="color-scheme" content="dark light" /><title>
+      {title}
+    </title><meta name="description" content={description} /><link
+      rel="canonical"
+      href={canonical}
+    /><link
       rel="icon"
       href="/favicon-32x32.png"
       type="image/png"
@@ -73,6 +75,24 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
     /><script is:inline>
       // lets the stylesheet hide reveal-on-scroll content only when scripts run
       document.documentElement.classList.add("js");
+      // Theme before first paint: the visitor's saved choice, else the device setting.
+      (function () {
+        var theme;
+        try {
+          theme = localStorage.getItem("ghl-v3-theme");
+        } catch (e) {}
+        if (theme !== "light" && theme !== "dark")
+          theme = matchMedia("(prefers-color-scheme: light)").matches
+            ? "light"
+            : "dark";
+        document.documentElement.dataset.theme = theme;
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta)
+          meta.setAttribute(
+            "content",
+            theme === "light" ? "#f5f6f1" : "#030e18",
+          );
+      })();
     </script></head
   ><body class="v3">
     <a class="v3-skip" href="#main">Skip to content</a>
@@ -83,16 +103,52 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
           href="#main"
           aria-label="GHL Bangladesh, back to top"
           ><img
+            class="logo-on-dark"
             src="/images/community/chapter-logo.svg"
             width="1430"
             height="266"
             alt="GHL Bangladesh"
             loading="eager"
+          /><img
+            class="logo-on-light"
+            src="/images/community/chapter-logo-dark.svg"
+            width="1430"
+            height="266"
+            alt="GHL Bangladesh"
+            loading="lazy"
           /></a
         >
         <nav class="v3-nav" aria-label="Main navigation">
           {nav.map(([label, href]) => <a href={href}>{label}</a>)}
         </nav>
+        <button
+          class="v3-theme"
+          type="button"
+          aria-label="Switch to light theme"
+          ><svg
+            class="i-sun"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            aria-hidden="true"
+            ><circle cx="12" cy="12" r="4.2"></circle><path
+              d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"
+            ></path></svg
+          ><svg
+            class="i-moon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"
+            ></path></svg
+          ></button
+        >
         <Pill
           class="v3-header-join"
           size="sm"
@@ -142,6 +198,37 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
       const toggle =
         document.querySelector<HTMLButtonElement>(".v3-menu-toggle");
       const menu = document.querySelector<HTMLElement>("#v3-mobile-nav");
+
+      // Light / dark switch. The choice is remembered on this device.
+      const root = document.documentElement;
+      const themeButton =
+        document.querySelector<HTMLButtonElement>(".v3-theme");
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      const labelTheme = () => {
+        const light = root.dataset.theme === "light";
+        themeButton?.setAttribute(
+          "aria-label",
+          light ? "Switch to dark theme" : "Switch to light theme",
+        );
+      };
+      themeButton?.addEventListener("click", () => {
+        const next = root.dataset.theme === "light" ? "dark" : "light";
+        // a short cross-fade, skipped for reduced motion
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          root.classList.add("theme-fade");
+          window.setTimeout(() => root.classList.remove("theme-fade"), 400);
+        }
+        root.dataset.theme = next;
+        themeMeta?.setAttribute(
+          "content",
+          next === "light" ? "#f5f6f1" : "#030e18",
+        );
+        try {
+          localStorage.setItem("ghl-v3-theme", next);
+        } catch {}
+        labelTheme();
+      });
+      labelTheme();
 
       // Header gets a hairline and a frosted background once the page moves.
       const paint = () =>
@@ -224,7 +311,8 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
 
   /* Home v3 tokens: a navy-black base, the brand navy as the raised surface,
      the three logo arrow colours and the Bangladesh flag as accents. */
-  .v3 {
+  .v3,
+  .v3-dark {
     --bg: #030e18;
     --surface: #061d30;
     --surface-2: #0a2740;
@@ -234,6 +322,20 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
     --text: #f1f5f8;
     --text-2: #a9b9c7;
     --text-3: #71859a;
+    --line-3: rgba(196, 226, 255, 0.32);
+    --tint-1: rgba(255, 255, 255, 0.03);
+    --tint-2: rgba(255, 255, 255, 0.05);
+    --tint-3: rgba(255, 255, 255, 0.09);
+    --dot: rgba(196, 226, 255, 0.08);
+    --strip-bg: rgba(6, 29, 48, 0.45);
+    --glass-card: rgba(6, 29, 48, 0.9);
+    --header-bg: rgba(3, 14, 24, 0.82);
+    --shadow: rgba(0, 0, 0, 0.85);
+    --solid-hover: #ffffff;
+    --solid-glow: rgba(255, 255, 255, 0.45);
+    /* how much of an accent colour is kept when it is used as text */
+    --ink-mix: 100%;
+    color: var(--text);
     --yellow: #f8d325;
     --blue: #20a9ed;
     --green: #0bce55;
@@ -247,11 +349,56 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
     --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
     --header: 68px;
   }
+  /* Light theme: the warm paper of Home v1, white cards and navy text */
+  :root[data-theme="light"] .v3 {
+    --bg: #f5f6f1;
+    --surface: #ffffff;
+    --surface-2: #eef1ec;
+    --surface-3: #e2e8e3;
+    --line: rgba(6, 29, 48, 0.1);
+    --line-2: rgba(6, 29, 48, 0.17);
+    --line-3: rgba(6, 29, 48, 0.3);
+    --text: #061d30;
+    --text-2: #3e5162;
+    --text-3: #6d7f8c;
+    --tint-1: rgba(6, 29, 48, 0.025);
+    --tint-2: rgba(6, 29, 48, 0.045);
+    --tint-3: rgba(6, 29, 48, 0.08);
+    --dot: rgba(6, 29, 48, 0.09);
+    --strip-bg: rgba(6, 29, 48, 0.035);
+    --glass-card: rgba(255, 255, 255, 0.92);
+    --header-bg: rgba(245, 246, 241, 0.85);
+    --shadow: rgba(6, 29, 48, 0.22);
+    --solid-hover: #0a2740;
+    --solid-glow: rgba(6, 29, 48, 0.35);
+    --ink-mix: 55%;
+  }
+  .v3 .logo-on-light {
+    display: none;
+  }
+  :root[data-theme="light"] .v3 .logo-on-light {
+    display: block;
+  }
+  :root[data-theme="light"] .v3 .logo-on-dark {
+    display: none;
+  }
   html:has(> body.v3) {
     color-scheme: dark;
     scroll-behavior: smooth;
     scroll-padding-top: calc(var(--header, 68px) + 16px);
     background: #030e18;
+  }
+  html[data-theme="light"]:has(> body.v3) {
+    color-scheme: light;
+    background: #f5f6f1;
+  }
+  html.theme-fade .v3,
+  html.theme-fade .v3 * {
+    transition:
+      background-color 0.35s,
+      color 0.35s,
+      border-color 0.35s,
+      fill 0.35s !important;
   }
   @media (prefers-reduced-motion: reduce) {
     html:has(> body.v3) {
@@ -370,7 +517,7 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
     padding: 3px 10px;
     border: 1px solid var(--line);
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--tint-1);
     color: var(--text-2);
     font-size: 12px;
     font-weight: 600;
@@ -445,7 +592,7 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
   .v3-header.scrolled,
   .v3-header.menu-open {
     border-bottom-color: var(--line);
-    background: rgba(3, 14, 24, 0.82);
+    background: var(--header-bg);
     -webkit-backdrop-filter: blur(14px) saturate(1.3);
     backdrop-filter: blur(14px) saturate(1.3);
   }
@@ -482,7 +629,45 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
   }
   .v3-nav a:hover {
     color: var(--text);
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--tint-2);
+  }
+  .v3-theme {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line-2);
+    border-radius: 12px;
+    background: var(--tint-1);
+    color: var(--text-2);
+    cursor: pointer;
+    transition:
+      color 0.2s,
+      background-color 0.2s,
+      border-color 0.2s;
+  }
+  .v3-theme:hover {
+    border-color: var(--line-3);
+    background: var(--tint-2);
+    color: var(--text);
+  }
+  .v3-theme svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.5s var(--ease);
+  }
+  .v3-theme:hover svg {
+    transform: rotate(20deg);
+  }
+  /* show the theme you switch to: a sun in dark mode, a moon in light mode */
+  .v3-theme .i-moon,
+  :root[data-theme="light"] .v3-theme .i-sun {
+    display: none;
+  }
+  :root[data-theme="light"] .v3-theme .i-moon {
+    display: block;
   }
   .v3-menu-toggle {
     display: none;
@@ -495,17 +680,22 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
     .v3-header-join {
       display: none !important;
     }
+    .v3-theme {
+      width: 44px;
+      height: 44px;
+      margin-left: auto;
+    }
     .v3-menu-toggle {
       display: grid;
       place-content: center;
       gap: 6px;
       width: 44px;
       height: 44px;
-      margin-left: auto;
+      margin-left: -14px;
       padding: 0;
       border: 1px solid var(--line-2);
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.04);
+      background: var(--tint-2);
       cursor: pointer;
     }
     .v3-menu-toggle span {

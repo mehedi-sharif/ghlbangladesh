@@ -194,7 +194,7 @@ const benefits = [
     padding: 4px;
     border: 1px solid var(--line);
     border-radius: 16px;
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--tint-1);
   }
   [role="tab"] {
     display: inline-flex;
@@ -269,7 +269,8 @@ const benefits = [
     min-height: 100%;
   }
   .panel-eyebrow {
-    color: var(--c);
+    /* darker on the light theme so yellow stays readable */
+    color: color-mix(in srgb, var(--c) var(--ink-mix), var(--text));
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.02em;
@@ -296,7 +297,7 @@ const benefits = [
     padding-top: 40px;
   }
   .rise {
-    fill: rgba(255, 255, 255, 0.07);
+    fill: var(--tint-3);
   }
   /* each arrow keeps its own logo colour: yellow, blue, green */
   .rise.on {
@@ -323,6 +324,7 @@ const benefits = [
     padding: 6px 12px;
     border-radius: 10px;
     background: rgba(3, 14, 24, 0.72);
+    color: #f1f5f8;
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     color: var(--text);

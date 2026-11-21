@@ -117,8 +117,8 @@ const external = href ? /^https?:\/\//.test(href) : false;
     color: var(--bg);
   }
   .pill-solid:hover {
-    background: #fff;
-    box-shadow: 0 8px 28px -10px rgba(255, 255, 255, 0.45);
+    background: var(--solid-hover);
+    box-shadow: 0 8px 28px -10px var(--solid-glow);
   }
   .pill-green {
     background: var(--green);
@@ -130,12 +130,12 @@ const external = href ? /^https?:\/\//.test(href) : false;
   }
   .pill-dark {
     border-color: var(--line-2);
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--tint-2);
     color: var(--text);
   }
   .pill-dark:hover {
-    border-color: rgba(196, 226, 255, 0.32);
-    background: rgba(255, 255, 255, 0.09);
+    border-color: var(--line-3);
+    background: var(--tint-3);
   }
   .pill:active {
     transform: scale(0.98);

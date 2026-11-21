@@ -157,12 +157,8 @@ const you = place(292);
     border: 1px solid var(--line-2);
     border-radius: calc(var(--radius) + 8px);
     background:
-      radial-gradient(
-          circle at 1px 1px,
-          rgba(196, 226, 255, 0.07) 1px,
-          transparent 1.5px
-        )
-        0 0 / 22px 22px,
+      radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 1.5px) 0
+        0 / 22px 22px,
       var(--surface);
     text-align: center;
   }
@@ -171,7 +167,7 @@ const you = place(292);
   .ring {
     position: absolute;
     inset: 9% 6%;
-    border: 1.5px dashed rgba(196, 226, 255, 0.14);
+    border: 1.5px dashed var(--line-2);
     border-radius: 50%;
     pointer-events: none;
   }
@@ -193,7 +189,7 @@ const you = place(292);
     box-shadow:
       0 0 0 3px var(--surface),
       0 0 0 5px var(--c),
-      0 18px 40px -16px rgba(0, 0, 0, 0.9);
+      0 18px 40px -16px var(--shadow);
     animation: bob 6s ease-in-out var(--d) infinite;
   }
   /* crop each photo to one face: scale it up and centre the face */

@@ -135,7 +135,7 @@ const labels: Record<string, string> = {
     border: 1px solid rgba(248, 211, 37, 0.35);
     border-radius: 999px;
     background: rgba(248, 211, 37, 0.08);
-    color: var(--yellow);
+    color: color-mix(in srgb, var(--yellow) var(--ink-mix), var(--text));
     font-size: 13px;
     font-weight: 700;
   }
@@ -216,7 +216,7 @@ const labels: Record<string, string> = {
     transition: background-color 0.2s;
   }
   .resource-list a:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--tint-2);
   }
   .resource-number {
     color: var(--text-3);

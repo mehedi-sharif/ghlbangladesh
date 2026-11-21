@@ -204,12 +204,8 @@ import { groupUrl, albumUrl } from "../../../data/community";
   .post-next {
     position: relative;
     background:
-      radial-gradient(
-          circle at 1px 1px,
-          rgba(196, 226, 255, 0.09) 1px,
-          transparent 1.5px
-        )
-        0 0 / 18px 18px,
+      radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 1.5px) 0
+        0 / 18px 18px,
       var(--surface);
   }
   .post-next :global(.calendar) {

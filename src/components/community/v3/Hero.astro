@@ -36,7 +36,15 @@ import HeroScene from "./HeroScene.astro";
         <div class="hero-frame-bar">
           <span class="hero-frame-title"
             ><img
+              class="logo-on-dark"
               src="/images/community/chapter-logo.svg"
+              width="1430"
+              height="266"
+              alt=""
+              aria-hidden="true"
+            /><img
+              class="logo-on-light"
+              src="/images/community/chapter-logo-dark.svg"
               width="1430"
               height="266"
               alt=""
@@ -162,7 +170,7 @@ import HeroScene from "./HeroScene.astro";
     padding: 6px 14px 6px 6px;
     border: 1px solid var(--line);
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--tint-1);
     color: var(--text-2);
     font-size: 13px;
     font-weight: 600;
@@ -219,7 +227,7 @@ import HeroScene from "./HeroScene.astro";
     border-radius: calc(var(--radius) + 6px);
     background: linear-gradient(180deg, var(--surface-2), var(--surface));
     box-shadow:
-      0 40px 80px -40px rgba(0, 0, 0, 0.8),
+      0 40px 80px -40px var(--shadow),
       inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
   .hero-frame-bar {
@@ -241,12 +249,12 @@ import HeroScene from "./HeroScene.astro";
     padding: 0;
     border: 1px solid var(--line-2);
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--tint-2);
     cursor: pointer;
     transition: background-color 0.2s;
   }
   .hero-play:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--tint-3);
   }
   .hero-play svg {
     width: 14px;
@@ -288,16 +296,16 @@ import HeroScene from "./HeroScene.astro";
     padding: 12px 18px 12px 12px;
     border: 1px solid var(--line-2);
     border-radius: 18px;
-    background: rgba(6, 29, 48, 0.9);
+    background: var(--glass-card);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
-    box-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 24px 50px -24px var(--shadow);
     transition:
       transform 0.3s var(--ease),
       border-color 0.3s;
   }
   .hero-post:hover {
-    border-color: rgba(196, 226, 255, 0.34);
+    border-color: var(--line-3);
     transform: translateY(-3px);
   }
   .hero-post-badge {

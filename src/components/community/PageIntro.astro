@@ -1,0 +1,65 @@
+---
+// Opening band of an inner page: navy like the homepage hero, joined to the
+// header, with a small label, the page title and a short introduction.
+interface Props {
+  kicker: string;
+  title: string;
+  // last words of the title, shown with the gradient
+  accent?: string;
+  lead?: string;
+}
+const { kicker, title, accent, lead } = Astro.props;
+---
+
+<section class="page-intro on-dark" aria-labelledby="page-intro-title">
+  <div class="wrap page-intro-inner">
+    <span class="kicker">{kicker}</span>
+    <h1 id="page-intro-title">
+      {title}
+      {accent && <span class="grad-text">{accent}</span>}
+    </h1>
+    {lead && <p>{lead}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-intro {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(170deg, var(--navy) 30%, #0c2c4a 100%);
+    color: var(--on-dark);
+  }
+  /* thin band of the logo colours where the navy ends */
+  .page-intro::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 4px;
+    background: var(--grad);
+  }
+  .page-intro-inner {
+    padding-top: clamp(48px, 7vw, 104px);
+    padding-bottom: clamp(56px, 7vw, 104px);
+  }
+  .page-intro h1 {
+    margin-top: 18px;
+    max-width: 14ch;
+    font-family: var(--display);
+    font-size: clamp(40px, 5.4vw, 80px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1;
+  }
+  .page-intro h1 .grad-text {
+    display: inline-block;
+    padding-bottom: 0.06em;
+  }
+  .page-intro p {
+    margin: 22px 0 0;
+    max-width: 560px;
+    color: var(--on-dark-2);
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.6;
+  }
+</style>

@@ -1,22 +1,51 @@
 ---
 import Layout from "../layouts/CommunityLayout.astro";
+import PageIntro from "../components/community/PageIntro.astro";
 import Resources from "../components/community/Resources.astro";
 import Join from "../components/community/Join.astro";
 ---
 
-<Layout title="HighLevel Resources — GHL Bangladesh"
-  ><section class="page-hero wrap">
-    <span class="eyebrow">Keep learning</span><h1>
-      A few good<br />places to start.
-    </h1><p>Useful HighLevel resources. All in one place.</p>
-  </section><section
-    class="wrap section resource-section"
-    style="padding-top:0"
-  >
-    <div>
-      <h2>HighLevel resources</h2><p>
-        Help Center, platform information, certification, and product updates.
-      </p>
-    </div><Resources />
-  </section><Join /></Layout
->
+<Layout title="HighLevel Resources — GHL Bangladesh">
+  <PageIntro
+    kicker="Keep learning"
+    title="A few good"
+    accent="places to start."
+    lead="Useful HighLevel resources. All in one place."
+  />
+  <section class="resources-body" aria-labelledby="resources-heading">
+    <div class="wrap">
+      <div class="resources-head reveal">
+        <h2 id="resources-heading">HighLevel resources</h2>
+        <p>
+          Help Center, platform information, certification, and product updates.
+        </p>
+      </div>
+      <Resources />
+    </div>
+  </section>
+  <Join />
+</Layout>
+
+<style>
+  .resources-body {
+    padding: clamp(56px, 7vw, 96px) 0 clamp(64px, 8vw, 110px);
+  }
+  .resources-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px 40px;
+    margin-bottom: clamp(28px, 3.5vw, 44px);
+  }
+  .resources-head h2 {
+    font-family: var(--display);
+    font-size: clamp(30px, 3.4vw, 46px);
+    line-height: 1.05;
+  }
+  .resources-head p {
+    margin: 0;
+    max-width: 420px;
+    color: var(--ink-2);
+  }
+</style>

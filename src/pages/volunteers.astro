@@ -1,6 +1,9 @@
 ---
 import Layout from "../layouts/CommunityLayout.astro";
-import Arrow from "../components/community/Arrow.astro";
+import PageIntro from "../components/community/PageIntro.astro";
+import BangladeshMap from "../components/community/BangladeshMap.astro";
+import Button from "../components/community/Button.astro";
+import Join from "../components/community/Join.astro";
 import { groupUrl } from "../data/community";
 ---
 
@@ -8,113 +11,103 @@ import { groupUrl } from "../data/community";
   title="Volunteers — GHL Bangladesh"
   description="Volunteer opportunities for GHL Bangladesh are coming soon. Follow the community for roles and details on how to get involved."
 >
-  <section class="volunteer-page" aria-labelledby="volunteer-heading">
+  <PageIntro
+    kicker="GHL Bangladesh"
+    title="Volunteer"
+    accent="with us."
+    lead="We’ll open volunteer opportunities very soon."
+  />
+  <section class="volunteer-page" aria-label="How to get involved">
     <div class="wrap volunteer-inner">
-      <span class="volunteer-label">GHL Bangladesh</span>
-      <h1 id="volunteer-heading">Volunteer with us.</h1>
-      <p class="volunteer-lead">
-        We’ll open volunteer opportunities very soon.
-      </p>
-      <p class="volunteer-description">
-        We’ll share the available roles and how to get involved when
-        opportunities open.
-      </p>
-      <a
-        class="volunteer-updates"
-        href={groupUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Get community updates <Arrow />
-      </a>
+      <div class="volunteer-copy reveal">
+        <span class="volunteer-status"
+          ><span class="volunteer-dot" aria-hidden="true"></span>Opening soon</span
+        >
+        <p class="volunteer-description">
+          We’ll share the available roles and how to get involved when
+          opportunities open.
+        </p>
+        <div class="volunteer-actions">
+          <Button label="Get community updates" href={groupUrl} />
+        </div>
+      </div>
+      <div class="volunteer-map reveal">
+        <BangladeshMap />
+      </div>
     </div>
   </section>
+  <Join />
 </Layout>
 
 <style>
   .volunteer-page {
-    background: #f6f8f1;
-    color: #193f33;
-    font-family: var(--body);
+    padding: clamp(56px, 7vw, 96px) 0 clamp(64px, 8vw, 110px);
   }
   .volunteer-inner {
-    padding-block: 100px 110px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: center;
   }
-  .volunteer-label {
-    display: block;
-    margin-bottom: 22px;
-    color: #64745f;
-    font: 600 10px/1.5 var(--body);
-    letter-spacing: 0.08em;
-    text-transform: none;
-  }
-  .volunteer-inner h1 {
-    max-width: 700px;
-    margin: 0;
-    font-family: var(--body);
-    font-size: clamp(38px, 4.5vw, 56px);
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.025em;
-  }
-  .volunteer-lead {
-    max-width: 620px;
-    margin-top: 28px;
-    color: #315344;
-    font-size: 23px;
-    line-height: 1.5;
-    letter-spacing: normal;
-  }
-  .volunteer-description {
-    max-width: 520px;
-    margin-top: 16px;
-    color: #687568;
-    font-size: 17px;
-    line-height: 1.75;
-  }
-  .volunteer-updates {
+  .volunteer-status {
     display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 30px;
-    min-height: 44px;
-    margin-top: 28px;
-    padding-block: 6px 8px;
-    border-bottom: 1px solid currentColor;
-    color: #193f33;
-    font-size: 16px;
+    gap: 10px;
+    padding: 6px 14px 6px 10px;
+    border-radius: 999px;
+    background: var(--paper-2);
+    font-size: 13px;
     font-weight: 600;
-    line-height: 1.4;
+    color: var(--ink-2);
   }
-  .volunteer-updates :global(.arrow-icon) {
-    width: 22px;
-    height: 22px;
-    flex-shrink: 0;
-    stroke-width: 1.2;
+  .volunteer-dot {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--yellow);
   }
-  .volunteer-updates:hover {
-    color: #52714b;
+  .volunteer-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    animation: volunteer-pulse 2.4s ease-out infinite;
   }
-  .volunteer-updates:focus-visible {
-    outline: 2px solid #315344;
-    outline-offset: 6px;
+  @keyframes volunteer-pulse {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--yellow) 60%, transparent);
+    }
+    100% {
+      box-shadow: 0 0 0 10px transparent;
+    }
+  }
+  /* the page's main message, set large */
+  .volunteer-description {
+    margin: 22px 0 0;
+    max-width: 520px;
+    font-family: var(--display);
+    font-size: clamp(22px, 2.2vw, 30px);
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .volunteer-actions {
+    margin-top: 28px;
+  }
+  .volunteer-map {
+    justify-self: center;
+    width: 100%;
+    max-width: 440px;
   }
   @media (max-width: 760px) {
     .volunteer-inner {
-      padding-block: 60px 70px;
+      grid-template-columns: 1fr;
     }
-    .volunteer-label {
-      margin-bottom: 18px;
-    }
-    .volunteer-inner h1 {
-      font-size: clamp(36px, 8.5vw, 46px);
-    }
-    .volunteer-lead {
-      margin-top: 24px;
-      font-size: 21px;
-    }
-    .volunteer-description {
-      font-size: 16px;
+    .volunteer-map {
+      max-width: 260px;
+      justify-self: start;
     }
   }
 </style>

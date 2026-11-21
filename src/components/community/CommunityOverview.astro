@@ -146,17 +146,17 @@
   }
   .overview-benefit:nth-child(1) {
     --accent: var(--yellow);
-    --accent-ink: #b08f00;
+    --accent-ink: #8a6d00;
     --h: clamp(64px, 7vw, 104px);
   }
   .overview-benefit:nth-child(2) {
     --accent: var(--blue);
-    --accent-ink: var(--blue);
+    --accent-ink: #1279b0;
     --h: clamp(104px, 11.5vw, 170px);
   }
   .overview-benefit:nth-child(3) {
     --accent: var(--green);
-    --accent-ink: #07a944;
+    --accent-ink: #06873a;
     --h: clamp(144px, 16vw, 236px);
   }
   :global(.js) .overview-benefits .rise {
@@ -177,13 +177,14 @@
     .rise {
     transition-delay: 0.3s;
   }
-  @media (prefers-color-scheme: dark) {
-    :global(.home) .overview-benefit:nth-child(1) {
-      --accent-ink: var(--yellow);
-    }
-    :global(.home) .overview-benefit:nth-child(3) {
-      --accent-ink: var(--green);
-    }
+  :global(:root[data-theme="dark"]) .overview-benefit:nth-child(1) {
+    --accent-ink: var(--yellow);
+  }
+  :global(:root[data-theme="dark"]) .overview-benefit:nth-child(2) {
+    --accent-ink: var(--blue);
+  }
+  :global(:root[data-theme="dark"]) .overview-benefit:nth-child(3) {
+    --accent-ink: var(--green);
   }
   @media (max-width: 960px) {
     .overview-intro {

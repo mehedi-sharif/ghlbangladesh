@@ -39,11 +39,7 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
       href="/favicon-32x32.png"
       type="image/png"
       sizes="32x32"
-    /><link
-      rel="icon"
-      href="/favicon.svg"
-      type="image/svg+xml"
-    /><link
+    /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link
       rel="apple-touch-icon"
       href="/apple-touch-icon.png"
       sizes="180x180"
@@ -72,8 +68,22 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
       type="font/woff2"
       crossorigin
     /><script is:inline>
-      // lets the stylesheet hide reveal-on-scroll content only when scripts run
-      document.documentElement.classList.add("js");
+      // Before the first paint: mark that scripts run (for the scroll reveal) and
+      // pick the theme: the visitor's saved choice, otherwise the device setting.
+      (function () {
+        var root = document.documentElement;
+        var theme = null;
+        try {
+          theme = localStorage.getItem("theme");
+        } catch (e) {}
+        if (theme !== "light" && theme !== "dark") {
+          theme = matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        root.dataset.theme = theme;
+        root.classList.add("js");
+      })();
     </script></head
   ><body class={home ? "home" : "inner-page"}>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -82,18 +92,53 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
       <div class="wrap header-inner">
         <Logo /><nav class="desktop-nav" aria-label="Main navigation">
           {nav.map(([label, href]) => <a href={href}>{label}</a>)}
-        </nav><Button
-          class="header-join"
-          size="sm"
-          label="Join the community"
-          href={groupUrl}
-        /><button
-          class="menu-toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="mobile-nav"
-          aria-label="Open navigation"><span></span><span></span></button
-        >
+        </nav><div class="header-actions">
+          <button
+            class="theme-toggle"
+            type="button"
+            aria-label="Switch to dark mode"
+            title="Switch to dark mode"
+          >
+            <svg
+              class="icon-moon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              ><path
+                d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.8 6.8 0 0 0 10.7 10.7Z"
+              ></path></svg
+            >
+            <svg
+              class="icon-sun"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              aria-hidden="true"
+              ><circle cx="12" cy="12" r="4.2"></circle><path
+                d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"
+              ></path></svg
+            >
+          </button>
+          <Button
+            class="header-join"
+            size="sm"
+            label="Join the community"
+            href={groupUrl}
+          />
+          <button
+            class="menu-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="mobile-nav"
+            aria-label="Open navigation"><span></span><span></span></button
+          >
+        </div>
       </div><nav
         id="mobile-nav"
         class="mobile-nav"
@@ -193,6 +238,41 @@ const socialImageAlt = "GHL Bangladesh — HighLevel community in Bangladesh";
         );
         targets.forEach((el) => observer.observe(el));
       } else targets.forEach((el) => el.classList.add("in"));
+
+      // Light / dark switch. The choice is saved; until then the site follows the
+      // device setting, also when that changes.
+      const themeToggle =
+        document.querySelector<HTMLButtonElement>(".theme-toggle");
+      const darkQuery = matchMedia("(prefers-color-scheme: dark)");
+      const savedTheme = () => {
+        try {
+          return localStorage.getItem("theme");
+        } catch (e) {
+          return null;
+        }
+      };
+      const labelToggle = () => {
+        const label =
+          root.dataset.theme === "dark"
+            ? "Switch to light mode"
+            : "Switch to dark mode";
+        themeToggle?.setAttribute("aria-label", label);
+        themeToggle?.setAttribute("title", label);
+      };
+      themeToggle?.addEventListener("click", () => {
+        const next = root.dataset.theme === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        try {
+          localStorage.setItem("theme", next);
+        } catch (e) {}
+        labelToggle();
+      });
+      darkQuery.addEventListener("change", (e) => {
+        if (savedTheme()) return;
+        root.dataset.theme = e.matches ? "dark" : "light";
+        labelToggle();
+      });
+      labelToggle();
 
       paint();
     </script></body

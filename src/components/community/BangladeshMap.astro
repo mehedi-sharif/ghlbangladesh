@@ -1,0 +1,104 @@
+---
+interface Props {
+  // id for the dot pattern; give each map on a page its own
+  patternId?: string;
+}
+const { patternId = "bd-map-dots" } = Astro.props;
+
+// The GHL Bangladesh emblem: the map of Bangladesh (drawn here as a dot grid)
+// with the three rising logo arrows. Shapes are taken from chapter-logo.svg.
+const map =
+  "M48.0 28.0 L50.0 39.0 L40.0 50.0 L39.0 55.0 L55.0 72.0 L66.0 73.0 L68.0 75.0 L68.0 79.0 L65.0 82.0 L52.0 82.0 L47.0 90.0 L43.0 90.0 L40.0 93.0 L34.0 106.0 L59.0 123.0 L61.0 126.0 L58.0 137.0 L54.0 143.0 L54.0 147.0 L61.0 149.0 L64.0 152.0 L70.0 178.0 L70.0 220.0 L79.0 220.0 L90.0 209.0 L93.0 210.0 L99.0 222.0 L107.0 220.0 L111.0 209.0 L113.0 209.0 L120.0 217.0 L131.0 215.0 L137.0 202.0 L139.0 200.0 L144.0 200.0 L153.0 188.0 L158.0 185.0 L164.0 191.0 L182.0 244.0 L188.0 244.0 L189.0 227.0 L191.0 225.0 L204.0 226.0 L207.0 223.0 L205.0 208.0 L203.0 204.0 L199.0 167.0 L194.0 162.0 L191.0 140.0 L179.0 139.0 L168.0 157.0 L165.0 157.0 L158.0 152.0 L158.0 177.0 L155.0 180.0 L142.0 180.0 L139.0 176.0 L139.0 144.0 L125.0 146.0 L124.0 179.0 L109.0 180.0 L106.0 176.0 L106.0 146.0 L94.0 144.0 L93.0 141.0 L113.0 120.0 L118.0 120.0 L137.0 139.0 L139.0 139.0 L139.0 112.0 L127.0 111.0 L126.0 108.0 L147.0 87.0 L153.0 88.0 L172.0 107.0 L170.0 111.0 L158.0 112.0 L159.0 129.0 L165.0 128.0 L169.0 122.0 L184.0 121.0 L190.0 105.0 L192.0 103.0 L201.0 102.0 L200.0 88.0 L180.0 76.0 L114.0 76.0 L111.0 74.0 L111.0 66.0 L109.0 64.0 L109.0 60.0 L113.0 55.0 L113.0 52.0 L103.0 37.0 L97.0 36.0 L92.0 42.0 L88.0 42.0 L82.0 33.0 L70.0 34.0 L58.0 26.0 Z";
+const arrows = [
+  {
+    d: "M62.0 91.0 L85.0 67.0 L111.0 91.0 L98.0 91.0 L98.0 179.0 L77.0 179.0 L77.0 91.0 Z",
+    color: "var(--yellow)",
+  },
+  {
+    d: "M95.0 126.0 L118.0 104.0 L143.0 126.0 L130.0 126.0 L130.0 180.0 L109.0 180.0 L109.0 126.0 Z",
+    color: "var(--blue)",
+  },
+  {
+    d: "M123.0 90.0 L147.0 67.0 L174.0 90.0 L159.0 90.0 L159.0 165.0 L138.0 165.0 L138.0 90.0 Z",
+    color: "var(--green)",
+  },
+];
+// soft lights across the map; decorative only
+const lights = [
+  { x: 66, y: 46, color: "var(--green)", delay: 0 },
+  { x: 52, y: 108, color: "var(--blue)", delay: 0.8 },
+  { x: 66, y: 150, color: "var(--yellow)", delay: 1.6 },
+  { x: 100, y: 214, color: "var(--green)", delay: 2.4 },
+  { x: 185, y: 225, color: "var(--blue)", delay: 1.2 },
+  { x: 186, y: 95, color: "var(--yellow)", delay: 2 },
+];
+---
+
+<svg class="bd-map" viewBox="24 16 196 238" aria-hidden="true">
+  <defs>
+    <pattern id={patternId} width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.25"></circle>
+    </pattern>
+  </defs>
+  <path class="map-dots" d={map} style={`fill:url(#${patternId})`}></path>
+  {
+    arrows.map((arrow) => (
+      <path class="map-arrow" d={arrow.d} style={`fill:${arrow.color}`} />
+    ))
+  }
+  {
+    lights.map((light) => (
+      <g class="map-light" style={`--delay:${light.delay}s`}>
+        <circle
+          cx={light.x}
+          cy={light.y}
+          r="7"
+          style={`fill:${light.color}`}
+          class="map-glow"
+        />
+        <circle
+          cx={light.x}
+          cy={light.y}
+          r="2.6"
+          style={`fill:${light.color}`}
+        />
+      </g>
+    ))
+  }
+</svg>
+
+<style>
+  /* dotted map of Bangladesh with the logo arrows */
+  .bd-map {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .bd-map pattern circle {
+    fill: color-mix(in srgb, var(--ink) 38%, transparent);
+  }
+  .map-arrow {
+    stroke: var(--paper);
+    stroke-width: 3;
+    stroke-linejoin: round;
+  }
+  .map-glow {
+    opacity: 0.25;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: map-twinkle 3.2s ease-in-out infinite;
+    animation-delay: var(--delay);
+  }
+  @keyframes map-twinkle {
+    0%,
+    100% {
+      opacity: 0.12;
+      transform: scale(0.7);
+    }
+    50% {
+      opacity: 0.4;
+      transform: scale(1.25);
+    }
+  }
+</style>

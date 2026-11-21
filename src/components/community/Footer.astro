@@ -83,17 +83,15 @@ import { groupUrl } from "../../data/community";
     height: 40px;
     width: auto;
   }
-  /* dark logo on the light footer, light logo when the homepage is in dark mode */
+  /* dark logo on the light theme, light logo on the dark theme */
   .footer-brand .logo-light {
     display: none;
   }
-  @media (prefers-color-scheme: dark) {
-    :global(.home) .footer-brand .logo-dark {
-      display: none;
-    }
-    :global(.home) .footer-brand .logo-light {
-      display: block;
-    }
+  :global(:root[data-theme="dark"]) .footer-brand .logo-dark {
+    display: none;
+  }
+  :global(:root[data-theme="dark"]) .footer-brand .logo-light {
+    display: block;
   }
   .footer-nav {
     display: contents;

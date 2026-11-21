@@ -2,15 +2,17 @@
 import Pill from "./Pill.astro";
 import Spot from "./Spot.astro";
 import { groupUrl } from "../../../data/community";
-// Closing invitation. The three rising arrows of the GHL logo, drawn in 3D,
-// stand behind it and grow into place once the card is on screen.
+// Closing invitation, centred like the section titles. The three rising
+// arrows of the GHL logo, drawn in 3D, grow into place above the heading.
 ---
 
 <section class="v3-section join" id="join" aria-labelledby="join-heading">
   <div class="v3-wrap">
     <div class="join-card v3-reveal">
-      <Spot name="arrows" class="join-arrows" />
-      <span class="v3-kicker">Join the community</span>
+      <div class="join-art">
+        <Spot name="arrows" />
+        <span class="join-floor" aria-hidden="true"></span>
+      </div>
       <h2 id="join-heading">
         Great things start with a <span class="soft">connection.</span>
       </h2>
@@ -29,15 +31,12 @@ import { groupUrl } from "../../../data/community";
     padding-top: 0;
   }
   .join-card {
-    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 28px;
-    min-height: 380px;
-    justify-content: center;
-    padding: clamp(32px, 6vw, 80px);
-    overflow: hidden;
+    padding: clamp(40px, 6vw, 72px) clamp(20px, 5vw, 64px)
+      clamp(48px, 6vw, 80px);
     border: 1px solid var(--line-2);
     border-radius: calc(var(--radius) + 8px);
     background:
@@ -48,27 +47,43 @@ import { groupUrl } from "../../../data/community";
         )
         0 0 / 22px 22px,
       var(--surface);
+    text-align: center;
   }
-  .join-card .v3-kicker {
-    margin-bottom: -8px;
+  /* a fixed, modest size so the arrows support the heading instead of
+     filling the card */
+  .join-art {
+    position: relative;
+    width: clamp(120px, 14vw, 168px);
+  }
+  .join-art :global(.spot) {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+  }
+  /* soft shadow the arrows stand on */
+  .join-floor {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    bottom: -6px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    filter: blur(8px);
   }
   h2 {
-    position: relative;
-    max-width: 14ch;
-    font-size: clamp(36px, 5.4vw, 72px);
+    max-width: 16ch;
+    font-size: clamp(34px, 5vw, 64px);
     font-weight: 800;
-    line-height: 1.02;
+    line-height: 1.04;
     letter-spacing: -0.045em;
+    text-wrap: balance;
   }
   h2 .soft {
     color: var(--text-3);
   }
-  .join-arrows {
-    position: absolute;
-    right: clamp(16px, 5vw, 72px);
-    bottom: 24px;
-    width: clamp(180px, 24vw, 300px);
-  }
+
+  /* the arrows grow in once the card is on screen */
   .join-card :global(.ar) {
     transform-box: fill-box;
     transform-origin: 50% 100%;
@@ -82,15 +97,6 @@ import { groupUrl } from "../../../data/community";
   }
   :global(.js) .join-card:not(.in) :global(.ar) {
     transform: scaleY(0.2);
-  }
-  @media (max-width: 760px) {
-    .join-card {
-      padding-bottom: 180px;
-    }
-    .join-arrows {
-      width: 150px;
-      right: 16px;
-    }
   }
   @media (prefers-reduced-motion: reduce) {
     .join-card :global(.ar) {

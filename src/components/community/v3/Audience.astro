@@ -32,6 +32,8 @@ const audiences = [
   .audience-inner {
     display: flex;
     align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 24px;
     min-height: 88px;
     padding-block: 18px;
@@ -44,6 +46,7 @@ const audiences = [
   }
   .audience-list {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
   }
@@ -77,7 +80,7 @@ const audiences = [
   @media (max-width: 760px) {
     .audience-inner {
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       gap: 14px;
       padding-block: 24px;
     }

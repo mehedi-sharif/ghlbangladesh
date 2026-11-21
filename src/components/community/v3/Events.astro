@@ -109,11 +109,22 @@ import { groupUrl, albumUrl } from "../../../data/community";
 </section>
 
 <style>
+  /* centred section title */
+  .events-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .events-head :global(.v3-h2),
+  .events-head :global(.v3-lead) {
+    margin-inline: auto;
+  }
   .events-grid {
     display: grid;
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     gap: 16px;
-    align-items: start;
+    align-items: stretch;
     margin-top: clamp(40px, 6vw, 64px);
   }
   .post {
@@ -202,9 +213,14 @@ import { groupUrl, albumUrl } from "../../../data/community";
       var(--surface);
   }
   .post-next :global(.calendar) {
-    width: min(240px, 70%);
-    margin: 28px 0 4px;
+    width: min(280px, 75%);
+    /* in the taller row the calendar sits in the spare space above the text */
+    margin: 28px 0 auto;
+    padding-bottom: 24px;
     transition: transform 0.5s var(--ease);
+  }
+  .post-next h3 {
+    margin-top: auto;
   }
   .post-next:hover :global(.calendar) {
     transform: translateY(-4px);

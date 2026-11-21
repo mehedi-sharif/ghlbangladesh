@@ -161,11 +161,18 @@ const benefits = [
 </script>
 
 <style>
+  /* centred section title */
   .benefits-head {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    gap: clamp(24px, 5vw, 80px);
-    align-items: end;
+    justify-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+  .benefits-head :global(.v3-h2) {
+    margin-inline: auto;
+  }
+  .benefits-intro {
+    max-width: 640px;
   }
   .benefits-lead {
     font-size: clamp(19px, 1.9vw, 24px);
@@ -180,6 +187,9 @@ const benefits = [
   }
 
   .benefits-tabs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: clamp(40px, 6vw, 72px);
   }
   /* Without scripts every panel is shown in turn and the tab row is hidden. */
@@ -234,6 +244,7 @@ const benefits = [
   }
 
   .panel {
+    width: 100%;
     display: grid;
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     gap: 8px;
@@ -329,7 +340,6 @@ const benefits = [
   }
 
   @media (max-width: 1000px) {
-    .benefits-head,
     .panel {
       grid-template-columns: 1fr;
     }

@@ -1,7 +1,6 @@
 ---
 import Pill from "./Pill.astro";
 import HeroScene from "./HeroScene.astro";
-import { groupUrl } from "../../../data/community";
 ---
 
 <section class="hero" aria-labelledby="hero-heading">
@@ -19,19 +18,14 @@ import { groupUrl } from "../../../data/community";
         peers, share what works, and take the next step together.
       </p>
       <div class="hero-actions">
-        <Pill block size="lg" label="Join the community" href={groupUrl} />
         <Pill
           block
           size="lg"
-          variant="dark"
           icon="down"
           label="Explore Events"
           href="#events"
         />
       </div>
-      <p class="hero-note">
-        Curious how it started? <a href="#our-story">Read our story</a>
-      </p>
     </div>
     <div class="hero-art"><HeroScene /></div>
   </div>
@@ -202,23 +196,6 @@ import { groupUrl } from "../../../data/community";
     max-width: 400px;
     margin-top: 32px;
   }
-  .hero-note {
-    margin-top: 18px;
-    color: var(--text-3);
-    font-size: 14px;
-  }
-  .hero-note a {
-    color: var(--text-2);
-    font-weight: 600;
-    text-decoration: underline;
-    text-decoration-color: var(--line-2);
-    text-underline-offset: 4px;
-    transition: text-decoration-color 0.2s;
-  }
-  .hero-note a:hover {
-    text-decoration-color: currentColor;
-  }
-
   /* Framed video: the community's own footage in a calm, app-like window */
   .hero-art {
     position: relative;
@@ -379,10 +356,6 @@ import { groupUrl } from "../../../data/community";
     .hero-grid {
       grid-template-columns: 1fr;
     }
-    .hero-actions {
-      max-width: none;
-      grid-template-columns: 1fr 1fr;
-    }
     .hero-art {
       order: -1;
       max-width: 420px;
@@ -394,9 +367,6 @@ import { groupUrl } from "../../../data/community";
     }
   }
   @media (max-width: 560px) {
-    .hero-actions {
-      grid-template-columns: 1fr;
-    }
     .hero-frame {
       padding: 6px;
       border-radius: 22px;

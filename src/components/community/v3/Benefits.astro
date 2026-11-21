@@ -1,0 +1,364 @@
+---
+import Photo from "../Photo.astro";
+import { photos } from "../../../data/community";
+// Learn → connect → grow as tabs. Each step has a logo arrow colour and a
+// photo from the meetup gallery (with its existing alt text and caption).
+const photo = (name: string) => photos.find((p) => p.name === name)!;
+const benefits = [
+  {
+    id: "learn",
+    tab: "Learn",
+    eyebrow: "01 / Learn",
+    title: "Real questions. Practical answers.",
+    text: "Explore real use cases, ask the questions on your mind, and learn from people working with the same tools.",
+    color: "var(--yellow)",
+    photo: photo("dsc08567"),
+  },
+  {
+    id: "connect",
+    tab: "Connect",
+    eyebrow: "02 / Connect",
+    title: "Meet peers. Find your people.",
+    text: "Swap stories with local agency owners, marketers, and builders. Make connections that go beyond a comment thread.",
+    color: "var(--blue)",
+    photo: photo("conversations"),
+  },
+  {
+    id: "grow",
+    tab: "Grow",
+    eyebrow: "03 / Grow",
+    title: "New perspectives. Bigger possibilities.",
+    text: "Build confidence, sharpen your skills, and find fresh approaches to the challenges in your business.",
+    color: "var(--green)",
+    photo: photo("dsc08636"),
+  },
+];
+---
+
+<section
+  class="v3-section benefits"
+  id="community"
+  aria-labelledby="community-heading"
+>
+  <div class="v3-wrap">
+    <div class="benefits-head v3-reveal">
+      <div>
+        <span class="v3-kicker">Community</span>
+        <h2 id="community-heading" class="v3-h2">
+          You don’t have to <span class="soft">figure it out alone.</span>
+        </h2>
+      </div>
+      <div class="benefits-intro">
+        <p class="benefits-lead">
+          The best next step is often a conversation with someone who gets it.
+        </p>
+        <p class="benefits-description">
+          We’re a community of people in Bangladesh building with HighLevel. We
+          come together to exchange ideas, share practical knowledge, and turn
+          online connections into real conversations.
+        </p>
+      </div>
+    </div>
+
+    <div class="benefits-tabs v3-reveal" data-tabs>
+      <div class="tablist" role="tablist" aria-label="Community benefits">
+        {
+          benefits.map((b, index) => (
+            <button
+              type="button"
+              role="tab"
+              id={`tab-${b.id}`}
+              aria-controls={`panel-${b.id}`}
+              aria-selected={index === 0 ? "true" : "false"}
+              tabindex={index === 0 ? 0 : -1}
+              style={`--c:${b.color}`}
+            >
+              <span class="tab-dot" aria-hidden="true" />
+              {b.tab}
+            </button>
+          ))
+        }
+      </div>
+
+      {
+        benefits.map((b, index) => (
+          <article
+            class="panel"
+            role="tabpanel"
+            id={`panel-${b.id}`}
+            aria-labelledby={`tab-${b.id}`}
+            style={`--c:${b.color}`}
+          >
+            <div class="panel-copy">
+              <span class="panel-eyebrow">{b.eyebrow}</span>
+              <h3>{b.title}</h3>
+              <p>{b.text}</p>
+              <svg
+                class="panel-rise"
+                viewBox="0 0 180 120"
+                aria-hidden="true"
+                fill="none"
+              >
+                {[0, 1, 2].map((step) => (
+                  <path
+                    class:list={["rise", { on: step <= index }]}
+                    style={`--rc:${benefits[step].color}`}
+                    d={`M${30 + step * 60} ${84 - step * 30}l20 20h-11v${12 + step * 30}h-18v-${12 + step * 30}h-11z`}
+                  />
+                ))}
+              </svg>
+            </div>
+            <figure class="panel-photo">
+              <Photo
+                name={b.photo.name}
+                alt={b.photo.alt}
+                sizes="(max-width: 1000px) calc(100vw - 32px), 680px"
+              />
+              <figcaption>{b.photo.caption}</figcaption>
+            </figure>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-tabs]").forEach((root) => {
+    const tabs = Array.from(
+      root.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
+    );
+    const panels = Array.from(
+      root.querySelectorAll<HTMLElement>('[role="tabpanel"]'),
+    );
+    root.classList.add("ready");
+    const select = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute("aria-selected", String(on));
+        tab.tabIndex = on ? 0 : -1;
+        panels[i].hidden = !on;
+      });
+      if (focus) tabs[index].focus();
+    };
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => select(index));
+      tab.addEventListener("keydown", (event) => {
+        const last = tabs.length - 1;
+        const moves: Record<string, number> = {
+          ArrowRight: index === last ? 0 : index + 1,
+          ArrowLeft: index === 0 ? last : index - 1,
+          Home: 0,
+          End: last,
+        };
+        if (event.key in moves) {
+          event.preventDefault();
+          select(moves[event.key], true);
+        }
+      });
+    });
+    select(0);
+  });
+</script>
+
+<style>
+  .benefits-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(24px, 5vw, 80px);
+    align-items: end;
+  }
+  .benefits-lead {
+    font-size: clamp(19px, 1.9vw, 24px);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+  }
+  .benefits-description {
+    margin-top: 14px;
+    color: var(--text-2);
+    line-height: 1.7;
+  }
+
+  .benefits-tabs {
+    margin-top: clamp(40px, 6vw, 72px);
+  }
+  /* Without scripts every panel is shown in turn and the tab row is hidden. */
+  .tablist {
+    display: none;
+  }
+  .ready .tablist {
+    display: inline-flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--tint-1);
+  }
+  [role="tab"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 44px;
+    padding: 0 20px 0 16px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--text-2);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+      color 0.2s,
+      background-color 0.2s,
+      border-color 0.2s;
+  }
+  [role="tab"]:hover {
+    color: var(--text);
+  }
+  [role="tab"][aria-selected="true"] {
+    border-color: color-mix(in srgb, var(--c) 40%, transparent);
+    background: color-mix(in srgb, var(--c) 12%, var(--surface));
+    color: var(--text);
+  }
+  .tab-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--c);
+    opacity: 0.45;
+    transition: opacity 0.2s;
+  }
+  [aria-selected="true"] .tab-dot {
+    opacity: 1;
+  }
+
+  .panel {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: calc(var(--radius) + 6px);
+    background: var(--surface);
+  }
+  .panel[hidden] {
+    display: none;
+  }
+  .panel + .panel {
+    margin-top: 16px;
+  }
+  .ready .panel + .panel {
+    margin-top: 0;
+  }
+  .ready .panel:not([hidden]) {
+    animation: panel-in 0.5s var(--ease);
+  }
+  @keyframes panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+  .panel-copy {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(24px, 4vw, 48px);
+    min-height: 100%;
+  }
+  .panel-eyebrow {
+    /* darker on the light theme so yellow stays readable */
+    color: color-mix(in srgb, var(--c) var(--ink-mix), var(--text));
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .panel h3 {
+    margin-top: 16px;
+    font-size: clamp(26px, 2.8vw, 38px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .panel p {
+    max-width: 40ch;
+    margin-top: 16px;
+    color: var(--text-2);
+    font-size: 17px;
+    line-height: 1.7;
+  }
+  .panel-rise {
+    width: 150px;
+    height: auto;
+    margin-top: auto;
+    padding-top: 40px;
+  }
+  .rise {
+    fill: var(--tint-3);
+  }
+  /* each arrow keeps its own logo colour: yellow, blue, green */
+  .rise.on {
+    fill: var(--rc);
+  }
+  .panel-photo {
+    position: relative;
+    overflow: hidden;
+    min-height: 420px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+  }
+  .panel-photo :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .panel-photo figcaption {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    background: rgba(3, 14, 24, 0.72);
+    color: #f1f5f8;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  @media (max-width: 1000px) {
+    .benefits-head,
+    .panel {
+      grid-template-columns: 1fr;
+    }
+    .panel-photo {
+      min-height: 0;
+      aspect-ratio: 3 / 2;
+    }
+    .panel-rise {
+      display: none;
+    }
+  }
+  @media (max-width: 560px) {
+    .ready .tablist {
+      display: flex;
+      width: 100%;
+    }
+    [role="tab"] {
+      flex: 1;
+      justify-content: center;
+      padding: 0 8px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ready .panel:not([hidden]) {
+      animation: none;
+    }
+  }
+</style>

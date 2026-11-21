@@ -1,0 +1,139 @@
+---
+import Photo from "../Photo.astro";
+import Pill from "./Pill.astro";
+// The chapter leader as a profile card: cover photo, name, role and links.
+---
+
+<section class="leader" id="chapter-leader" aria-labelledby="leader-name">
+  <div class="v3-wrap">
+    <article class="profile v3-reveal">
+      <div class="profile-cover">
+        <Photo
+          name="mehedi-portrait"
+          alt="Mehedi Sharif holding a microphone beside the GHL Bangladesh meetup banner"
+          sizes="(max-width: 1000px) calc(100vw - 32px), 640px"
+        />
+      </div>
+      <div class="profile-body">
+        <span class="profile-label"
+          ><span class="v3-flag" aria-hidden="true"></span>HighLevel Bangladesh
+          chapter leader</span
+        >
+        <h2 id="leader-name">Mehedi Sharif</h2>
+        <p class="profile-intro">
+          I’m a HighLevel Certified Admin and the chapter leader for HighLevel
+          Bangladesh.
+        </p>
+        <p class="profile-text">
+          This chapter brings together people in Bangladesh who work with
+          HighLevel. I organise our local meetups so we can put faces to names,
+          ask questions, and share what we’re learning.
+        </p>
+        <div class="profile-actions">
+          <Pill
+            variant="dark"
+            label="Facebook"
+            href="https://www.facebook.com/mehedi.sharif.titas"
+            aria-label="Mehedi Sharif on Facebook (opens in a new tab)"
+          />
+          <Pill
+            variant="dark"
+            label="Website"
+            href="https://mehedisharif.com"
+            aria-label="Mehedi Sharif’s website (opens in a new tab)"
+          />
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<style>
+  .leader {
+    padding-bottom: clamp(72px, 10vw, 136px);
+  }
+  .profile {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: calc(var(--radius) + 8px);
+    background: var(--surface);
+  }
+  .profile-cover {
+    position: relative;
+    min-height: 480px;
+    overflow: hidden;
+    border-radius: calc(var(--radius) + 2px);
+    background: var(--surface-2);
+  }
+  .profile-cover :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* the three logo arrow colours as a thin rule under the photo */
+  .profile-cover::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 4px;
+    background: linear-gradient(
+      90deg,
+      var(--yellow) 0 33.3%,
+      var(--blue) 33.3% 66.6%,
+      var(--green) 66.6% 100%
+    );
+  }
+  .profile-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(24px, 5vw, 64px);
+  }
+  .profile-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-2);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  h2 {
+    margin-top: 20px;
+    font-size: clamp(38px, 5vw, 64px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+  .profile-intro {
+    margin-top: 24px;
+    font-size: clamp(18px, 1.7vw, 21px);
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+  }
+  .profile-text {
+    margin-top: 14px;
+    color: var(--text-2);
+    line-height: 1.75;
+  }
+  .profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 32px;
+  }
+  @media (max-width: 1000px) {
+    .profile {
+      grid-template-columns: 1fr;
+    }
+    .profile-cover {
+      min-height: 0;
+      aspect-ratio: 3 / 2;
+    }
+  }
+</style>

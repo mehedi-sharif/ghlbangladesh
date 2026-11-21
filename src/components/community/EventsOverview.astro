@@ -100,14 +100,14 @@ const year = date.getUTCFullYear();
   }
   .events-head {
     display: grid;
-    grid-template-columns: 1.35fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
     gap: clamp(24px, 6vw, 96px);
     align-items: end;
   }
+  /* same size as the Community heading: 72px on desktop */
   .events-head h2 {
     margin-top: 18px;
-    max-width: 16ch;
-    font-size: clamp(32px, 4vw, 56px);
+    font-size: clamp(38px, 5vw, 72px);
     line-height: 1.04;
   }
   .events-head p {

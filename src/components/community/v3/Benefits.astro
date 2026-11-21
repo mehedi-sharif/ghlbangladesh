@@ -102,6 +102,7 @@ const benefits = [
                 {[0, 1, 2].map((step) => (
                   <path
                     class:list={["rise", { on: step <= index }]}
+                    style={`--rc:${benefits[step].color}`}
                     d={`M${30 + step * 60} ${84 - step * 30}l20 20h-11v${12 + step * 30}h-18v-${12 + step * 30}h-11z`}
                   />
                 ))}
@@ -297,8 +298,9 @@ const benefits = [
   .rise {
     fill: rgba(255, 255, 255, 0.07);
   }
+  /* each arrow keeps its own logo colour: yellow, blue, green */
   .rise.on {
-    fill: var(--c);
+    fill: var(--rc);
   }
   .panel-photo {
     position: relative;

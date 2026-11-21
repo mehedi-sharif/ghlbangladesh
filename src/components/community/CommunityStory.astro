@@ -9,7 +9,7 @@ import Photo from "./Photo.astro";
   aria-labelledby="community-story-heading"
 >
   <div class="wrap story-inner">
-    <div>
+    <div class="story-aside">
       <header class="story-heading reveal">
         <span class="kicker">Our story</span>
         <h2 id="community-story-heading">How we started.</h2>
@@ -121,11 +121,19 @@ import Photo from "./Photo.astro";
   .community-story {
     padding: clamp(80px, 11vw, 150px) 0;
   }
+  /* the story panel gets the wider column; on desktop the heading and photos
+     stay in view beside it while it is read */
   .story-inner {
     display: grid;
-    grid-template-columns: 1fr 1.1fr;
-    gap: clamp(40px, 7vw, 110px);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: clamp(40px, 6vw, 96px);
     align-items: start;
+  }
+  @media (min-width: 901px) {
+    .story-aside {
+      position: sticky;
+      top: 96px;
+    }
   }
   .story-heading h2 {
     font-size: clamp(40px, 6vw, 84px);
@@ -195,8 +203,8 @@ import Photo from "./Photo.astro";
   .story-copy {
     position: relative;
     overflow: hidden;
-    padding: clamp(28px, 4vw, 56px) clamp(28px, 4vw, 56px)
-      clamp(28px, 4vw, 48px) clamp(32px, 4.5vw, 64px);
+    padding: clamp(28px, 3.5vw, 48px) clamp(28px, 3.5vw, 52px)
+      clamp(24px, 3vw, 40px) clamp(32px, 4vw, 56px);
     border-radius: calc(var(--radius) + 8px);
     background: var(--card);
     border: 1px solid var(--line);
@@ -209,7 +217,7 @@ import Photo from "./Photo.astro";
     top: clamp(8px, 1.4vw, 20px);
     left: clamp(26px, 4vw, 56px);
     font-family: var(--display);
-    font-size: 150px;
+    font-size: 120px;
     line-height: 1;
     font-weight: 800;
     opacity: 0.9;
@@ -248,12 +256,12 @@ import Photo from "./Photo.astro";
   }
   .story-copy p:first-of-type {
     font-family: var(--display);
-    font-size: clamp(21px, 2vw, 26px);
+    font-size: clamp(20px, 1.75vw, 24px);
     font-weight: 500;
     line-height: 1.42;
     letter-spacing: -0.01em;
     color: var(--ink);
-    padding-top: 64px;
+    padding-top: 52px;
   }
   .story-copy p a {
     color: var(--ink);

@@ -153,3 +153,49 @@ export const nextEvent = {
   summary:
     "Details of the next Bangladesh chapter meetup will be shared here once confirmed.",
 };
+// Volunteers page: roles volunteers commonly take on at community meetups
+// (based on public volunteer pages such as WordCamp's). They are examples,
+// not confirmed GHL Bangladesh roles; replace them once roles are announced.
+export const volunteerRoles = [
+  {
+    title: "Welcome & check-in",
+    description:
+      "Greet people at the door, help with check-in and point the way.",
+    when: "On the day",
+    icon: "M4 6h16v12H4zM8 10.5h8M8 14h5",
+  },
+  {
+    title: "Setup & logistics",
+    description:
+      "Arrange chairs, signs and screens before the start, and tidy up after.",
+    when: "On the day",
+    icon: "M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z",
+  },
+  {
+    title: "Photos & video",
+    description:
+      "Capture the talks and the conversations around them. A phone camera is often enough.",
+    when: "On the day",
+    icon: "M4 8h3.5l2-2.5h5l2 2.5H20v11H4zM12 16.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z",
+  },
+  {
+    title: "Social media",
+    description:
+      "Share live updates and photos, and help put the recap together afterwards.",
+    when: "During & after",
+    icon: "M4 5h16v11H9.5L5 19.5V16H4z",
+  },
+  {
+    title: "Session support",
+    description: "Help speakers with microphones, slides and timing.",
+    when: "On the day",
+    icon: "M12 3.5a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0v-5a3 3 0 0 0-3-3ZM6.5 11.5a5.5 5.5 0 0 0 11 0M12 17v3.5",
+  },
+  {
+    title: "Content & design",
+    description:
+      "Write announcements and make simple graphics for upcoming meetups.",
+    when: "Before meetups",
+    icon: "M5 19l3.5-.8L19 7.7 16.3 5 5.8 15.5zM14.5 6.8l2.7 2.7",
+  },
+];

@@ -1,10 +1,24 @@
 ---
 import Layout from "../layouts/CommunityLayout.astro";
 import PageIntro from "../components/community/PageIntro.astro";
-import BangladeshMap from "../components/community/BangladeshMap.astro";
 import Button from "../components/community/Button.astro";
 import Join from "../components/community/Join.astro";
-import { groupUrl } from "../data/community";
+import { groupUrl, volunteerRoles } from "../data/community";
+
+const steps = [
+  {
+    title: "Join the community",
+    text: "Follow the HighLevel Bangladesh Facebook group for updates.",
+  },
+  {
+    title: "Roles are announced",
+    text: "We’ll share the available roles and how to get involved when opportunities open.",
+  },
+  {
+    title: "Help at a meetup",
+    text: "Pick a role that suits you and help make the next conversation happen.",
+  },
+];
 ---
 
 <Layout
@@ -16,54 +30,101 @@ import { groupUrl } from "../data/community";
     title="Volunteer"
     accent="with us."
     lead="We’ll open volunteer opportunities very soon."
-  />
-  <section class="volunteer-page" aria-label="How to get involved">
-    <div class="wrap volunteer-inner">
-      <div class="volunteer-copy reveal">
-        <span class="volunteer-status"
-          ><span class="volunteer-dot" aria-hidden="true"></span>Opening soon</span
-        >
-        <p class="volunteer-description">
-          We’ll share the available roles and how to get involved when
-          opportunities open.
-        </p>
-        <div class="volunteer-actions">
-          <Button label="Get community updates" href={groupUrl} />
+  >
+    <span class="volunteer-status"
+      ><span class="volunteer-dot" aria-hidden="true"></span>Opening soon</span
+    >
+  </PageIntro>
+
+  <section class="volunteer-roles" aria-labelledby="roles-heading">
+    <div class="wrap">
+      <div class="roles-head reveal">
+        <div>
+          <span class="kicker">Ways to help</span>
+          <h2 id="roles-heading">How volunteers usually help.</h2>
         </div>
+        <p>
+          These are roles volunteers often take on at community meetups like
+          ours. The roles for GHL Bangladesh will be shared when opportunities
+          open.
+        </p>
       </div>
-      <div class="volunteer-map reveal">
-        <BangladeshMap />
+      <ul class="roles-grid" role="list">
+        {
+          volunteerRoles.map((role) => (
+            <li class="role reveal">
+              <span class="role-icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d={role.icon} />
+                </svg>
+              </span>
+              <h3>{role.title}</h3>
+              <p>{role.description}</p>
+              <span class="role-when">{role.when}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="volunteer-steps" aria-labelledby="steps-heading">
+    <div class="wrap">
+      <div class="steps-head reveal">
+        <span class="kicker">How it works</span>
+        <h2 id="steps-heading">Three steps to get involved.</h2>
+      </div>
+      <ol class="steps reveal">
+        {
+          steps.map((step, index) => (
+            <li class="step">
+              <span class="step-number" aria-hidden="true">
+                {index + 1}
+              </span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="steps-action reveal">
+        <Button label="Get community updates" href={groupUrl} />
+        <p>Volunteer sign-up isn’t open yet.</p>
       </div>
     </div>
   </section>
+
   <Join />
 </Layout>
 
 <style>
-  .volunteer-page {
-    padding: clamp(56px, 7vw, 96px) 0 clamp(64px, 8vw, 110px);
-  }
-  .volunteer-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    gap: clamp(32px, 6vw, 96px);
-    align-items: center;
-  }
+  /* status label inside the navy intro */
   .volunteer-status {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 6px 14px 6px 10px;
+    margin-top: 26px;
+    padding: 7px 16px 7px 12px;
     border-radius: 999px;
-    background: var(--paper-2);
+    background: rgba(248, 211, 37, 0.12);
+    border: 1px solid rgba(248, 211, 37, 0.35);
+    color: var(--yellow);
     font-size: 13px;
     font-weight: 600;
-    color: var(--ink-2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
   .volunteer-dot {
     position: relative;
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     background: var(--yellow);
   }
@@ -76,38 +137,258 @@ import { groupUrl } from "../data/community";
   }
   @keyframes volunteer-pulse {
     0% {
-      box-shadow: 0 0 0 0 color-mix(in srgb, var(--yellow) 60%, transparent);
+      box-shadow: 0 0 0 0 rgba(248, 211, 37, 0.6);
     }
     100% {
       box-shadow: 0 0 0 10px transparent;
     }
   }
-  /* the page's main message, set large */
-  .volunteer-description {
-    margin: 22px 0 0;
-    max-width: 520px;
+
+  /* roles */
+  .volunteer-roles {
+    padding: clamp(64px, 8vw, 110px) 0 clamp(40px, 5vw, 64px);
+  }
+  .roles-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+    gap: 16px clamp(24px, 5vw, 80px);
+    align-items: end;
+    margin-bottom: clamp(32px, 4vw, 52px);
+  }
+  .roles-head h2,
+  .steps-head h2 {
+    margin-top: 16px;
     font-family: var(--display);
-    font-size: clamp(22px, 2.2vw, 30px);
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1.05;
+  }
+  .roles-head p {
+    margin: 0;
+    color: var(--ink-2);
+  }
+  .roles-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+  }
+  /* open grid: hairlines between the roles instead of boxes */
+  .role {
+    --accent: var(--yellow);
+    --accent-ink: #8a6d00;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(24px, 3vw, 36px) clamp(18px, 2.4vw, 32px)
+      clamp(24px, 3vw, 36px) 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .role:not(:nth-child(3n + 1)) {
+    padding-left: clamp(18px, 2.4vw, 32px);
+    border-left: 1px solid var(--line);
+  }
+  .role:nth-child(4n + 2) {
+    --accent: var(--blue);
+    --accent-ink: #1279b0;
+  }
+  .role:nth-child(4n + 3) {
+    --accent: var(--green);
+    --accent-ink: #06873a;
+  }
+  .role:nth-child(4n + 4) {
+    --accent: var(--bd-red);
+    --accent-ink: #d61f35;
+  }
+  :global(:root[data-theme="dark"]) .role {
+    --accent-ink: var(--accent);
+  }
+  .role-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--accent) 16%, transparent);
+    color: var(--accent-ink);
+  }
+  .role-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  .role h3 {
+    margin-top: 18px;
+    font-family: var(--display);
+    font-size: clamp(19px, 1.6vw, 22px);
+    line-height: 1.2;
+  }
+  .role p {
+    margin: 8px 0 0;
+    color: var(--ink-2);
+    font-size: 15.5px;
+  }
+  .role-when {
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 12.5px;
     font-weight: 600;
-    line-height: 1.35;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+
+  /* how it works */
+  .volunteer-steps {
+    padding: clamp(40px, 5vw, 64px) 0 clamp(64px, 8vw, 110px);
+  }
+  .steps-head {
+    text-align: center;
+  }
+  .steps-head .kicker::after {
+    content: "";
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--grad);
+  }
+  .steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(24px, 4vw, 56px);
+    margin: clamp(36px, 4.5vw, 56px) 0 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+  }
+  /* dashed line linking the three numbers */
+  .steps::before {
+    content: "";
+    position: absolute;
+    top: 27px;
+    left: 16.6%;
+    right: 16.6%;
+    height: 2px;
+    background: repeating-linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--ink) 28%, transparent) 0 8px,
+      transparent 8px 16px
+    );
+  }
+  .step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .step-number {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow:
+      inset 0 0 0 2px var(--green),
+      0 0 0 8px var(--paper);
     color: var(--ink);
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 800;
   }
-  .volunteer-actions {
-    margin-top: 28px;
+  .step:nth-child(2) .step-number {
+    box-shadow:
+      inset 0 0 0 2px var(--blue),
+      0 0 0 8px var(--paper);
   }
-  .volunteer-map {
-    justify-self: center;
-    width: 100%;
-    max-width: 440px;
+  .step:nth-child(3) .step-number {
+    box-shadow:
+      inset 0 0 0 2px var(--yellow),
+      0 0 0 8px var(--paper);
+  }
+  .step h3 {
+    margin-top: 20px;
+    font-family: var(--display);
+    font-size: clamp(19px, 1.6vw, 22px);
+    line-height: 1.2;
+  }
+  .step p {
+    margin: 8px auto 0;
+    max-width: 300px;
+    color: var(--ink-2);
+    font-size: 15.5px;
+  }
+  .steps-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-top: clamp(36px, 4.5vw, 52px);
+  }
+  .steps-action p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ink-3);
+  }
+
+  @media (max-width: 960px) {
+    .roles-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .role:not(:nth-child(3n + 1)) {
+      padding-left: 0;
+      border-left: 0;
+    }
+    .role:nth-child(2n) {
+      padding-left: clamp(18px, 2.4vw, 32px);
+      border-left: 1px solid var(--line);
+    }
   }
   @media (max-width: 760px) {
-    .volunteer-inner {
+    .roles-head {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+    .roles-grid {
       grid-template-columns: 1fr;
     }
-    .volunteer-map {
-      max-width: 260px;
-      justify-self: start;
+    .role:nth-child(2n) {
+      padding-left: 0;
+      border-left: 0;
+    }
+    .steps {
+      grid-template-columns: 1fr;
+      text-align: left;
+    }
+    .steps::before {
+      top: 28px;
+      bottom: 28px;
+      left: 27px;
+      right: auto;
+      width: 2px;
+      height: auto;
+      background: repeating-linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--ink) 28%, transparent) 0 8px,
+        transparent 8px 16px
+      );
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      column-gap: 18px;
+      align-items: start;
+    }
+    .step-number {
+      grid-row: 1 / 3;
+    }
+    .step h3 {
+      margin-top: 14px;
+    }
+    .step p {
+      margin: 6px 0 0;
+      grid-column: 2;
     }
   }
 </style>

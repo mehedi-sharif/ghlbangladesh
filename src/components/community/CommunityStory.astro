@@ -1,5 +1,4 @@
 ---
-import Button from "./Button.astro";
 import Photo from "./Photo.astro";
 ---
 
@@ -23,7 +22,10 @@ import Photo from "./Photo.astro";
               sizes="(max-width: 900px) 45vw, 280px"
             />
           </div>
-          <figcaption>Mehedi Sharif</figcaption>
+          <figcaption>
+            <span class="story-name">Mehedi Sharif</span>
+            <span class="story-role">Chapter leader</span>
+          </figcaption>
         </figure>
         <figure class="story-person story-person-shariful reveal">
           <div class="story-photo">
@@ -37,12 +39,14 @@ import Photo from "./Photo.astro";
           </div>
           <figcaption>
             <a
+              class="story-name"
               href="https://www.facebook.com/vidmshariful"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Shariful Islam on Facebook (opens in a new tab)"
               >Shariful Islam</a
             >
+            <span class="story-role">Co-organiser</span>
           </figcaption>
         </figure>
       </div>
@@ -77,13 +81,6 @@ import Photo from "./Photo.astro";
         <span class="story-signature"
           >Mehedi Sharif<small>HighLevel Bangladesh chapter leader</small></span
         >
-        <Button
-          variant="outline"
-          size="sm"
-          icon="down"
-          label="Meet the chapter leader"
-          href="#chapter-leader"
-        />
       </div>
     </div>
   </div>
@@ -121,43 +118,47 @@ import Photo from "./Photo.astro";
   .community-story {
     padding: clamp(80px, 11vw, 150px) 0;
   }
-  /* the story panel gets the wider column; on desktop the heading and photos
-     stay in view beside it while it is read */
+  /* the story panel gets the wider column; the photos grow so the left
+     column ends exactly where the panel ends */
   .story-inner {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
-    gap: clamp(40px, 6vw, 96px);
-    align-items: start;
+    gap: clamp(40px, 5vw, 80px);
+    align-items: stretch;
   }
-  @media (min-width: 901px) {
-    .story-aside {
-      position: sticky;
-      top: 96px;
-    }
+  .story-aside {
+    display: flex;
+    flex-direction: column;
   }
   .story-heading h2 {
     font-size: clamp(40px, 6vw, 84px);
     margin-top: 18px;
   }
   .story-people {
-    position: relative;
-    margin-top: 48px;
+    flex: 1;
+    min-height: 340px;
+    margin-top: clamp(28px, 3vw, 40px);
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
   }
   .story-person {
+    position: relative;
+    display: flex;
     margin: 0;
   }
+  /* the second photo starts lower; both end level with the story panel */
   .story-person-shariful {
     margin-top: 56px;
   }
   .story-photo {
-    border-radius: var(--radius);
+    flex: 1;
+    min-width: 0;
     overflow: hidden;
-    aspect-ratio: 4/5;
+    border-radius: calc(var(--radius) + 8px);
+    border: 1px solid var(--line);
     background: var(--paper-2);
-    box-shadow: 0 30px 60px -35px rgba(6, 29, 48, 0.5);
+    box-shadow: 0 40px 80px -50px rgba(6, 29, 48, 0.45);
   }
   .story-photo :global(img) {
     width: 100%;
@@ -175,16 +176,28 @@ import Photo from "./Photo.astro";
   .story-person:hover .story-photo :global(img) {
     transform: scale(1.04);
   }
+  /* name label on the photo: frosted navy, like the hero's chapter label */
   .story-person figcaption {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 14px;
-    font-weight: 600;
-    font-size: 15px;
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    display: grid;
+    gap: 1px;
+    justify-items: start;
+    padding: 9px 14px 10px 30px;
+    border-radius: 16px;
+    background: rgba(6, 29, 48, 0.66);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color: #fff;
   }
   .story-person figcaption::before {
     content: "";
+    position: absolute;
+    left: 14px;
+    top: 17px;
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -193,11 +206,22 @@ import Photo from "./Photo.astro";
   .story-person-shariful figcaption::before {
     background: var(--blue);
   }
-  .story-person figcaption a {
+  .story-name {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: #fff;
+  }
+  a.story-name {
     text-decoration: underline;
     text-decoration-color: var(--blue);
     text-underline-offset: 4px;
     text-decoration-thickness: 2px;
+  }
+  .story-role {
+    font-size: 12.5px;
+    line-height: 1.35;
+    color: var(--on-dark-2);
   }
   /* the story stands out as a panel; the text is always fully readable */
   .story-copy {
@@ -298,9 +322,18 @@ import Photo from "./Photo.astro";
     font-weight: 500;
     color: var(--ink-3);
   }
-  @media (max-width: 900px) {
+  /* narrower screens: heading, photos, then the story at full width */
+  @media (max-width: 1100px) {
     .story-inner {
       grid-template-columns: 1fr;
+    }
+    .story-people {
+      flex: none;
+      min-height: 0;
+      max-width: 640px;
+    }
+    .story-photo {
+      aspect-ratio: 4/5;
     }
   }
 </style>

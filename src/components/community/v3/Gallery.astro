@@ -235,16 +235,12 @@ const sizes = {
       linear-gradient(180deg, rgba(6, 29, 48, 0.5), transparent 420px),
       var(--bg);
   }
-  /* centred section title */
   .gallery-head {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
     gap: 24px;
-    text-align: center;
-  }
-  .gallery-head :global(.v3-h2) {
-    margin-inline: auto;
   }
   .gallery-meta {
     display: flex;
@@ -255,7 +251,7 @@ const sizes = {
   .gallery-meta p {
     display: grid;
     line-height: 1.35;
-    text-align: center;
+    text-align: right;
   }
   .gallery-meta strong {
     font-size: 14px;
@@ -381,8 +377,8 @@ const sizes = {
     .tile a {
       border-radius: 12px;
     }
-    .gallery-meta {
-      flex-direction: column;
+    .gallery-meta p {
+      text-align: left;
     }
   }
 

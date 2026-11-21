@@ -46,12 +46,14 @@ const standalone = headingTag === "h1";
         <div class="chapter-profile-actions">
           <Button
             variant="outline"
+            icon="facebook"
             label="Facebook"
             href="https://www.facebook.com/mehedi.sharif.titas"
             aria-label="Mehedi Sharif on Facebook (opens in a new tab)"
           />
           <Button
             variant="outline"
+            icon="globe"
             label="Website"
             href="https://mehedisharif.com"
             aria-label="Mehedi Sharif’s website (opens in a new tab)"
@@ -79,7 +81,7 @@ const standalone = headingTag === "h1";
   }
   .chapter-profile-visual {
     position: relative;
-    min-height: 520px;
+    min-height: 440px;
     background: var(--navy);
   }
   .chapter-profile-visual :global(img) {
@@ -98,7 +100,7 @@ const standalone = headingTag === "h1";
     background: var(--grad);
   }
   .chapter-profile-copy {
-    padding: clamp(32px, 5vw, 72px);
+    padding: clamp(28px, 4vw, 56px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -128,9 +130,10 @@ const standalone = headingTag === "h1";
   }
   .chapter-profile-name {
     font-family: var(--display);
-    font-size: clamp(44px, 5.6vw, 80px);
+    font-size: clamp(34px, 4vw, 56px);
     line-height: 1.02;
-    margin: 22px 0 22px;
+    white-space: nowrap;
+    margin: 18px 0 16px;
   }
   .chapter-profile-intro {
     margin: 0 0 16px;

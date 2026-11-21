@@ -6,7 +6,7 @@ interface Props {
   href?: string;
   variant?: "green" | "ghost" | "outline";
   size?: "sm" | "md" | "lg";
-  icon?: "ne" | "down" | "left" | "right" | "x";
+  icon?: "ne" | "down" | "left" | "right" | "x" | "globe" | "facebook";
   iconFirst?: boolean;
   glyph?: string;
   class?: string;
@@ -31,13 +31,19 @@ const paths = {
   left: "M12.5 8h-9M7.5 4l-4 4 4 4",
   right: "M3.5 8h9M8.5 4l4 4-4 4",
   x: "M4.5 4.5l7 7M11.5 4.5l-7 7",
+  globe:
+    "M14.25 8A6.25 6.25 0 1 1 1.75 8a6.25 6.25 0 0 1 12.5 0ZM1.75 8h12.5M8 1.75c1.7 1.75 2.55 3.83 2.55 6.25S9.7 12.5 8 14.25C6.3 12.5 5.45 10.42 5.45 8S6.3 3.5 8 1.75Z",
 };
+// Facebook logo (blue circle with a white f), from Simple Icons (CC0).
+// It fills the chip; the colour #0866FF follows Meta's brand resources.
+const facebookLogo =
+  "M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z";
 
 const Tag = href ? "a" : "button";
 const external = href ? /^https?:\/\//.test(href) : false;
 // The icon is drawn twice so one copy slides out while the other slides in.
-// The close cross only turns, so it needs one copy.
-const copies = icon === "x" ? [0] : [0, 1];
+// The close cross only turns and the Facebook logo stays put, so they need one copy.
+const copies = icon === "x" || icon === "facebook" ? [0] : [0, 1];
 ---
 
 <Tag
@@ -57,18 +63,24 @@ const copies = icon === "x" ? [0] : [0, 1];
     class:list={["btn-chip", icon]}
     aria-hidden="true"
     >{glyph && <span class="glyph">{glyph}</span>}{
-      copies.map(() => (
-        <svg
-          viewBox="0 0 16 16"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d={paths[icon]} />
+      icon === "facebook" ? (
+        <svg viewBox="0 0 24 24">
+          <path fill="currentColor" d={facebookLogo} />
         </svg>
-      ))
+      ) : (
+        copies.map(() => (
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width={icon === "globe" ? "1.5" : "2"}
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d={paths[icon]} />
+          </svg>
+        ))
+      )
     }</span
   >{iconFirst && <span class="btn-label">{label}</span>}</Tag
 >

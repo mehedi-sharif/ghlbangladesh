@@ -1,0 +1,226 @@
+---
+import Button from "./Button.astro";
+import { groupUrl, lastEvent, nextEvent, photos } from "../../data/community";
+---
+
+<section class="events-overview" id="events" aria-labelledby="events-heading">
+  <div class="wrap">
+    <div class="events-head reveal">
+      <div>
+        <span class="kicker">Events</span>
+        <h2 id="events-heading">Let’s take the conversation offline.</h2>
+      </div>
+      <p>
+        Come for a new idea. Stay for the connections. Our local meetups bring
+        the community together to learn, ask questions, and share.
+      </p>
+    </div>
+
+    <!-- a short timeline: the meetup that happened, then the one that is coming -->
+    <ol class="events-timeline reveal">
+      <li class="event-stop event-past">
+        <span class="event-node" aria-hidden="true"></span>
+        <span class="event-when">Last event</span>
+        <time class="event-date" datetime={lastEvent.date}
+          >{lastEvent.dateLabel}</time
+        >
+        <h3>{lastEvent.name}</h3>
+        <p>{lastEvent.summary}</p>
+        <p class="event-detail">
+          {lastEvent.organisers} · {photos.length} photos
+        </p>
+        <div class="event-actions">
+          <Button
+            variant="outline"
+            size="sm"
+            icon="down"
+            label="See the photos"
+            href="#event-photos"
+          />
+        </div>
+      </li>
+      <li class="event-stop event-next">
+        <span class="event-node" aria-hidden="true"></span>
+        <span class="event-when">Upcoming event</span>
+        <span class="event-date">{nextEvent.dateLabel}</span>
+        <h3>{nextEvent.title}</h3>
+        <p>{nextEvent.summary}</p>
+        <p class="event-detail">{nextEvent.place}</p>
+        <div class="event-actions">
+          <Button size="sm" label="Get event updates" href={groupUrl} />
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<style>
+  .events-overview {
+    padding: clamp(64px, 8vw, 110px) 0;
+  }
+  .events-head {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: clamp(24px, 6vw, 96px);
+    align-items: end;
+  }
+  .events-head h2 {
+    margin-top: 18px;
+    font-size: clamp(34px, 4.4vw, 60px);
+    line-height: 1.04;
+  }
+  .events-head p {
+    margin: 0;
+    color: var(--ink-2);
+  }
+  .events-timeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 6vw, 96px);
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 44px 0 0;
+    list-style: none;
+  }
+  /* the rail: solid for the meetup that happened, dashed towards the next one */
+  .events-timeline::before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background:
+      linear-gradient(90deg, var(--green), var(--blue)) left / 50% 100%
+        no-repeat,
+      repeating-linear-gradient(
+          90deg,
+          color-mix(in srgb, var(--ink) 30%, transparent) 0 6px,
+          transparent 6px 12px
+        )
+        right / 50% 100% no-repeat;
+  }
+  .event-stop {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .event-node {
+    position: absolute;
+    top: -44px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+  .event-past .event-node {
+    background: var(--green);
+    box-shadow: 0 0 0 5px var(--paper);
+  }
+  .event-next .event-node {
+    background: var(--paper);
+    box-shadow:
+      inset 0 0 0 3px var(--yellow),
+      0 0 0 5px var(--paper);
+  }
+  /* the upcoming stop pulses softly */
+  .event-next .event-node::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 var(--yellow);
+    animation: event-pulse 2.4s ease-out infinite;
+  }
+  @keyframes event-pulse {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--yellow) 55%, transparent);
+    }
+    100% {
+      box-shadow: 0 0 0 14px transparent;
+    }
+  }
+  .event-when {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #07a944;
+  }
+  .event-next .event-when {
+    color: #b08f00;
+  }
+  .event-date {
+    display: block;
+    margin-top: 10px;
+    font-family: var(--display);
+    font-size: clamp(28px, 3.2vw, 44px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+  .event-next .event-date {
+    color: var(--ink-3);
+  }
+  .event-stop h3 {
+    margin-top: 14px;
+    font-size: clamp(20px, 1.8vw, 24px);
+    line-height: 1.2;
+  }
+  .event-stop p {
+    margin: 10px 0 0;
+    max-width: 460px;
+    color: var(--ink-2);
+    font-size: 15.5px;
+  }
+  .event-stop .event-detail {
+    margin-top: 12px;
+    font-size: 13.5px;
+    color: var(--ink-3);
+  }
+  .event-actions {
+    margin-top: 22px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(.home) .event-when {
+      color: var(--green);
+    }
+    :global(.home) .event-next .event-when {
+      color: var(--yellow);
+    }
+  }
+  @media (max-width: 760px) {
+    .events-head {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+    /* on phones the rail runs down the left side */
+    .events-timeline {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 0 0 0 40px;
+    }
+    .events-timeline::before {
+      top: 0;
+      bottom: 0;
+      left: 9px;
+      right: auto;
+      width: 2px;
+      height: auto;
+      background:
+        linear-gradient(180deg, var(--green), var(--blue)) top / 100% 50%
+          no-repeat,
+        repeating-linear-gradient(
+            180deg,
+            color-mix(in srgb, var(--ink) 30%, transparent) 0 6px,
+            transparent 6px 12px
+          )
+          bottom / 100% 50% no-repeat;
+    }
+    .event-node {
+      top: 2px;
+      left: -40px;
+    }
+  }
+</style>

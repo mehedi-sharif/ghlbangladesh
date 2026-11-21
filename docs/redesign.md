@@ -74,8 +74,20 @@ A homepage redesign proposed by Ridoy. All homepage text, photos, captions, link
 - Hero: full-screen background video with a navy veil, round Bangladesh flag label, and a gradient accent on “Together in Bangladesh.” The video is scaled up slightly because its opening seconds have black side bars. Existing video behaviour is kept: muted, paused when the page is hidden, paused for reduced motion.
 - Header: centred pill navigation with the green “Join the community” button. On the homepage it floats over the video, turns frosted navy after scrolling, and hides while scrolling down. Inner pages use the same header as a solid navy bar. Below 1001px a full-screen menu replaces the navigation.
 - Buttons: one component (`Button.astro`), a label plus a round arrow chip in three sizes, used for the header, hero, chapter-leader links, invitation, and photo viewer.
-- Community benefits: learn, connect, grow stand on three rising arrows in the logo colours, which grow in when scrolled into view.
+- Community benefits: learn, connect, grow stand on three rising arrows in the logo colours, which grow in when scrolled into view. Revised at Ridoy’s request: the arrows are about 30% shorter (desktop heights up to 104, 170 and 236px) and the space between the introduction and the benefits is smaller (up to 64px instead of 120px).
 - Event gallery: bento grid (two large tiles, six wide tiles) with captions on hover and a full-screen photo viewer with previous, next, keyboard arrows, and a counter.
 - Origin story: large quote mark, words light up while scrolling; the existing photos, crop positions, captions, and Shariful Islam’s Facebook link are kept.
 - Chapter leader and invitation: card layouts; the invitation shows the three logo arrows rising behind the heading.
 - Motion respects reduced-motion preferences; content stays visible when JavaScript is off.
+
+### Home v1 refinements (November 2026)
+
+Requested by Ridoy after the first review:
+
+- Community benefits: arrows about 30% shorter, smaller gap above them (see the bullet above).
+- New **Events** section (`EventsOverview.astro`, anchor `#events`) between the benefits and the photo gallery: a short timeline with the last event (GHL Meetup Bangladesh 2026, 11 June 2026, co-organised by Mehedi Sharif and Shariful Islam, linking down to the photos) and the upcoming event (date to be announced, Bangladesh, link to the Facebook group for updates). The data lives in `lastEvent` and `nextEvent` in `src/data/community.ts`; update `nextEvent` when the next meetup is confirmed. The photo gallery section's anchor is now `#event-photos`.
+- Origin story: shown as a highlighted panel with Mehedi’s name and title under it, a reading-progress bar on its left edge, and a “Meet the chapter leader” button to the next section. The text is always fully readable (the earlier dimmed words are gone).
+- Chapter leader: shorter card, the name on one line, a Facebook button with the official Facebook logo (Simple Icons path, CC0; brand colour #0866FF from Meta’s brand resources) and a Website button with a globe icon. `Button.astro` gained the `facebook` and `globe` icons.
+- New **Become a volunteer** section (`VolunteerCall.astro`, anchor `#volunteer`) before the invitation, using the volunteers page wording (opportunities opening soon) with links to the Facebook group and `/volunteers`.
+- Invitation (`Join.astro`, shared by several pages): a compact band instead of the tall card with large arrows. A row of faces cropped from the meetup photos ends in an open “You” seat that lights up when the button is hovered.
+

@@ -133,3 +133,21 @@ export const photos = [
     caption: "Working at the meetup.",
   },
 ];
+// Events on the homepage. Facts come from docs/redesign.md; update `nextEvent`
+// once the date and venue of the next meetup are confirmed.
+export const lastEvent = {
+  name: "GHL Meetup Bangladesh 2026",
+  date: "2026-06-11",
+  dateLabel: "11 June 2026",
+  summary:
+    "An unofficial, community-driven meetup: GHL users in one room, asking questions and sharing what was actually working for them.",
+  organisers: "Co-organised by Mehedi Sharif and Shariful Islam",
+  galleryUrl: "/events/meetup-2026",
+};
+export const nextEvent = {
+  dateLabel: "Date to be announced",
+  place: "Bangladesh",
+  title: "Your next local connection starts here.",
+  summary:
+    "Details of the next Bangladesh chapter meetup will be shared here once confirmed.",
+};

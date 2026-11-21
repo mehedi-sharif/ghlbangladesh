@@ -1,175 +1,186 @@
 ---
 import { groupUrl } from "../../data/community";
 import Button from "./Button.astro";
+import Photo from "./Photo.astro";
 
-// The three rising arrows of the GHL logo (yellow, blue, green). Each is drawn
-// twice: a solid arrow and a faint outline above it. Both fade out at the bottom.
-const arrows = [
-  { color: "#F8D325", top: 330, path: "M95 330L160 394H123V600H67V394H30Z" },
-  { color: "#20A9ED", top: 180, path: "M260 180L325 244H288V600H232V244H195Z" },
-  { color: "#0BCE55", top: 30, path: "M425 30L490 94H453V600H397V94H360Z" },
+// Faces from the meetup photos, cropped into a row of avatars. The last seat is
+// left open for the visitor. fx/fy: face centre as a share of the photo's width
+// and height; k: zoom (photo width ÷ avatar width).
+const faces = [
+  { name: "dsc08408", fx: 0.27, fy: 0.35, k: 4.5 },
+  { name: "dsc08260", fx: 0.5, fy: 0.42, k: 4.5 },
+  { name: "dsc08489", fx: 0.66, fy: 0.3, k: 6 },
+  { name: "dsc08463", fx: 0.52, fy: 0.4, k: 4.5 },
+  { name: "dsc08408", fx: 0.48, fy: 0.37, k: 4.5 },
+  { name: "dsc08408", fx: 0.87, fy: 0.37, k: 4.5 },
 ];
 ---
 
 <section class="footer-invite" id="join" aria-labelledby="invite-heading">
   <div class="wrap">
     <div class="invite-card reveal">
-      <svg
-        class="invite-arrows"
-        viewBox="0 0 520 600"
-        preserveAspectRatio="xMaxYMax meet"
-        aria-hidden="true"
-        ><defs
-          >{
-            arrows.map((arrow, index) => (
-              <>
-                <linearGradient
-                  id={`iaf${index + 1}`}
-                  gradientUnits="userSpaceOnUse"
-                  x1="0"
-                  y1={arrow.top}
-                  x2="0"
-                  y2="600"
-                >
-                  <stop offset="0" stop-color="#fff" />
-                  <stop offset=".45" stop-color="#fff" stop-opacity=".85" />
-                  <stop offset="1" stop-color="#fff" stop-opacity="0" />
-                </linearGradient>
-                <mask
-                  id={`iam${index + 1}`}
-                  maskUnits="userSpaceOnUse"
-                  x="-20"
-                  y="-80"
-                  width="560"
-                  height="700"
-                >
-                  <rect
-                    x="-20"
-                    y="-80"
-                    width="560"
-                    height="700"
-                    fill={`url(#iaf${index + 1})`}
-                  />
-                </mask>
-              </>
+      <div class="invite-copy">
+        <div class="invite-faces" aria-hidden="true">
+          {
+            faces.map((face) => (
+              <span
+                class="invite-face"
+                style={`--fx:${face.fx};--fy:${face.fy};--k:${face.k}`}
+              >
+                <Photo name={face.name} alt="" sizes="160px" />
+              </span>
             ))
-          }</defs
-        >{
-          arrows.map((arrow, index) => (
-            <g class={`ia ia-${index + 1}`}>
-              <g mask={`url(#iam${index + 1})`}>
-                <path
-                  d={arrow.path}
-                  transform="translate(0 -44)"
-                  fill="none"
-                  stroke={arrow.color}
-                  stroke-width="2.5"
-                  stroke-linejoin="round"
-                  opacity=".38"
-                />
-                <path
-                  d={arrow.path}
-                  fill={arrow.color}
-                  stroke={arrow.color}
-                  stroke-width="10"
-                  stroke-linejoin="round"
-                />
-              </g>
-            </g>
-          ))
-        }</svg
-      >
-      <h2 id="invite-heading">
-        Great things start with a <span class="grad-text">connection.</span>
-      </h2>
-      <Button size="lg" label="Join the community" href={groupUrl} />
+          }
+          <span class="invite-face invite-you">
+            <svg
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <path d="M8 3.5v9M3.5 8h9"></path>
+            </svg>
+            You
+          </span>
+        </div>
+        <h2 id="invite-heading">
+          Great things start with a <span class="grad-text">connection.</span>
+        </h2>
+        <p>
+          Join agency owners, marketers, developers, and entrepreneurs in
+          Bangladesh who build with HighLevel.
+        </p>
+      </div>
+      <div class="invite-action">
+        <Button size="lg" label="Join the community" href={groupUrl} />
+        <span class="invite-note">HighLevel Bangladesh group on Facebook</span>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
   .footer-invite {
-    padding: 0 0 clamp(80px, 10vw, 130px);
+    padding: 0 0 clamp(64px, 8vw, 110px);
   }
   .invite-card {
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    border-radius: calc(var(--radius) + 10px);
-    background: linear-gradient(150deg, #0c2c4a 0%, var(--navy) 58%);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 28px 48px;
+    border-radius: calc(var(--radius) + 8px);
+    background: linear-gradient(150deg, #0c2c4a 0%, var(--navy) 62%);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
     color: #fff;
-    padding: clamp(40px, 7vw, 96px) clamp(28px, 6vw, 90px);
-    min-height: clamp(460px, 44vw, 620px);
+    padding: clamp(28px, 4vw, 56px) clamp(24px, 5vw, 64px);
+  }
+  /* thin band of the three logo colours along the top edge */
+  .invite-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: var(--grad);
+  }
+  .invite-faces {
+    display: flex;
+    align-items: center;
+    margin-bottom: clamp(20px, 2.4vw, 28px);
+  }
+  .invite-face {
+    position: relative;
+    flex: none;
+    width: 52px;
+    height: 52px;
+    margin-left: -12px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--navy-2);
+    box-shadow: 0 0 0 3px #0a2540;
+    transition: transform 0.35s var(--ease);
+  }
+  .invite-face:first-child {
+    margin-left: 0;
+  }
+  .invite-face :global(img) {
+    position: absolute;
+    width: calc(var(--k) * 100%);
+    max-width: none;
+    height: auto;
+    left: calc(50% - var(--fx) * var(--k) * 100%);
+    top: calc(50% - var(--fy) * var(--k) * 100% / 1.4988);
+  }
+  /* the open seat: dashed green ring with "You" */
+  .invite-you {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 1px;
+    background: #0a2540;
+    box-shadow:
+      0 0 0 3px #0a2540,
+      inset 0 0 0 2px var(--green);
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    transition:
+      background 0.3s ease,
+      color 0.3s ease,
+      transform 0.35s var(--ease);
+  }
+  .invite-you svg {
+    width: 14px;
+    height: 14px;
+  }
+  /* hovering the button lights up the visitor's seat */
+  @media (hover: hover) {
+    .invite-card:global(:has(.btn:hover)) .invite-you {
+      background: var(--green);
+      color: #04240f;
+      transform: translateX(8px) scale(1.06);
+    }
+  }
+  .invite-copy h2 {
+    font-family: var(--display);
+    font-size: clamp(32px, 3.8vw, 54px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    max-width: 15ch;
+  }
+  .invite-copy p {
+    margin: 14px 0 0;
+    max-width: 520px;
+    color: var(--on-dark-2);
+    font-size: 16px;
+  }
+  .invite-action {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: clamp(28px, 3.4vw, 44px);
+    align-items: flex-end;
+    gap: 12px;
   }
-  .invite-card h2 {
-    font-family: var(--display);
-    font-size: clamp(40px, 6.2vw, 94px);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 0.98;
-    max-width: 11ch;
-  }
-  .invite-arrows {
-    position: absolute;
-    z-index: -1;
-    right: clamp(12px, 5vw, 84px);
-    bottom: 0;
-    width: 46%;
-    height: 94%;
-    overflow: visible;
-  }
-  .invite-arrows .ia {
-    transition:
-      transform 1.3s var(--ease),
-      opacity 1s ease;
-  }
-  .invite-arrows .ia-2 {
-    transition-delay: 0.12s;
-  }
-  .invite-arrows .ia-3 {
-    transition-delay: 0.24s;
-  }
-  :global(.js) .invite-card .ia {
-    transform: translateY(140px);
-    opacity: 0;
-  }
-  :global(.js) .invite-card:global(.in) .ia {
-    transform: none;
-    opacity: 1;
-  }
-  /* the arrows lift a little while the button is hovered */
-  @media (hover: hover) {
-    .invite-card:global(.in:has(.btn:hover)) .ia {
-      transform: translateY(-16px);
-      transition-duration: 0.55s;
-    }
-    .invite-card:global(.in:has(.btn:hover)) .ia-1 {
-      transition-delay: 0s;
-    }
-    .invite-card:global(.in:has(.btn:hover)) .ia-2 {
-      transition-delay: 0.05s;
-    }
-    .invite-card:global(.in:has(.btn:hover)) .ia-3 {
-      transition-delay: 0.1s;
-    }
+  .invite-note {
+    font-size: 13px;
+    color: var(--on-dark-2);
   }
   @media (max-width: 760px) {
     .invite-card {
-      justify-content: flex-end;
-      min-height: 520px;
+      grid-template-columns: 1fr;
+      align-items: start;
     }
-    .invite-arrows {
-      top: 0;
-      bottom: auto;
-      right: 8px;
-      width: 72%;
-      height: 52%;
+    .invite-action {
+      align-items: flex-start;
+    }
+    .invite-face {
+      width: 44px;
+      height: 44px;
+      margin-left: -10px;
     }
   }
 </style>

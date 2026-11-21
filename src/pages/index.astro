@@ -7,6 +7,8 @@ import CommunityOverview from "../components/community/CommunityOverview.astro";
 import CommunityStory from "../components/community/CommunityStory.astro";
 import ChapterLeader from "../components/community/ChapterLeader.astro";
 import Button from "../components/community/Button.astro";
+import EventsOverview from "../components/community/EventsOverview.astro";
+import VolunteerCall from "../components/community/VolunteerCall.astro";
 ---
 
 <Layout>
@@ -54,9 +56,11 @@ import Button from "../components/community/Button.astro";
   </section>
   <AudienceStrip />
   <CommunityOverview />
+  <EventsOverview />
   <MeetupRecap />
   <CommunityStory />
   <ChapterLeader />
+  <VolunteerCall />
   <Join />
   <script>
     const video = document.querySelector<HTMLVideoElement>("#chapter-video");

@@ -1,0 +1,126 @@
+---
+import Button from "./Button.astro";
+import { groupUrl } from "../../data/community";
+// Wording follows the volunteers page: roles are not open yet, so nothing is promised.
+---
+
+<section
+  class="volunteer-call"
+  id="volunteer"
+  aria-labelledby="volunteer-call-heading"
+>
+  <div class="wrap">
+    <div class="volunteer-inner reveal">
+      <div class="volunteer-title">
+        <span class="kicker">Become a volunteer</span>
+        <h2 id="volunteer-call-heading">Volunteer with us.</h2>
+      </div>
+      <div class="volunteer-copy">
+        <span class="volunteer-status"
+          ><span class="volunteer-dot" aria-hidden="true"></span>Opening soon</span
+        >
+        <p class="volunteer-lead">
+          We’ll open volunteer opportunities very soon.
+        </p>
+        <p class="volunteer-description">
+          We’ll share the available roles and how to get involved when
+          opportunities open.
+        </p>
+        <div class="volunteer-actions">
+          <Button
+            variant="outline"
+            label="Get community updates"
+            href={groupUrl}
+          />
+          <a class="volunteer-more" href="/volunteers">Volunteers page</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .volunteer-call {
+    padding: 0 0 clamp(64px, 8vw, 110px);
+  }
+  .volunteer-inner {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: clamp(24px, 6vw, 96px);
+    align-items: start;
+    padding-top: clamp(40px, 5vw, 64px);
+    border-top: 1px solid var(--line);
+  }
+  .volunteer-title h2 {
+    margin-top: 18px;
+    font-size: clamp(34px, 4.4vw, 60px);
+    line-height: 1.04;
+  }
+  .volunteer-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px 6px 10px;
+    border-radius: 999px;
+    background: var(--paper-2);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+  .volunteer-dot {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--yellow);
+  }
+  .volunteer-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    animation: volunteer-pulse 2.4s ease-out infinite;
+  }
+  @keyframes volunteer-pulse {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--yellow) 60%, transparent);
+    }
+    100% {
+      box-shadow: 0 0 0 10px transparent;
+    }
+  }
+  .volunteer-lead {
+    margin: 18px 0 0;
+    font-family: var(--display);
+    font-size: clamp(19px, 1.7vw, 23px);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .volunteer-description {
+    margin: 10px 0 0;
+    color: var(--ink-2);
+  }
+  .volunteer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 24px;
+    margin-top: 26px;
+  }
+  .volunteer-actions :global(.btn) {
+    flex: none;
+  }
+  .volunteer-more {
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--blue);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+  @media (max-width: 760px) {
+    .volunteer-inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,4 +1,5 @@
 ---
+import Button from "./Button.astro";
 import Photo from "./Photo.astro";
 ---
 
@@ -46,8 +47,9 @@ import Photo from "./Photo.astro";
         </figure>
       </div>
     </div>
-    <!-- each word lights up as the reader scrolls through the story -->
+    <!-- the story is told by Mehedi; the bar on the left fills as it is read -->
     <div class="story-copy reveal">
+      <span class="story-progress" aria-hidden="true"></span>
       <p>
         GHL Bangladesh began with conversations between
         <a
@@ -71,62 +73,37 @@ import Photo from "./Photo.astro";
         meeting face to face, sharing practical knowledge, and learning from one
         another.
       </p>
+      <div class="story-sign">
+        <span class="story-signature"
+          >Mehedi Sharif<small>HighLevel Bangladesh chapter leader</small></span
+        >
+        <Button
+          variant="outline"
+          size="sm"
+          icon="down"
+          label="Meet the chapter leader"
+          href="#chapter-leader"
+        />
+      </div>
     </div>
   </div>
 </section>
 
 <script>
+  // Reading progress: the bar beside the story fills while the text passes a
+  // reading line two thirds down the screen.
   const story = document.querySelector<HTMLElement>(".story-copy");
-  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (story && !reduceMotion) {
-    const words: HTMLSpanElement[] = [];
-    const lit = new WeakMap<HTMLSpanElement, boolean>();
-    const wrap = (node: Node) => {
-      Array.from(node.childNodes).forEach((child) => {
-        if (child.nodeType === Node.TEXT_NODE) {
-          const fragment = document.createDocumentFragment();
-          (child.textContent || "").split(/(\s+)/).forEach((part) => {
-            if (!part) return;
-            if (/^\s+$/.test(part)) {
-              fragment.appendChild(document.createTextNode(part));
-            } else {
-              const word = document.createElement("span");
-              word.className = "w";
-              word.textContent = part;
-              fragment.appendChild(word);
-              words.push(word);
-            }
-          });
-          node.replaceChild(fragment, child);
-        } else if (child.nodeType === Node.ELEMENT_NODE) {
-          wrap(child);
-        }
-      });
-    };
-    wrap(story);
-    story.classList.add("words");
-
+  if (story) {
     let ticking = false;
     const paint = () => {
       ticking = false;
       const rect = story.getBoundingClientRect();
-      const viewport = window.innerHeight;
+      const line = window.innerHeight * 0.66;
       const progress = Math.max(
         0,
-        Math.min(
-          1,
-          (viewport * 0.82 - rect.top) / (rect.height + viewport * 0.25),
-        ),
+        Math.min(1, (line - rect.top) / rect.height),
       );
-      const reached = Math.round(progress * words.length);
-      words.forEach((word, index) => {
-        const on = index < reached;
-        if (lit.get(word) !== on) {
-          lit.set(word, on);
-          word.classList.toggle("on", on);
-        }
-      });
+      story.style.setProperty("--rp", progress.toFixed(3));
     };
     const onScroll = () => {
       if (!ticking) {
@@ -214,18 +191,25 @@ import Photo from "./Photo.astro";
     text-underline-offset: 4px;
     text-decoration-thickness: 2px;
   }
+  /* the story stands out as a panel; the text is always fully readable */
   .story-copy {
     position: relative;
-    padding-top: clamp(0px, 4vw, 60px);
+    overflow: hidden;
+    padding: clamp(28px, 4vw, 56px) clamp(28px, 4vw, 56px)
+      clamp(28px, 4vw, 48px) clamp(32px, 4.5vw, 64px);
+    border-radius: calc(var(--radius) + 8px);
+    background: var(--card);
+    border: 1px solid var(--line);
+    box-shadow: 0 40px 80px -50px rgba(6, 29, 48, 0.45);
   }
   /* large gradient quote mark */
   .story-copy::before {
     content: "\201C";
     position: absolute;
-    top: clamp(-40px, -2vw, 0px);
-    left: -8px;
+    top: clamp(8px, 1.4vw, 20px);
+    left: clamp(26px, 4vw, 56px);
     font-family: var(--display);
-    font-size: 180px;
+    font-size: 150px;
     line-height: 1;
     font-weight: 800;
     opacity: 0.9;
@@ -235,21 +219,43 @@ import Photo from "./Photo.astro";
     color: transparent;
     pointer-events: none;
   }
+  /* reading progress along the left edge */
+  .story-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: color-mix(in srgb, var(--ink) 8%, transparent);
+  }
+  .story-progress::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      var(--green),
+      var(--blue),
+      var(--yellow)
+    );
+    transform: scaleY(var(--rp, 1));
+    transform-origin: top;
+  }
   .story-copy p {
     position: relative;
-    margin: 0 0 22px;
+    margin: 0 0 20px;
     color: var(--ink-2);
   }
-  .story-copy p:first-child {
+  .story-copy p:first-of-type {
     font-family: var(--display);
-    font-size: clamp(22px, 2.1vw, 27px);
+    font-size: clamp(21px, 2vw, 26px);
     font-weight: 500;
-    line-height: 1.4;
+    line-height: 1.42;
     letter-spacing: -0.01em;
     color: var(--ink);
-    padding-top: 80px;
+    padding-top: 64px;
   }
-  .story-copy a {
+  .story-copy p a {
     color: var(--ink);
     font-weight: 600;
     text-decoration: underline;
@@ -260,12 +266,29 @@ import Photo from "./Photo.astro";
   .story-copy strong {
     font-weight: inherit;
   }
-  :global(.js) .story-copy:global(.words .w) {
-    opacity: 0.25;
-    transition: opacity 0.5s ease;
+  .story-sign {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
   }
-  :global(.js) .story-copy:global(.words .w.on) {
-    opacity: 1;
+  .story-signature {
+    display: grid;
+    gap: 2px;
+    font-family: var(--display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .story-signature small {
+    font-family: var(--body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-3);
   }
   @media (max-width: 900px) {
     .story-inner {

@@ -1,0 +1,92 @@
+---
+// Who the community is for, shown like the topic chips of a feed.
+const audiences = [
+  { label: "Agency owners", color: "var(--yellow)" },
+  { label: "Marketers", color: "var(--blue)" },
+  { label: "Developers", color: "var(--green)" },
+  { label: "Entrepreneurs", color: "var(--bd-red)" },
+];
+---
+
+<div class="audience" role="region" aria-labelledby="v3-audience-label">
+  <div class="v3-wrap audience-inner">
+    <p id="v3-audience-label" class="audience-label">A community for</p>
+    <ul class="audience-list" role="list">
+      {
+        audiences.map(({ label, color }) => (
+          <li style={`--dot:${color}`}>
+            <span class="dot" aria-hidden="true" />
+            {label}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  .audience {
+    border-block: 1px solid var(--line);
+    background: var(--strip-bg);
+  }
+  .audience-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    min-height: 88px;
+    padding-block: 18px;
+  }
+  .audience-label {
+    flex: none;
+    color: var(--text-3);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .audience-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .audience-list li {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 44px;
+    padding: 0 18px 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg);
+    font-size: clamp(15px, 1.4vw, 17px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    transition:
+      border-color 0.25s,
+      transform 0.25s var(--ease);
+  }
+  .audience-list li:hover {
+    border-color: color-mix(in srgb, var(--dot) 55%, transparent);
+    transform: translateY(-2px);
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--dot);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--dot) 18%, transparent);
+  }
+  @media (max-width: 760px) {
+    .audience-inner {
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding-block: 24px;
+    }
+    .audience-list li {
+      height: 40px;
+      padding: 0 14px 0 12px;
+    }
+  }
+</style>

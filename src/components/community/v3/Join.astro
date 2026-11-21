@@ -1,0 +1,296 @@
+---
+import Pill from "./Pill.astro";
+import Photo from "../Photo.astro";
+import { groupUrl } from "../../../data/community";
+// Closing invitation: real faces from the 2026 meetup sit around the heading
+// like a circle of people, with one open seat ("You") for the visitor.
+// Faces are circular crops of the existing gallery photos; fx/fy is the face
+// centre within the photo (0–1) and z the zoom.
+const faces = [
+  {
+    name: "dsc08408",
+    fx: 0.5,
+    fy: 0.39,
+    z: 3.6,
+    alt: "A smiling meetup attendee",
+  },
+  {
+    name: "dsc08489",
+    fx: 0.8,
+    fy: 0.29,
+    z: 4.2,
+    alt: "A meetup attendee by the event banner",
+  },
+  {
+    name: "conversations",
+    fx: 0.53,
+    fy: 0.2,
+    z: 4.6,
+    alt: "A meetup attendee in conversation",
+  },
+  {
+    name: "dsc08260",
+    fx: 0.53,
+    fy: 0.31,
+    z: 3.6,
+    alt: "A meetup attendee smiling in a group",
+  },
+  {
+    name: "dsc08636",
+    fx: 0.73,
+    fy: 0.5,
+    z: 3.2,
+    alt: "A meetup attendee working on a laptop",
+  },
+  {
+    name: "dsc08408",
+    fx: 0.26,
+    fy: 0.34,
+    z: 3.6,
+    alt: "A meetup attendee giving a peace sign",
+  },
+  {
+    name: "dsc08489",
+    fx: 0.66,
+    fy: 0.3,
+    z: 4.2,
+    alt: "A meetup attendee posing with friends",
+  },
+  {
+    name: "building",
+    fx: 0.56,
+    fy: 0.2,
+    z: 3.2,
+    alt: "A meetup attendee at a laptop",
+  },
+  {
+    name: "dsc08408",
+    fx: 0.87,
+    fy: 0.37,
+    z: 3.6,
+    alt: "A meetup attendee giving a thumbs up",
+  },
+];
+// places on the ring (degrees, 0 = right, clockwise) and sizes in px
+const seats = [
+  { a: 192, s: 92 },
+  { a: 152, s: 72 },
+  { a: 228, s: 64 },
+  { a: 122, s: 58 },
+  { a: 348, s: 96 },
+  { a: 28, s: 70 },
+  { a: 312, s: 62 },
+  { a: 58, s: 60 },
+  { a: 268, s: 52 },
+];
+const colors = [
+  "var(--yellow)",
+  "var(--blue)",
+  "var(--green)",
+  "var(--bd-red)",
+];
+const place = (a: number) => ({
+  x: (50 + 44 * Math.cos((a * Math.PI) / 180)).toFixed(2),
+  y: (50 + 41 * Math.sin((a * Math.PI) / 180)).toFixed(2),
+});
+const you = place(292);
+---
+
+<section class="v3-section join" id="join" aria-labelledby="join-heading">
+  <div class="v3-wrap">
+    <div class="join-card v3-reveal">
+      <span class="ring" aria-hidden="true"></span>
+      <ul
+        class="faces"
+        role="list"
+        aria-label="People from GHL Meetup Bangladesh 2026"
+      >
+        {
+          faces.map((f, i) => {
+            const p = place(seats[i].a);
+            return (
+              <li
+                class="face"
+                style={`--x:${p.x}%;--y:${p.y}%;--s:${seats[i].s}px;--fx:${f.fx};--fy:${f.fy};--z:${f.z};--c:${colors[i % 4]};--d:${(i % 4) * 0.7}s`}
+              >
+                <Photo name={f.name} alt={f.alt} sizes="120px" />
+              </li>
+            );
+          })
+        }
+        <li
+          class="face face-you"
+          style={`--x:${you.x}%;--y:${you.y}%;--s:68px;--c:var(--green);--d:1.1s`}
+          aria-hidden="true"
+        >
+          <span class="plus">+</span><span class="you-label">You</span>
+        </li>
+      </ul>
+
+      <div class="join-copy">
+        <h2 id="join-heading">
+          Great things start with a <span class="soft">connection.</span>
+        </h2>
+        <p>Just getting started or already building? You’re welcome here.</p>
+        <Pill
+          size="lg"
+          variant="green"
+          label="Join the community"
+          href={groupUrl}
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .join {
+    padding-top: 0;
+  }
+  .join-card {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: clamp(520px, 46vw, 640px);
+    padding: clamp(40px, 6vw, 72px) clamp(20px, 5vw, 64px);
+    overflow: hidden;
+    border: 1px solid var(--line-2);
+    border-radius: calc(var(--radius) + 8px);
+    background:
+      radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 1.5px) 0
+        0 / 22px 22px,
+      var(--surface);
+    text-align: center;
+  }
+
+  /* the circle the people sit on */
+  .ring {
+    position: absolute;
+    inset: 9% 6%;
+    border: 1.5px dashed var(--line-2);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .faces {
+    position: absolute;
+    inset: 0;
+  }
+  .face {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--s);
+    height: var(--s);
+    margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--surface-2);
+    box-shadow:
+      0 0 0 3px var(--surface),
+      0 0 0 5px var(--c),
+      0 18px 40px -16px var(--shadow);
+    animation: bob 6s ease-in-out var(--d) infinite;
+  }
+  /* crop each photo to one face: scale it up and centre the face */
+  .face :global(img) {
+    position: absolute;
+    max-width: none;
+    width: calc(150% * var(--z));
+    height: calc(100% * var(--z));
+    left: calc(50% - var(--fx) * 150% * var(--z));
+    top: calc(50% - var(--fy) * 100% * var(--z));
+    object-fit: cover;
+  }
+  .face-you {
+    display: grid;
+    place-content: center;
+    gap: 0;
+    border: 2px dashed var(--green);
+    background: rgba(11, 206, 85, 0.08);
+    box-shadow: 0 0 0 6px rgba(11, 206, 85, 0.06);
+    color: var(--green);
+    line-height: 1;
+  }
+  .plus {
+    font-size: 26px;
+    font-weight: 500;
+  }
+  .you-label {
+    font-size: 12px;
+    font-weight: 700;
+  }
+  @keyframes bob {
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  .join-copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 560px;
+  }
+  h2 {
+    max-width: 14ch;
+    font-size: clamp(34px, 4.6vw, 60px);
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+  h2 .soft {
+    color: var(--text-3);
+  }
+  .join-copy p {
+    margin: 18px 0 30px;
+    color: var(--text-2);
+    font-size: clamp(16px, 1.5vw, 18px);
+  }
+
+  /* Phones and small tablets: the faces become an avatar row above the text */
+  @media (max-width: 900px) {
+    .join-card {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      min-height: 0;
+    }
+    .ring {
+      display: none;
+    }
+    .faces {
+      position: static;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 340px;
+      padding-left: 12px;
+    }
+    .face {
+      position: relative;
+      left: auto;
+      top: auto;
+      --s: 52px !important;
+      margin: 0 0 6px -12px;
+      animation: none;
+    }
+    .face:nth-child(n + 7):not(.face-you) {
+      display: none;
+    }
+    .plus {
+      font-size: 20px;
+    }
+    .you-label {
+      font-size: 10px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .face {
+      animation: none;
+    }
+  }
+</style>

@@ -35,7 +35,7 @@ const { kicker, title, accent, lead, photo, focus = "center" } = Astro.props;
           <span
             class:list={[
               "grad-text",
-              { "no-break": accent.trim().split(/\s+/).length <= 2 },
+              { "no-break": accent.trim().length <= 12 },
             ]}
           >
             {accent}

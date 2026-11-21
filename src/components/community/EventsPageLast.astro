@@ -1,0 +1,383 @@
+---
+// Events page, last event: the group photo of GHL Meetup Bangladesh 2026
+// (linked to its gallery) with a calendar tile stuck on its corner, beside
+// the confirmed facts from `lastEvent`.
+import Button from "./Button.astro";
+import Photo from "./Photo.astro";
+import { lastEvent, photos } from "../../data/community";
+
+const date = new Date(`${lastEvent.date}T00:00:00Z`);
+const month = date.toLocaleString("en-GB", { month: "short", timeZone: "UTC" });
+const day = date.getUTCDate();
+const year = date.getUTCFullYear();
+const organisers = lastEvent.organisers.replace(/^Co-organised by /, "");
+// the two organisers, cropped from their photos in the story section
+// (fx/fy: face centre as a share of the photo; k: zoom), as in Join.astro
+const faces = [
+  { name: "dsc08548", fx: 0.57, fy: 0.27, k: 4 },
+  { name: "dsc08543", fx: 0.6, fy: 0.29, k: 6.2 },
+];
+---
+
+<section class="ep-last" id="last-event" aria-labelledby="last-event-title">
+  <div class="wrap ep-last-grid">
+    <div class="ep-last-media reveal">
+      <a href={lastEvent.galleryUrl} class="ep-last-photo"
+        ><Photo
+          name="meetup"
+          alt="GHL Bangladesh meetup participants gathered together"
+          sizes="(max-width: 960px) calc(100vw - 40px), 680px"
+        /><span class="ep-last-label">{lastEvent.name}</span><span
+          class="ep-last-open"
+          aria-hidden="true"
+          ><svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><path d="M4.5 11.5 11.5 4.5M5.5 4.5h6v6"></path></svg
+          ></span
+        ></a
+      >
+      <div class="ep-cal" aria-hidden="true">
+        <span class="ep-cal-top">{month}</span><strong>{day}</strong><span
+          class="ep-cal-bottom">{year}</span
+        >
+      </div>
+    </div>
+
+    <div class="ep-last-head reveal">
+      <span class="kicker">Last event</span>
+      <h2 id="last-event-title">{lastEvent.name}</h2>
+    </div>
+
+    <div class="ep-last-body reveal">
+      <p class="ep-last-lead">{lastEvent.summary}</p>
+      <dl class="ep-facts">
+        <div>
+          <dt>Date</dt>
+          <dd><time datetime={lastEvent.date}>{lastEvent.dateLabel}</time></dd>
+        </div>
+        <div>
+          <dt>Co-organised by</dt>
+          <dd class="ep-organisers">
+            <span class="ep-faces" aria-hidden="true">
+              {
+                faces.map((face) => (
+                  <span
+                    class="ep-face"
+                    style={`--fx:${face.fx};--fy:${face.fy};--k:${face.k}`}
+                  >
+                    <Photo name={face.name} alt="" sizes="200px" />
+                  </span>
+                ))
+              }
+            </span>
+            <span>{organisers}</span>
+          </dd>
+        </div>
+        <div>
+          <dt>Photos</dt>
+          <dd>{photos.length} photos</dd>
+        </div>
+      </dl>
+      <Button
+        variant="outline"
+        icon="right"
+        label="View the photo gallery"
+        href={lastEvent.galleryUrl}
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .ep-last {
+    padding: clamp(40px, 5vw, 72px) 0 clamp(72px, 9vw, 130px);
+  }
+  /* photo on the left; heading and details on the right, centred beside it
+     together (on phones: heading, photo, details) */
+  .ep-last-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    grid-template-areas:
+      "media head"
+      "media body";
+    column-gap: clamp(36px, 5vw, 80px);
+  }
+  .ep-last-head {
+    grid-area: head;
+    align-self: end;
+  }
+  .ep-last-body {
+    grid-area: body;
+    align-self: start;
+  }
+
+  /* photo with a frosted name label and an arrow chip */
+  .ep-last-media {
+    grid-area: media;
+    align-self: center;
+    position: relative;
+  }
+  .ep-last-photo {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: calc(var(--radius) + 8px);
+    background: var(--navy-2);
+    box-shadow: 0 50px 90px -60px rgba(6, 29, 48, 0.6);
+  }
+  .ep-last-photo :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease);
+  }
+  .ep-last-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 55%,
+      rgba(6, 29, 48, 0.55) 100%
+    );
+    pointer-events: none;
+  }
+  .ep-last-label {
+    position: absolute;
+    z-index: 1;
+    left: 16px;
+    bottom: 16px;
+    max-width: calc(100% - 92px);
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 15px 8px 13px;
+    border-radius: 999px;
+    background: rgba(6, 29, 48, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .ep-last-label::before {
+    content: "";
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+  .ep-last-open {
+    position: absolute;
+    z-index: 1;
+    right: 16px;
+    bottom: 16px;
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--navy);
+    transition:
+      background-color 0.25s ease,
+      transform 0.45s var(--ease);
+  }
+  .ep-last-open svg {
+    width: 16px;
+    height: 16px;
+  }
+  @media (hover: hover) {
+    .ep-last-photo:hover :global(img) {
+      transform: scale(1.035);
+    }
+    .ep-last-photo:hover .ep-last-open {
+      background: var(--green);
+      transform: rotate(45deg);
+    }
+  }
+
+  /* calendar tile stuck on the corner of the photo */
+  .ep-cal {
+    position: absolute;
+    top: -22px;
+    right: clamp(14px, 3vw, 34px);
+    z-index: 2;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    width: 92px;
+    height: 104px;
+    border-radius: 18px;
+    overflow: hidden;
+    text-align: center;
+    background: var(--card);
+    box-shadow:
+      0 0 0 1px var(--line),
+      0 22px 40px -18px rgba(6, 29, 48, 0.55);
+    transform: rotate(5deg);
+    transition: transform 0.6s var(--ease);
+  }
+  .ep-last-media:hover .ep-cal {
+    transform: rotate(0deg) translateY(-4px);
+  }
+  .ep-cal-top {
+    padding: 5px 0;
+    background: var(--green);
+    color: #04240f;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .ep-cal strong {
+    display: grid;
+    place-items: center;
+    font-family: var(--display);
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+  }
+  .ep-cal-bottom {
+    padding-bottom: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-3);
+  }
+
+  /* details */
+  .ep-last-head h2 {
+    margin-top: 18px;
+    font-family: var(--display);
+    font-size: clamp(38px, 4vw, 58px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    font-weight: 800;
+  }
+  .ep-last-lead {
+    margin: 22px 0 0;
+    max-width: 500px;
+    font-family: var(--display);
+    font-size: clamp(18px, 1.6vw, 22px);
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    color: var(--ink-2);
+  }
+  .ep-facts {
+    margin: clamp(26px, 3vw, 36px) 0 clamp(28px, 3vw, 36px);
+    border-top: 1px solid var(--line);
+  }
+  .ep-facts > div {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 4px 20px;
+    align-items: center;
+    min-height: 58px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .ep-facts dt {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--ink-3);
+  }
+  .ep-facts dd {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .ep-organisers {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .ep-faces {
+    display: flex;
+    flex: none;
+  }
+  .ep-face {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--navy-2);
+    box-shadow: 0 0 0 2px var(--paper);
+  }
+  .ep-face + .ep-face {
+    margin-left: -8px;
+  }
+  /* the first face looks to the right, so it sits on top */
+  .ep-face:first-child {
+    z-index: 1;
+  }
+  .ep-face :global(img) {
+    position: absolute;
+    width: calc(var(--k) * 100%);
+    max-width: none;
+    height: auto;
+    left: calc(50% - var(--fx) * var(--k) * 100%);
+    top: calc(50% - var(--fy) * var(--k) * 100% / 1.4988);
+  }
+
+  @media (max-width: 960px) {
+    .ep-last-grid {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "head"
+        "media"
+        "body";
+    }
+    .ep-last-media {
+      margin-top: clamp(44px, 6vw, 56px);
+    }
+    .ep-last-body {
+      margin-top: 8px;
+    }
+  }
+  @media (max-width: 480px) {
+    .ep-cal {
+      width: 74px;
+      height: 86px;
+      border-radius: 15px;
+      top: -20px;
+    }
+    .ep-cal strong {
+      font-size: 32px;
+    }
+    .ep-cal-top,
+    .ep-cal-bottom {
+      font-size: 11px;
+    }
+    .ep-last-label {
+      left: 12px;
+      bottom: 12px;
+      font-size: 13px;
+      max-width: calc(100% - 80px);
+    }
+    .ep-last-open {
+      right: 12px;
+      bottom: 12px;
+      width: 42px;
+      height: 42px;
+    }
+    .ep-facts > div {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

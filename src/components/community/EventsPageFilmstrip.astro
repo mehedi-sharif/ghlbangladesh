@@ -1,0 +1,311 @@
+---
+// Events page, meetup photos: every gallery photo on a strip of film that
+// drifts across the screen. It stops while pointed at, and the round button
+// stops and restarts it. A second copy of the photos makes the loop seamless;
+// it is hidden from screen readers and can't be focused. With reduced motion
+// the strip stands still and scrolls sideways instead.
+import Button from "./Button.astro";
+import Photo from "./Photo.astro";
+import { albumUrl, lastEvent, photos } from "../../data/community";
+
+const pad = (n: number) => String(n).padStart(2, "0");
+---
+
+<section
+  class="ep-film on-dark"
+  id="meetup-photos"
+  aria-labelledby="film-title"
+>
+  <div class="wrap ep-film-head reveal">
+    <div>
+      <h2 class="kicker" id="film-title">Meetup photos</h2>
+      <p class="ep-film-lead">
+        Group photos, presentations, and conversations from the Bangladesh
+        meetup.
+      </p>
+    </div>
+    <div class="ep-film-actions">
+      <button
+        class="ep-film-toggle"
+        type="button"
+        aria-label="Pause the moving photos"
+        title="Pause the moving photos"
+        ><svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"
+          ><rect x="4" y="3" width="2.6" height="10" rx="1"></rect><rect
+            x="9.4"
+            y="3"
+            width="2.6"
+            height="10"
+            rx="1"></rect></svg
+        ><svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"
+          ><path
+            d="M5 3.4v9.2a.6.6 0 0 0 .9.5l7.3-4.6a.6.6 0 0 0 0-1L5.9 2.9a.6.6 0 0 0-.9.5Z"
+          ></path></svg
+        ></button
+      >
+      <Button
+        variant="ghost"
+        label="Explore the full event album"
+        href={albumUrl}
+      />
+    </div>
+  </div>
+
+  <div class="ep-film-strip">
+    <div class="ep-film-track">
+      {
+        [0, 1].map((copy) => (
+          <ul
+            class="ep-film-set"
+            role="list"
+            aria-hidden={copy ? "true" : undefined}
+            inert={copy ? true : undefined}
+          >
+            {photos.map((photo, index) => (
+              <li class="ep-frame">
+                <a
+                  href={lastEvent.galleryUrl}
+                  tabindex="-1"
+                  class="ep-frame-photo"
+                >
+                  <Photo
+                    name={photo.name}
+                    alt={copy ? "" : photo.alt}
+                    sizes="(max-width: 760px) 300px, 390px"
+                  />
+                </a>
+                <span class="ep-frame-caption">
+                  <span class="ep-frame-number" aria-hidden="true">
+                    {pad(index + 1)}
+                  </span>
+                  {photo.caption}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const film = document.querySelector<HTMLElement>(".ep-film");
+  const toggle = film?.querySelector<HTMLButtonElement>(".ep-film-toggle");
+  toggle?.addEventListener("click", () => {
+    const paused = film!.classList.toggle("is-paused");
+    const label = paused ? "Play the moving photos" : "Pause the moving photos";
+    toggle.setAttribute("aria-label", label);
+    toggle.setAttribute("title", label);
+  });
+</script>
+
+<style>
+  .ep-film {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(72px, 9vw, 120px) 0 clamp(64px, 8vw, 110px);
+    background: var(--navy);
+    color: var(--on-dark);
+  }
+  .ep-film-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 28px 48px;
+  }
+  .ep-film-head h2.kicker {
+    margin: 0;
+    line-height: 1.5;
+  }
+  .ep-film-lead {
+    margin: 18px 0 0;
+    max-width: 21ch;
+    font-family: var(--display);
+    font-size: clamp(30px, 3.9vw, 56px);
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    color: #fff;
+  }
+  .ep-film-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .ep-film-toggle {
+    display: none;
+    place-items: center;
+    flex: none;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border-radius: 50%;
+    border: 0;
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+    color: #fff;
+    transition:
+      background-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  :global(.js) .ep-film-toggle {
+    display: grid;
+  }
+  .ep-film-toggle:hover {
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+  }
+  .ep-film-toggle:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 3px;
+  }
+  .ep-film-toggle svg {
+    grid-area: 1 / 1;
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+  .ep-film-toggle .icon-play,
+  .ep-film.is-paused .ep-film-toggle .icon-pause {
+    display: none;
+  }
+  .ep-film.is-paused .ep-film-toggle .icon-play {
+    display: block;
+  }
+
+  /* the strip: a dark band with sprocket holes along both edges */
+  .ep-film-strip {
+    position: relative;
+    margin-top: clamp(40px, 5vw, 64px);
+    overflow: hidden;
+    background: #04131f;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 5%,
+      #000 95%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 5%,
+      #000 95%,
+      transparent
+    );
+  }
+  .ep-film-track {
+    display: flex;
+    width: max-content;
+    animation: ep-film-run 150s linear infinite;
+  }
+  .ep-film-strip:hover .ep-film-track,
+  .ep-film.is-paused .ep-film-track {
+    animation-play-state: paused;
+  }
+  @keyframes ep-film-run {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .ep-film-set {
+    --gap: 14px;
+    display: flex;
+    gap: var(--gap);
+    margin: 0;
+    padding: 30px var(--gap) 22px 0;
+    list-style: none;
+    /* sprocket holes: they travel with the photos */
+    background:
+      repeating-linear-gradient(
+          90deg,
+          rgba(242, 246, 244, 0.16) 0 12px,
+          transparent 12px 26px
+        )
+        left 9px / 100% 9px no-repeat,
+      repeating-linear-gradient(
+          90deg,
+          rgba(242, 246, 244, 0.16) 0 12px,
+          transparent 12px 26px
+        )
+        left bottom 9px / 100% 9px no-repeat;
+  }
+  .ep-frame {
+    flex: none;
+    width: clamp(260px, 27vw, 390px);
+  }
+  .ep-frame-photo {
+    display: block;
+    overflow: hidden;
+    border-radius: 6px;
+    background: var(--navy-2);
+  }
+  .ep-frame-photo :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease);
+  }
+  .ep-frame-photo:hover :global(img) {
+    transform: scale(1.05);
+  }
+  .ep-frame-caption {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 12px;
+    padding-bottom: 14px;
+    font-size: 13.5px;
+    line-height: 1.4;
+    color: var(--on-dark-2);
+  }
+  .ep-frame-number {
+    flex: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--yellow);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* reduced motion: a still strip to scroll through */
+  @media (prefers-reduced-motion: reduce) {
+    .ep-film-toggle,
+    :global(.js) .ep-film-toggle {
+      display: none;
+    }
+    .ep-film-strip {
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      scroll-padding-inline: 20px;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .ep-film-track {
+      animation: none;
+    }
+    .ep-film-set[aria-hidden="true"] {
+      display: none;
+    }
+    .ep-film-set {
+      padding-inline: 20px;
+    }
+    .ep-frame {
+      scroll-snap-align: start;
+    }
+  }
+  @media (max-width: 760px) {
+    .ep-film-set {
+      --gap: 12px;
+    }
+    .ep-frame {
+      width: 270px;
+    }
+  }
+</style>

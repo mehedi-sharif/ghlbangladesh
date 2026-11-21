@@ -1,0 +1,193 @@
+---
+// Events page, what a meetup looks like: the three verbs of the page lead
+// (learn, ask questions, share), each with a photo from the 2026 meetup and
+// its gallery caption. The photos rise like the three arrows of the logo:
+// pointed tops, yellow, blue and green, each taller than the one before.
+import Photo from "./Photo.astro";
+import { photos } from "../../data/community";
+
+const moments = [
+  { verb: "Learn", photo: "speaker", focus: "center" },
+  { verb: "Ask questions", photo: "dsc08567", focus: "28% center" },
+  { verb: "Share", photo: "conversations", focus: "45% center" },
+].map((moment) => ({
+  ...moment,
+  ...photos.find((photo) => photo.name === moment.photo)!,
+}));
+---
+
+<section class="ep-moments" aria-labelledby="moments-title">
+  <div class="wrap">
+    <div class="ep-moments-head reveal">
+      <span class="kicker">Inside a meetup</span>
+      <h2 id="moments-title">What a meetup looks like.</h2>
+    </div>
+    <ol class="moments" role="list">
+      {
+        moments.map((moment, index) => (
+          <li class="moment reveal">
+            <span class="moment-number">0{index + 1}</span>
+            <h3>{moment.verb}</h3>
+            <figure class="moment-photo">
+              <div class="moment-frame" style={`--focus: ${moment.focus}`}>
+                <Photo
+                  name={moment.name}
+                  alt={moment.alt}
+                  sizes="(max-width: 760px) calc(100vw - 40px), 33vw"
+                />
+              </div>
+              <figcaption>{moment.caption}</figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .ep-moments {
+    padding: clamp(72px, 9vw, 130px) 0 clamp(72px, 9vw, 120px);
+  }
+  .ep-moments-head h2 {
+    margin-top: 18px;
+    font-size: clamp(38px, 5vw, 72px);
+    line-height: 1.04;
+  }
+  .moments {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2.4vw, 32px);
+    align-items: end;
+    margin: clamp(40px, 4.5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  }
+  .moment {
+    --accent: var(--yellow);
+    --accent-ink: #8a6d00;
+    --h: clamp(260px, 26vw, 360px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .moment:nth-child(2) {
+    --accent: var(--blue);
+    --accent-ink: #1279b0;
+    --h: clamp(320px, 32vw, 450px);
+    transition-delay: 0.12s;
+  }
+  .moment:nth-child(3) {
+    --accent: var(--green);
+    --accent-ink: #06873a;
+    --h: clamp(380px, 38vw, 540px);
+    transition-delay: 0.24s;
+  }
+  :global(:root[data-theme="dark"]) .moment {
+    --accent-ink: var(--accent);
+  }
+  .moment-number {
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--accent-ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .moment h3 {
+    margin: 6px 0 18px;
+    font-family: var(--display);
+    font-size: clamp(26px, 2.6vw, 38px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  /* the photo is cut like a logo arrow: a pointed top over a band of its colour */
+  .moment-photo {
+    --hd: clamp(38px, 5vw, 74px);
+    position: relative;
+    width: 100%;
+    height: var(--h);
+    margin: 0;
+    background: var(--accent);
+    clip-path: polygon(50% 0, 100% var(--hd), 100% 100%, 0 100%, 0 var(--hd));
+  }
+  .moment-frame {
+    position: absolute;
+    inset: 7px 0 0;
+    overflow: hidden;
+    background: var(--navy-2);
+    clip-path: polygon(50% 0, 100% var(--hd), 100% 100%, 0 100%, 0 var(--hd));
+  }
+  .moment-frame :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--focus);
+    transition: transform 0.8s var(--ease);
+  }
+  .moment-photo:hover .moment-frame :global(img) {
+    transform: scale(1.04);
+  }
+  .moment-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 55%,
+      rgba(6, 29, 48, 0.7) 100%
+    );
+  }
+  /* frosted caption, like the labels on the volunteers page */
+  .moment-photo figcaption {
+    position: absolute;
+    z-index: 1;
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    width: fit-content;
+    padding: 7px 14px;
+    border-radius: 16px;
+    background: rgba(6, 29, 48, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  /* the photos rise into place */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .moment.reveal {
+      transform: translateY(60px);
+    }
+    :global(.js) .moment.reveal:global(.in) {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .moments {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      border-bottom: 0;
+    }
+    .moment,
+    .moment:nth-child(2),
+    .moment:nth-child(3) {
+      --h: auto;
+    }
+    .moment-photo {
+      --hd: 30px;
+      height: auto;
+      aspect-ratio: 4 / 3;
+    }
+    .moment h3 {
+      margin-bottom: 14px;
+    }
+  }
+</style>

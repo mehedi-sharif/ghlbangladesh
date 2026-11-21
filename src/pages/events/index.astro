@@ -1,50 +1,76 @@
 ---
 import Layout from "../../layouts/CommunityLayout.astro";
-import Photo from "../../components/community/Photo.astro";
+import PageIntro from "../../components/community/PageIntro.astro";
+import EventsPageUpcoming from "../../components/community/EventsPageUpcoming.astro";
+import EventsPageLast from "../../components/community/EventsPageLast.astro";
+import EventsPageFilmstrip from "../../components/community/EventsPageFilmstrip.astro";
+import EventsPageMoments from "../../components/community/EventsPageMoments.astro";
 import Join from "../../components/community/Join.astro";
-import { groupUrl } from "../../data/community";
 ---
 
-<Layout title="Meetups & Workshops — HighLevel Bangladesh"
-  ><section class="page-hero wrap">
-    <span class="eyebrow">Meetups &amp; workshops</span><h1>
-      Let’s take the<br />conversation offline.
-    </h1><p>
-      Come for a new idea. Stay for the connections. Our local meetups bring the
-      community together to learn, ask questions, and share.
-    </p>
-  </section><section class="events-section section">
-    <div class="wrap event-feature">
-      <a href="/events/meetup-2026" class="event-image"
-        ><Photo
-          name="meetup"
-          alt="GHL Bangladesh meetup participants gathered together"
-          eager
-        /><span class="image-label">GHL Meetup Bangladesh 2026</span></a
-      ><div class="event-content">
-        <span class="eyebrow">Meetup photos</span><h2>
-          GHL Meetup<br />Bangladesh 2026
-        </h2><p>
-          Group photos, presentations, and conversations from the Bangladesh
-          meetup.
-        </p><a class="text-link" href="/events/meetup-2026"
-          >View the photo gallery</a>
-      </div>
-    </div>
-  </section><section class="section wrap split-content">
-    <div>
-      <span class="eyebrow">Announcement coming soon</span><h2>
-        Your next local<br />connection starts here.
-      </h2>
-    </div><div>
-      <p class="large-copy">Date to be announced · Bangladesh</p><p>
-        Details of the next Bangladesh chapter meetup will be shared here once
-        confirmed.
-      </p><a
-        class="button"
-        href={groupUrl}
-        target="_blank"
-        rel="noopener noreferrer">Get Event Updates</a>
-    </div>
-  </section><Join /></Layout
->
+<Layout title="Meetups & Workshops — HighLevel Bangladesh">
+  <PageIntro
+    kicker="Meetups & workshops"
+    title="Let’s take the conversation"
+    accent="offline."
+    lead="Come for a new idea. Stay for the connections. Our local meetups bring the community together to learn, ask questions, and share."
+    photo="dsc08501"
+    focus="center 40%"
+  >
+    <span class="events-status" slot="status"
+      ><span class="events-dot" aria-hidden="true"></span>Next meetup TBA</span
+    >
+  </PageIntro>
+
+  <!-- the next meetup as a boarding pass (date and venue not announced yet) -->
+  <EventsPageUpcoming />
+  <!-- GHL Meetup Bangladesh 2026: group photo, date, organisers -->
+  <EventsPageLast />
+  <!-- all gallery photos on a moving strip of film -->
+  <EventsPageFilmstrip />
+  <!-- learn, ask questions, share: three photos rising like the logo arrows -->
+  <EventsPageMoments />
+
+  <Join />
+</Layout>
+
+<style>
+  /* status inside the banner label, after a thin divider */
+  .events-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding-left: 13px;
+    border-left: 1px solid rgba(255, 255, 255, 0.22);
+    color: var(--yellow);
+    font-weight: 600;
+  }
+  .events-dot {
+    position: relative;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--yellow);
+  }
+  .events-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    animation: events-pulse 2.4s ease-out infinite;
+  }
+  /* phones: the label keeps to one line without the status */
+  @media (max-width: 440px) {
+    .events-status {
+      display: none;
+    }
+  }
+  @keyframes events-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(248, 211, 37, 0.6);
+    }
+    100% {
+      box-shadow: 0 0 0 10px transparent;
+    }
+  }
+</style>

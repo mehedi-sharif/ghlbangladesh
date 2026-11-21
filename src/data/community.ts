@@ -143,6 +143,8 @@ export const lastEvent = {
     "An unofficial, community-driven meetup: GHL users in one room, asking questions and sharing what was actually working for them.",
   organisers: "Co-organised by Mehedi Sharif and Shariful Islam",
   galleryUrl: "/events/meetup-2026",
+  // group photo shown on the event card (one of the gallery photos above)
+  photo: "meetup",
 };
 export const nextEvent = {
   dateLabel: "Date to be announced",

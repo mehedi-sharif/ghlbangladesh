@@ -1,0 +1,423 @@
+---
+import Pill from "./Pill.astro";
+import HeroScene from "./HeroScene.astro";
+import { groupUrl } from "../../../data/community";
+---
+
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="v3-wrap hero-grid">
+    <div class="hero-copy">
+      <span class="hero-label"
+        ><span class="v3-flag" aria-hidden="true"></span>Bangladesh local
+        chapter</span
+      >
+      <h1 id="hero-heading">
+        Learn. Connect. Grow. <span class="soft">Together in Bangladesh.</span>
+      </h1>
+      <p class="hero-text">
+        <strong>A local home for people building with HighLevel.</strong> Meet your
+        peers, share what works, and take the next step together.
+      </p>
+      <div class="hero-actions">
+        <Pill block size="lg" label="Join the community" href={groupUrl} />
+        <Pill
+          block
+          size="lg"
+          variant="dark"
+          icon="down"
+          label="Explore Events"
+          href="#events"
+        />
+      </div>
+      <p class="hero-note">
+        Curious how it started? <a href="#our-story">Read our story</a>
+      </p>
+    </div>
+    <div class="hero-art"><HeroScene /></div>
+  </div>
+
+  <div class="v3-wrap hero-showcase">
+    <div class="hero-stage">
+      <div class="hero-frame">
+        <div class="hero-frame-bar">
+          <span class="hero-frame-title"
+            ><img
+              src="/images/community/chapter-logo.svg"
+              width="1430"
+              height="266"
+              alt=""
+              aria-hidden="true"
+            /></span
+          >
+          <button
+            class="hero-play"
+            type="button"
+            aria-pressed="false"
+            aria-label="Pause background video"
+            ><svg
+              class="i-pause"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              aria-hidden="true"
+              ><rect x="4" y="3" width="2.6" height="10" rx="1"></rect><rect
+                x="9.4"
+                y="3"
+                width="2.6"
+                height="10"
+                rx="1"></rect></svg
+            ><svg
+              class="i-play"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              aria-hidden="true"><path d="M5 3.2v9.6L13 8z"></path></svg
+            ></button
+          >
+        </div>
+        <div class="hero-media" aria-hidden="true">
+          <video
+            id="v3-hero-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster="/images/community/community.webp"
+            ><source
+              src="/images/community/chapter-meetup.mp4"
+              type="video/mp4"
+            /></video
+          >
+        </div>
+      </div>
+
+      <a class="hero-post" href="#events">
+        <span class="hero-post-badge" aria-hidden="true">
+          <span>Jun</span><strong>11</strong>
+        </span>
+        <span class="hero-post-text">
+          <span class="hero-post-meta">Last meetup · 11 June 2026</span>
+          <span class="hero-post-title">GHL Meetup Bangladesh 2026</span>
+        </span>
+        <svg
+          class="hero-post-arrow"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"><path d="M8 3.5v9M4 8.5l4 4 4-4"></path></svg
+        >
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const video = document.querySelector<HTMLVideoElement>("#v3-hero-video");
+  const button = document.querySelector<HTMLButtonElement>(".hero-play");
+  const motion = matchMedia("(prefers-reduced-motion: reduce)");
+  if (video && button) {
+    video.muted = true;
+    video.defaultMuted = true;
+    // the visitor's own choice wins over the automatic behaviour
+    let pausedByVisitor = motion.matches;
+    const label = () => {
+      const paused = video.paused;
+      button.setAttribute("aria-pressed", String(paused));
+      button.setAttribute(
+        "aria-label",
+        paused ? "Play background video" : "Pause background video",
+      );
+    };
+    const sync = () => {
+      if (pausedByVisitor || document.hidden) video.pause();
+      else video.play().catch(() => {});
+    };
+    video.addEventListener("play", label);
+    video.addEventListener("pause", label);
+    button.addEventListener("click", () => {
+      pausedByVisitor = !video.paused;
+      sync();
+    });
+    video.addEventListener("loadeddata", sync, { once: true });
+    document.addEventListener("visibilitychange", sync);
+    motion.addEventListener("change", () => {
+      pausedByVisitor = motion.matches;
+      sync();
+    });
+    sync();
+    label();
+  }
+</script>
+
+<style>
+  .hero {
+    padding: clamp(40px, 7vw, 96px) 0 clamp(56px, 8vw, 112px);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(40px, 6vw, 88px);
+    align-items: center;
+  }
+  .hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px 6px 6px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-2);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  h1 {
+    margin-top: 24px;
+    font-size: clamp(40px, 5vw, 68px);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+  h1 .soft {
+    display: block;
+    color: var(--text-3);
+  }
+  .hero-text {
+    max-width: 44ch;
+    margin-top: 24px;
+    color: var(--text-2);
+    font-size: clamp(16px, 1.5vw, 19px);
+    line-height: 1.65;
+  }
+  .hero-text strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+  .hero-actions {
+    display: grid;
+    gap: 10px;
+    max-width: 400px;
+    margin-top: 32px;
+  }
+  .hero-note {
+    margin-top: 18px;
+    color: var(--text-3);
+    font-size: 14px;
+  }
+  .hero-note a {
+    color: var(--text-2);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--line-2);
+    text-underline-offset: 4px;
+    transition: text-decoration-color 0.2s;
+  }
+  .hero-note a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* Framed video: the community's own footage in a calm, app-like window */
+  .hero-art {
+    position: relative;
+    max-width: 600px;
+    justify-self: end;
+    width: 100%;
+  }
+
+  /* Below the hero: the community's own footage in a framed window */
+  .hero-showcase {
+    margin-top: clamp(32px, 5vw, 64px);
+  }
+  .hero-stage {
+    position: relative;
+    max-width: 1040px;
+    margin-inline: auto;
+    padding-bottom: 36px;
+  }
+  .hero-frame {
+    position: relative;
+    padding: 8px;
+    border: 1px solid var(--line-2);
+    border-radius: calc(var(--radius) + 6px);
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    box-shadow:
+      0 40px 80px -40px rgba(0, 0, 0, 0.8),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  .hero-frame-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 6px 10px 10px;
+  }
+  .hero-frame-title img {
+    width: auto;
+    height: 18px;
+    opacity: 0.85;
+  }
+  .hero-play {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid var(--line-2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .hero-play:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+  .hero-play svg {
+    width: 14px;
+    height: 14px;
+  }
+  .hero-play .i-play,
+  .hero-play[aria-pressed="true"] .i-pause {
+    display: none;
+  }
+  .hero-play[aria-pressed="true"] .i-play {
+    display: block;
+  }
+  .hero-media {
+    position: relative;
+    aspect-ratio: 16 / 8;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+  .hero-media video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* the first seconds of the clip have thin black side bars */
+    transform: scale(1.06);
+  }
+
+  /* A feed-style card that floats over the frame and points to the events */
+  .hero-post {
+    position: absolute;
+    left: clamp(-28px, -2vw, -12px);
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: calc(100% - 24px);
+    padding: 12px 18px 12px 12px;
+    border: 1px solid var(--line-2);
+    border-radius: 18px;
+    background: rgba(6, 29, 48, 0.9);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.9);
+    transition:
+      transform 0.3s var(--ease),
+      border-color 0.3s;
+  }
+  .hero-post:hover {
+    border-color: rgba(196, 226, 255, 0.34);
+    transform: translateY(-3px);
+  }
+  .hero-post-badge {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 52px;
+    height: 56px;
+    border-radius: 12px;
+    background: var(--text);
+    color: var(--bg);
+    line-height: 1;
+  }
+  .hero-post-badge span {
+    margin-top: 6px;
+    color: var(--bd-red);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .hero-post-badge strong {
+    margin-top: -6px;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .hero-post-text {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+  .hero-post-meta {
+    color: var(--text-3);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .hero-post-title {
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .hero-post-arrow {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    color: var(--text-2);
+    transition: transform 0.3s var(--ease);
+  }
+  .hero-post:hover .hero-post-arrow {
+    transform: translateY(3px);
+  }
+
+  @media (max-width: 1000px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-actions {
+      max-width: none;
+      grid-template-columns: 1fr 1fr;
+    }
+    .hero-art {
+      order: -1;
+      max-width: 420px;
+      justify-self: center;
+      margin-bottom: -24px;
+    }
+    .hero-post {
+      left: 12px;
+    }
+  }
+  @media (max-width: 560px) {
+    .hero-actions {
+      grid-template-columns: 1fr;
+    }
+    .hero-frame {
+      padding: 6px;
+      border-radius: 22px;
+    }
+    .hero-art {
+      max-width: 300px;
+    }
+    .hero-media {
+      border-radius: 16px;
+      aspect-ratio: 4 / 3;
+    }
+    .hero-post {
+      left: 8px;
+      right: 8px;
+      max-width: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-post,
+    .hero-post-arrow {
+      transition: none;
+    }
+  }
+</style>

@@ -79,3 +79,13 @@ A homepage redesign proposed by Ridoy. All homepage text, photos, captions, link
 - Origin story: large quote mark, words light up while scrolling; the existing photos, crop positions, captions, and Shariful Islam’s Facebook link are kept.
 - Chapter leader and invitation: card layouts; the invitation shows the three logo arrows rising behind the heading.
 - Motion respects reduced-motion preferences; content stays visible when JavaScript is off.
+
+## Home v3 (draft)
+
+A dark, feed-style homepage draft proposed by Ridoy, inspired by the feel of daily.dev (not its assets or wording). Route `/v3` (`src/pages/v3.astro`), marked `noindex`. The live homepage and every other page are unchanged; v3 has its own layout (`src/layouts/CommunityLayoutV3.astro`, own header, mobile menu and global tokens) and sections in `src/components/community/v3/`. It does not import `community.css`.
+
+- Look: navy-black base `#030e18` with the brand navy `#061d30` as raised panels, hairline borders, large rounded panels, Plus Jakarta Sans (served locally) with heavy headlines whose second phrase is set in a softer grey. Accents are the logo arrow colours and the Bangladesh flag colours. Dark only.
+- Illustrations: original isometric SVGs drawn for this page (`HeroScene.astro`, `Spot.astro`). The hero shows the three logo arrows on a Bangladesh-green island under a red flag sun with a meetup table and conversation bubbles. The upcoming event has a "TBA" calendar, the volunteer card a flag planted on three blocks, and the invitation the logo arrows in 3D. Gentle float and grow motion, off for reduced motion.
+- Sections: hero (stacked buttons, illustration, the meetup video framed below with a pause button and a "Last meetup · 11 June 2026" card), audience chips, community benefits as Learn / Connect / Grow tabs with photos, events (upcoming event "Date to be announced" + GHL Meetup Bangladesh 2026 as feed posts), all 20 gallery photos with the photo viewer (keyboard arrows, swipe, counter), our story, chapter-leader profile card, volunteers + resources, invitation, footer.
+- Content comes only from the repository: existing homepage, events, volunteers and resources text, photo alt texts and captions, story crop positions and links. The 2026 meetup facts are those confirmed above (11 June 2026, unofficial, community-driven, co-organised by Mehedi Sharif and Shariful Islam).
+- Build note: the sitemap integration lists `/v3` in `sitemap-0.xml` even though the page is `noindex`. Excluding it would need a change to `astro.config.mjs`.

@@ -1,0 +1,170 @@
+---
+// Home v3 button: a rounded pill with a small icon that slides on hover.
+// "solid" is the light primary action, "dark" a quiet secondary action.
+interface Props {
+  label: string;
+  href?: string;
+  variant?: "solid" | "dark" | "green";
+  size?: "sm" | "md" | "lg";
+  icon?: "ne" | "right" | "down" | "left" | "x" | "none";
+  iconFirst?: boolean;
+  block?: boolean;
+  class?: string;
+  [attribute: string]: unknown;
+}
+const {
+  label,
+  href,
+  variant = "solid",
+  size = "md",
+  icon = "ne",
+  iconFirst = false,
+  block = false,
+  class: className,
+  ...attrs
+} = Astro.props;
+const paths = {
+  ne: "M4.5 11.5 11.5 4.5M5.5 4.5h6v6",
+  right: "M3.5 8h9M8.5 4l4 4-4 4",
+  down: "M8 3.5v9M4 8.5l4 4 4-4",
+  left: "M12.5 8h-9M7.5 4l-4 4 4 4",
+  x: "M4.5 4.5l7 7M11.5 4.5l-7 7",
+};
+const Tag = href ? "a" : "button";
+const parts = iconFirst ? ["icon", "label"] : ["label", "icon"];
+const external = href ? /^https?:\/\//.test(href) : false;
+---
+
+<Tag
+  class:list={[
+    "pill",
+    `pill-${variant}`,
+    `pill-${size}`,
+    { "pill-block": block },
+    className,
+  ]}
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : undefined}
+  type={href ? undefined : "button"}
+  {...attrs}
+  >{
+    parts.map((part) =>
+      part === "label" ? (
+        <span class="label">{label}</span>
+      ) : (
+        icon !== "none" && (
+          <svg
+            class:list={["pill-icon", icon]}
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d={paths[icon]} />
+          </svg>
+        )
+      ),
+    )
+  }</Tag
+>
+
+<style>
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 48px;
+    padding: 0 22px;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s,
+      color 0.2s,
+      transform 0.2s var(--ease),
+      box-shadow 0.2s;
+  }
+  .pill-sm {
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+  .pill-lg {
+    height: 56px;
+    padding: 0 28px;
+    border-radius: 16px;
+    font-size: 16px;
+  }
+  .pill-block {
+    display: flex;
+    width: 100%;
+  }
+  .pill-solid {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .pill-solid:hover {
+    background: #fff;
+    box-shadow: 0 8px 28px -10px rgba(255, 255, 255, 0.45);
+  }
+  .pill-green {
+    background: var(--green);
+    color: #03210f;
+  }
+  .pill-green:hover {
+    background: #2fe172;
+    box-shadow: 0 8px 28px -10px rgba(11, 206, 85, 0.7);
+  }
+  .pill-dark {
+    border-color: var(--line-2);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text);
+  }
+  .pill-dark:hover {
+    border-color: rgba(196, 226, 255, 0.32);
+    background: rgba(255, 255, 255, 0.09);
+  }
+  .pill:active {
+    transform: scale(0.98);
+  }
+  .pill-icon {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    transition: transform 0.25s var(--ease);
+  }
+  .pill:hover .ne {
+    transform: translate(2px, -2px);
+  }
+  .pill:hover .right {
+    transform: translateX(3px);
+  }
+  .pill:hover .left {
+    transform: translateX(-3px);
+  }
+  .pill:hover .down {
+    transform: translateY(2px);
+  }
+  .pill:hover .x {
+    transform: rotate(90deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pill,
+    .pill-icon {
+      transition: none;
+    }
+  }
+</style>

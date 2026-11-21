@@ -1,0 +1,247 @@
+---
+import Photo from "../Photo.astro";
+import Pill from "./Pill.astro";
+import Spot from "./Spot.astro";
+import { groupUrl, albumUrl } from "../../../data/community";
+// Last event and upcoming event as two feed posts. Only confirmed facts:
+// the 2026 meetup took place on 11 June 2026; the next date is not announced.
+---
+
+<section class="v3-section events" id="events" aria-labelledby="events-heading">
+  <div class="v3-wrap">
+    <div class="events-head v3-reveal">
+      <span class="v3-kicker" style="--k: var(--blue)"
+        >Meetups &amp; workshops</span
+      >
+      <h2 id="events-heading" class="v3-h2">
+        Let’s take the <span class="soft">conversation offline.</span>
+      </h2>
+      <p class="v3-lead">
+        Come for a new idea. Stay for the connections. Our local meetups bring
+        the community together to learn, ask questions, and share.
+      </p>
+    </div>
+
+    <div class="events-grid">
+      <article class="post post-next v3-reveal" aria-labelledby="next-title">
+        <header class="post-meta">
+          <span class="avatar" aria-hidden="true"
+            ><span class="v3-flag"></span></span
+          >
+          <span class="post-source">
+            <strong>Upcoming event</strong>
+            <span>Announcement coming soon</span>
+          </span>
+        </header>
+        <Spot name="calendar" class="calendar" />
+        <h3 id="next-title">Your next local connection starts here.</h3>
+        <p class="post-when">Date to be announced · Bangladesh</p>
+        <p class="post-text">
+          Details of the next Bangladesh chapter meetup will be shared here once
+          confirmed.
+        </p>
+        <div class="post-actions">
+          <Pill variant="solid" label="Get Event Updates" href={groupUrl} />
+        </div>
+      </article>
+
+      <article class="post post-last v3-reveal" aria-labelledby="last-title">
+        <header class="post-meta">
+          <span class="avatar avatar-logo" aria-hidden="true"
+            ><img src="/favicon.svg" width="40" height="40" alt="" /></span
+          >
+          <span class="post-source">
+            <strong>Last event</strong>
+            <span>GHL Bangladesh chapter</span>
+          </span>
+        </header>
+        <h3 id="last-title">GHL Meetup Bangladesh 2026</h3>
+        <ul class="v3-tags post-tags" role="list">
+          <li class="v3-tag">
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+              ><rect x="2" y="3" width="12" height="11" rx="2"></rect><path
+                d="M2 7h12M5.5 1.5v3M10.5 1.5v3"></path></svg
+            ><time datetime="2026-06-11">11 June 2026</time>
+          </li>
+          <li class="v3-tag">Unofficial</li>
+          <li class="v3-tag">Community-driven</li>
+        </ul>
+        <p class="post-text">
+          An unofficial, community-driven meetup co-organised by Mehedi Sharif
+          and Shariful Islam. Group photos, presentations, and conversations
+          from the Bangladesh meetup.
+        </p>
+        <a
+          class="post-photo"
+          href="#gallery"
+          aria-label="See the meetup photos"
+        >
+          <Photo
+            name="meetup"
+            alt="GHL Bangladesh meetup participants gathered together"
+            sizes="(max-width: 1000px) calc(100vw - 50px), 720px"
+          />
+        </a>
+        <div class="post-actions">
+          <Pill
+            variant="dark"
+            icon="down"
+            label="View the photo gallery"
+            href="#gallery"
+          />
+          <Pill
+            variant="dark"
+            label="Explore the full event album"
+            href={albumUrl}
+            aria-label="Explore the full event album (opens in a new tab)"
+          />
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .events-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 16px;
+    align-items: start;
+    margin-top: clamp(40px, 6vw, 64px);
+  }
+  .post {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(20px, 2.6vw, 28px);
+    border: 1px solid var(--line);
+    border-radius: calc(var(--radius) + 4px);
+    background: var(--surface);
+    transition: border-color 0.3s;
+  }
+  .post:hover {
+    border-color: var(--line-2);
+  }
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .avatar {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .avatar-logo img {
+    width: 100%;
+    height: 100%;
+  }
+  .post-source {
+    display: grid;
+    line-height: 1.3;
+  }
+  .post-source strong {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .post-source span {
+    color: var(--text-3);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .post h3 {
+    margin-top: 24px;
+    font-size: clamp(24px, 2.4vw, 32px);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .post-tags {
+    margin-top: 14px;
+  }
+  .post-text {
+    margin-top: 14px;
+    color: var(--text-2);
+    line-height: 1.7;
+  }
+  .post-when {
+    margin-top: 12px;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .post-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  /* Upcoming: an empty calendar page, waiting for a date */
+  .post-next {
+    position: relative;
+    background:
+      radial-gradient(
+          circle at 1px 1px,
+          rgba(196, 226, 255, 0.09) 1px,
+          transparent 1.5px
+        )
+        0 0 / 18px 18px,
+      var(--surface);
+  }
+  .post-next :global(.calendar) {
+    width: min(240px, 70%);
+    margin: 28px 0 4px;
+    transition: transform 0.5s var(--ease);
+  }
+  .post-next:hover :global(.calendar) {
+    transform: translateY(-4px);
+  }
+
+  /* Last event */
+  .post-photo {
+    display: block;
+    position: relative;
+    margin-top: 20px;
+    overflow: hidden;
+    border-radius: 18px;
+    aspect-ratio: 16 / 9;
+    background: var(--surface-2);
+  }
+  .post-photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease);
+  }
+  .post-photo:hover :global(img) {
+    transform: scale(1.03);
+  }
+
+  @media (max-width: 1000px) {
+    .events-grid {
+      grid-template-columns: 1fr;
+    }
+    .post-last {
+      order: -1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .post-next :global(.calendar),
+    .post-photo :global(img) {
+      transition: none;
+    }
+  }
+</style>

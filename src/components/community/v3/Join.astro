@@ -1,0 +1,103 @@
+---
+import Pill from "./Pill.astro";
+import Spot from "./Spot.astro";
+import { groupUrl } from "../../../data/community";
+// Closing invitation. The three rising arrows of the GHL logo, drawn in 3D,
+// stand behind it and grow into place once the card is on screen.
+---
+
+<section class="v3-section join" id="join" aria-labelledby="join-heading">
+  <div class="v3-wrap">
+    <div class="join-card v3-reveal">
+      <Spot name="arrows" class="join-arrows" />
+      <span class="v3-kicker">Join the community</span>
+      <h2 id="join-heading">
+        Great things start with a <span class="soft">connection.</span>
+      </h2>
+      <Pill
+        size="lg"
+        variant="green"
+        label="Join the community"
+        href={groupUrl}
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .join {
+    padding-top: 0;
+  }
+  .join-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+    min-height: 380px;
+    justify-content: center;
+    padding: clamp(32px, 6vw, 80px);
+    overflow: hidden;
+    border: 1px solid var(--line-2);
+    border-radius: calc(var(--radius) + 8px);
+    background:
+      radial-gradient(
+          circle at 1px 1px,
+          rgba(196, 226, 255, 0.08) 1px,
+          transparent 1.5px
+        )
+        0 0 / 22px 22px,
+      var(--surface);
+  }
+  .join-card .v3-kicker {
+    margin-bottom: -8px;
+  }
+  h2 {
+    position: relative;
+    max-width: 14ch;
+    font-size: clamp(36px, 5.4vw, 72px);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+  }
+  h2 .soft {
+    color: var(--text-3);
+  }
+  .join-arrows {
+    position: absolute;
+    right: clamp(16px, 5vw, 72px);
+    bottom: 24px;
+    width: clamp(180px, 24vw, 300px);
+  }
+  .join-card :global(.ar) {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    transition: transform 0.9s var(--ease);
+  }
+  .join-card :global(.ar2) {
+    transition-delay: 0.12s;
+  }
+  .join-card :global(.ar3) {
+    transition-delay: 0.24s;
+  }
+  :global(.js) .join-card:not(.in) :global(.ar) {
+    transform: scaleY(0.2);
+  }
+  @media (max-width: 760px) {
+    .join-card {
+      padding-bottom: 180px;
+    }
+    .join-arrows {
+      width: 150px;
+      right: 16px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .join-card :global(.ar) {
+      transition: none;
+    }
+    :global(.js) .join-card:not(.in) :global(.ar) {
+      transform: none;
+    }
+  }
+</style>

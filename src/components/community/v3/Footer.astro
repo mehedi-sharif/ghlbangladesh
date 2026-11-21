@@ -1,0 +1,131 @@
+---
+import { groupUrl } from "../../../data/community";
+---
+
+<footer class="footer">
+  <div class="v3-wrap">
+    <div class="footer-top">
+      <div class="footer-identity">
+        <a href="/" class="footer-brand" aria-label="GHL Bangladesh home"
+          ><img
+            src="/images/community/chapter-logo.svg"
+            width="1430"
+            height="266"
+            alt="GHL Bangladesh"
+            loading="lazy"
+          /></a
+        >
+        <p>Made for the people building what’s next.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div>
+          <span class="footer-label">Find your way</span>
+          <ul>
+            <li><a href="#community">Community</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="/resources">Resources</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer-label">Let’s connect</span>
+          <ul>
+            <li>
+              <a href={groupUrl} target="_blank" rel="noopener noreferrer"
+                >Facebook community <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  ><path d="M4.5 11.5 11.5 4.5M5.5 4.5h6v6"></path></svg
+                ></a
+              >
+            </li>
+            <li><a href="/volunteers">Volunteers</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-legal">
+      <span>© {new Date().getFullYear()} GHL Bangladesh</span>
+      <nav aria-label="Legal links">
+        <a href="/privacy-policy">Privacy</a><a href="/terms-and-conditions"
+          >Terms</a
+        >
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--line);
+    padding-top: clamp(48px, 6vw, 72px);
+    color: var(--text-2);
+    font-size: 15px;
+  }
+  .footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .footer-brand img {
+    width: auto;
+    height: 34px;
+  }
+  .footer-identity p {
+    margin-top: 16px;
+    color: var(--text-3);
+  }
+  .footer-nav {
+    display: flex;
+    gap: clamp(40px, 8vw, 120px);
+  }
+  .footer-label {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .footer-nav ul {
+    display: grid;
+    gap: 4px;
+  }
+  .footer-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    transition: color 0.2s;
+  }
+  .footer-nav a:hover,
+  .footer-legal a:hover {
+    color: var(--text);
+  }
+  .footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 56px;
+    padding-block: 24px 32px;
+    border-top: 1px solid var(--line);
+    color: var(--text-3);
+    font-size: 13px;
+  }
+  .footer-legal nav {
+    display: flex;
+    gap: 20px;
+  }
+  .footer-legal a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+  }
+</style>

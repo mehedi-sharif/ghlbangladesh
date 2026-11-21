@@ -156,46 +156,94 @@ export const nextEvent = {
 // Volunteers page: roles volunteers commonly take on at community meetups
 // (based on public volunteer pages such as WordCamp's). They are examples,
 // not confirmed GHL Bangladesh roles; replace them once roles are announced.
+// `photo` is a gallery photo from the 2026 meetup shown next to the role; its
+// own caption is used, so the page does not claim the people are volunteers.
 export const volunteerRoles = [
   {
     title: "Welcome & check-in",
     description:
       "Greet people at the door, help with check-in and point the way.",
     when: "On the day",
-    icon: "M4 6h16v12H4zM8 10.5h8M8 14h5",
+    photo: "dsc08687",
   },
   {
     title: "Setup & logistics",
     description:
       "Arrange chairs, signs and screens before the start, and tidy up after.",
     when: "On the day",
-    icon: "M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z",
+    photo: "dsc08278",
   },
   {
     title: "Photos & video",
     description:
       "Capture the talks and the conversations around them. A phone camera is often enough.",
     when: "On the day",
-    icon: "M4 8h3.5l2-2.5h5l2 2.5H20v11H4zM12 16.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z",
+    photo: "dsc08489",
   },
   {
     title: "Social media",
     description:
       "Share live updates and photos, and help put the recap together afterwards.",
     when: "During & after",
-    icon: "M4 5h16v11H9.5L5 19.5V16H4z",
+    photo: "dsc08546",
   },
   {
     title: "Session support",
     description: "Help speakers with microphones, slides and timing.",
     when: "On the day",
-    icon: "M12 3.5a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0v-5a3 3 0 0 0-3-3ZM6.5 11.5a5.5 5.5 0 0 0 11 0M12 17v3.5",
+    photo: "dsc08543",
   },
   {
     title: "Content & design",
     description:
       "Write announcements and make simple graphics for upcoming meetups.",
     when: "Before meetups",
-    icon: "M5 19l3.5-.8L19 7.7 16.3 5 5.8 15.5zM14.5 6.8l2.7 2.7",
+    photo: "dsc08237",
+  },
+];
+// Members page (/members): one entry per member, shown as a card in this
+// order. Add only confirmed details. To add a member, copy an entry and fill in:
+// - name, role (their role in the community) and about (what they do, a
+//   sentence or two)
+// - photo: name of a photo in public/images/community, saved in three widths as
+//   <name>-640.webp, <name>-1200.webp and <name>-1800.webp; alt describes it
+// - focus: which part of the photo stays in the portrait crop (CSS
+//   object-position, e.g. "62% center"; the first value moves left/right)
+// - links: facebook and website, both optional
+// - certified: true shows the HighLevel Certified Admin badge on the photo
+export const members: {
+  name: string;
+  role: string;
+  about: string;
+  photo: string;
+  alt: string;
+  focus?: string;
+  links?: { facebook?: string; website?: string };
+  certified?: boolean;
+}[] = [
+  {
+    name: "Mehedi Sharif",
+    role: "Chapter leader",
+    about:
+      "HighLevel Certified Admin and the chapter leader for HighLevel Bangladesh. Organises our local meetups.",
+    photo: "mehedi-portrait",
+    alt: "Mehedi Sharif holding a microphone beside the GHL Bangladesh meetup banner",
+    focus: "46% center",
+    links: {
+      facebook: "https://www.facebook.com/mehedi.sharif.titas",
+      website: "https://mehedisharif.com",
+    },
+    certified: true,
+  },
+  {
+    name: "Shariful Islam",
+    role: "Co-organiser",
+    about: "Co-organised GHL Meetup Bangladesh 2026 with Mehedi Sharif.",
+    photo: "dsc08543",
+    alt: "Shariful Islam speaking into a microphone at the GHL Bangladesh meetup",
+    focus: "62% center",
+    links: {
+      facebook: "https://www.facebook.com/vidmshariful",
+    },
   },
 ];

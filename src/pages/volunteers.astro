@@ -2,8 +2,15 @@
 import Layout from "../layouts/CommunityLayout.astro";
 import PageIntro from "../components/community/PageIntro.astro";
 import Button from "../components/community/Button.astro";
+import Photo from "../components/community/Photo.astro";
 import Join from "../components/community/Join.astro";
-import { groupUrl, volunteerRoles } from "../data/community";
+import { groupUrl, photos, volunteerRoles } from "../data/community";
+
+const roles = volunteerRoles.map((role) => ({
+  ...role,
+  caption: photos.find((photo) => photo.name === role.photo)?.caption ?? "",
+}));
+const pad = (n: number) => String(n).padStart(2, "0");
 
 const steps = [
   {
@@ -30,13 +37,22 @@ const steps = [
     title="Volunteer"
     accent="with us."
     lead="We’ll open volunteer opportunities very soon."
+    photo="dsc08636"
+    focus="center 35%"
+    next={{ label: "See ways to help", href: "#ways-to-help" }}
   >
-    <span class="volunteer-status"
+    <span class="volunteer-status" slot="status"
       ><span class="volunteer-dot" aria-hidden="true"></span>Opening soon</span
     >
   </PageIntro>
 
-  <section class="volunteer-roles" aria-labelledby="roles-heading">
+  <!-- Ways to help: a list of roles beside a photo from the meetup that
+       changes with the role being read (hover or scroll) -->
+  <section
+    class="volunteer-roles"
+    id="ways-to-help"
+    aria-labelledby="roles-heading"
+  >
     <div class="wrap">
       <div class="roles-head reveal">
         <div>
@@ -49,77 +65,151 @@ const steps = [
           open.
         </p>
       </div>
-      <ul class="roles-grid" role="list">
-        {
-          volunteerRoles.map((role) => (
-            <li class="role reveal">
-              <span class="role-icon" aria-hidden="true">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d={role.icon} />
-                </svg>
-              </span>
-              <h3>{role.title}</h3>
-              <p>{role.description}</p>
-              <span class="role-when">{role.when}</span>
-            </li>
-          ))
-        }
-      </ul>
+
+      <div class="roles-layout">
+        <div class="roles-stage" aria-hidden="true">
+          {
+            roles.map((role, index) => (
+              <figure
+                class:list={["stage-photo", { "is-active": index === 0 }]}
+                data-role={index}
+              >
+                <Photo name={role.photo} alt="" sizes="40vw" />
+                <figcaption>{role.caption}</figcaption>
+              </figure>
+            ))
+          }
+          <span class="stage-count"
+            ><span class="stage-current">01</span> / {pad(roles.length)}</span
+          >
+        </div>
+
+        <ol class="roles-list" role="list">
+          {
+            roles.map((role, index) => (
+              <li
+                class:list={["role", { "is-active": index === 0 }]}
+                data-role={index}
+              >
+                <figure class="role-photo" aria-hidden="true">
+                  <Photo name={role.photo} alt="" sizes="calc(100vw - 32px)" />
+                  <figcaption>{role.caption}</figcaption>
+                </figure>
+                <span class="role-number" aria-hidden="true">
+                  {pad(index + 1)}
+                </span>
+                <div class="role-text">
+                  <h3>{role.title}</h3>
+                  <p>{role.description}</p>
+                </div>
+                <span class="role-when">{role.when}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
     </div>
   </section>
 
+  <!-- How it works: the three rising arrows of the logo, as on the homepage -->
   <section class="volunteer-steps" aria-labelledby="steps-heading">
     <div class="wrap">
       <div class="steps-head reveal">
-        <span class="kicker">How it works</span>
-        <h2 id="steps-heading">Three steps to get involved.</h2>
+        <div>
+          <span class="kicker">How it works</span>
+          <h2 id="steps-heading">Three steps to get involved.</h2>
+        </div>
+        <div class="steps-action">
+          <Button label="Get community updates" href={groupUrl} />
+          <p>Volunteer sign-up isn’t open yet.</p>
+        </div>
       </div>
-      <ol class="steps reveal">
+      <ol class="steps reveal" role="list">
         {
           steps.map((step, index) => (
             <li class="step">
-              <span class="step-number" aria-hidden="true">
-                {index + 1}
-              </span>
+              <span class="step-eyebrow">Step {index + 1}</span>
               <h3>{step.title}</h3>
               <p>{step.text}</p>
+              <span class="rise" aria-hidden="true" />
             </li>
           ))
         }
       </ol>
-      <div class="steps-action reveal">
-        <Button label="Get community updates" href={groupUrl} />
-        <p>Volunteer sign-up isn’t open yet.</p>
-      </div>
     </div>
   </section>
 
   <Join />
 </Layout>
 
+<script>
+  // The photo beside the list follows the role being read: the one under the
+  // pointer, otherwise the one nearest the middle of the screen.
+  const list = document.querySelector<HTMLElement>(".roles-list");
+  const items = [...document.querySelectorAll<HTMLElement>(".role")];
+  const stage = [...document.querySelectorAll<HTMLElement>(".stage-photo")];
+  const current = document.querySelector<HTMLElement>(".stage-current");
+  if (list && items.length) {
+    let active = 0;
+    let pinned = false;
+    const show = (index: number) => {
+      if (index === active) return;
+      active = index;
+      items.forEach((item, i) =>
+        item.classList.toggle("is-active", i === index),
+      );
+      stage.forEach((photo, i) =>
+        photo.classList.toggle("is-active", i === index),
+      );
+      if (current) current.textContent = String(index + 1).padStart(2, "0");
+    };
+    items.forEach((item, index) => {
+      item.addEventListener("pointerenter", () => {
+        pinned = true;
+        show(index);
+      });
+    });
+    list.addEventListener("pointerleave", () => (pinned = false));
+    let ticking = false;
+    const follow = () => {
+      ticking = false;
+      if (pinned) return;
+      const middle = window.innerHeight / 2;
+      let best = active;
+      let distance = Infinity;
+      items.forEach((item, index) => {
+        const rect = item.getBoundingClientRect();
+        const d = Math.abs(rect.top + rect.height / 2 - middle);
+        if (d < distance) {
+          distance = d;
+          best = index;
+        }
+      });
+      show(best);
+    };
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(follow);
+        }
+      },
+      { passive: true },
+    );
+  }
+</script>
+
 <style>
-  /* status label inside the navy intro */
+  /* status inside the banner label, after a thin divider */
   .volunteer-status {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 26px;
-    padding: 7px 16px 7px 12px;
-    border-radius: 999px;
-    background: rgba(248, 211, 37, 0.12);
-    border: 1px solid rgba(248, 211, 37, 0.35);
+    gap: 9px;
+    padding-left: 13px;
+    border-left: 1px solid rgba(255, 255, 255, 0.22);
     color: var(--yellow);
-    font-size: 13px;
     font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
   }
   .volunteer-dot {
     position: relative;
@@ -144,251 +234,410 @@ const steps = [
     }
   }
 
-  /* roles */
+  /* section headings: 72px on desktop, like the homepage */
+  .roles-head h2,
+  .steps-head h2 {
+    margin-top: 18px;
+    font-size: clamp(38px, 5vw, 72px);
+    line-height: 1.04;
+  }
+
+  /* ways to help */
   .volunteer-roles {
-    padding: clamp(64px, 8vw, 110px) 0 clamp(40px, 5vw, 64px);
+    padding: clamp(72px, 9vw, 130px) 0 clamp(40px, 5vw, 72px);
   }
   .roles-head {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
-    gap: 16px clamp(24px, 5vw, 80px);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
+    gap: 20px clamp(32px, 6vw, 96px);
     align-items: end;
-    margin-bottom: clamp(32px, 4vw, 52px);
-  }
-  .roles-head h2,
-  .steps-head h2 {
-    margin-top: 16px;
-    font-family: var(--display);
-    font-size: clamp(32px, 4vw, 56px);
-    line-height: 1.05;
   }
   .roles-head p {
     margin: 0;
     color: var(--ink-2);
   }
-  .roles-grid {
-    list-style: none;
+  .roles-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(32px, 5vw, 80px);
+    margin-top: clamp(40px, 5vw, 72px);
+    align-items: start;
+  }
+
+  /* the photo stays in view while the list scrolls past */
+  .roles-stage {
+    position: sticky;
+    top: 32px;
+    aspect-ratio: 4 / 5;
+    max-height: calc(100vh - 64px);
+    border-radius: calc(var(--radius) + 8px);
+    overflow: hidden;
+    background: var(--navy-2);
+    box-shadow: 0 50px 90px -60px rgba(6, 29, 48, 0.6);
+  }
+  .stage-photo {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .stage-photo.is-active {
+    opacity: 1;
+  }
+  .stage-photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.08);
+    transition: transform 1.4s var(--ease);
+  }
+  .stage-photo.is-active :global(img) {
+    transform: none;
+  }
+  .stage-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(6, 29, 48, 0.35) 0%,
+      transparent 30%,
+      transparent 62%,
+      rgba(6, 29, 48, 0.7) 100%
+    );
+  }
+  /* frosted labels, like the name labels in the story section */
+  .stage-photo figcaption,
+  .role-photo figcaption,
+  .stage-count {
+    position: absolute;
+    z-index: 1;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: rgba(6, 29, 48, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+  .stage-photo figcaption,
+  .role-photo figcaption {
+    left: 16px;
+    bottom: 16px;
+    max-width: calc(100% - 32px);
+  }
+  .stage-count {
+    top: 16px;
+    left: 16px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+  }
+  .stage-current {
+    font-weight: 700;
+  }
+
+  /* role list: large titles divided by hairlines; the role being read is
+     marked with its colour from the logo */
+  .roles-list {
     margin: 0;
     padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    list-style: none;
     border-top: 1px solid var(--line);
   }
-  /* open grid: hairlines between the roles instead of boxes */
   .role {
     --accent: var(--yellow);
     --accent-ink: #8a6d00;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: clamp(24px, 3vw, 36px) clamp(18px, 2.4vw, 32px)
-      clamp(24px, 3vw, 36px) 0;
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 6px clamp(18px, 2.4vw, 32px);
+    align-items: baseline;
+    padding: clamp(24px, 3vw, 36px) 0 clamp(24px, 3vw, 36px)
+      clamp(16px, 2vw, 24px);
     border-bottom: 1px solid var(--line);
   }
-  .role:not(:nth-child(3n + 1)) {
-    padding-left: clamp(18px, 2.4vw, 32px);
-    border-left: 1px solid var(--line);
-  }
-  .role:nth-child(4n + 2) {
+  .role:nth-child(3n + 2) {
     --accent: var(--blue);
     --accent-ink: #1279b0;
   }
-  .role:nth-child(4n + 3) {
+  .role:nth-child(3n) {
     --accent: var(--green);
     --accent-ink: #06873a;
-  }
-  .role:nth-child(4n + 4) {
-    --accent: var(--bd-red);
-    --accent-ink: #d61f35;
   }
   :global(:root[data-theme="dark"]) .role {
     --accent-ink: var(--accent);
   }
-  .role-icon {
-    display: grid;
-    place-items: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
-    background: color-mix(in srgb, var(--accent) 16%, transparent);
-    color: var(--accent-ink);
+  /* coloured bar on the left of the active role */
+  .role::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: clamp(24px, 3vw, 36px);
+    bottom: clamp(24px, 3vw, 36px);
+    width: 3px;
+    border-radius: 3px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.5s var(--ease);
   }
-  .role-icon svg {
-    width: 24px;
-    height: 24px;
+  .role.is-active::before {
+    transform: none;
+  }
+  .role-number {
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--accent-ink);
+    font-variant-numeric: tabular-nums;
   }
   .role h3 {
-    margin-top: 18px;
     font-family: var(--display);
-    font-size: clamp(19px, 1.6vw, 22px);
-    line-height: 1.2;
+    font-size: clamp(24px, 2.6vw, 36px);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    transition: color 0.3s ease;
   }
   .role p {
-    margin: 8px 0 0;
+    margin: 10px 0 0;
+    max-width: 460px;
     color: var(--ink-2);
     font-size: 15.5px;
   }
   .role-when {
-    margin-top: auto;
-    padding-top: 18px;
-    font-size: 12.5px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    align-self: start;
+    margin-top: 0.5em;
+    padding: 5px 11px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
     color: var(--accent-ink);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  /* with the script on, roles not being read step back a little */
+  :global(.js) .role:not(.is-active) h3 {
+    color: color-mix(in srgb, var(--ink) 42%, transparent);
+  }
+  :global(.js) .role:not(.is-active) p {
+    color: var(--ink-3);
+  }
+  .role-photo {
+    display: none;
   }
 
-  /* how it works */
+  /* how it works: each step stands on a taller arrow than the one before */
   .volunteer-steps {
-    padding: clamp(40px, 5vw, 64px) 0 clamp(64px, 8vw, 110px);
+    padding: clamp(56px, 7vw, 100px) 0 clamp(72px, 9vw, 130px);
   }
   .steps-head {
-    text-align: center;
-  }
-  .steps-head .kicker::after {
-    content: "";
-    width: 22px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--grad);
-  }
-  .steps {
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(24px, 4vw, 56px);
-    margin: clamp(36px, 4.5vw, 56px) 0 0;
-    padding: 0;
-    list-style: none;
-    text-align: center;
-  }
-  /* dashed line linking the three numbers */
-  .steps::before {
-    content: "";
-    position: absolute;
-    top: 27px;
-    left: 16.6%;
-    right: 16.6%;
-    height: 2px;
-    background: repeating-linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--ink) 28%, transparent) 0 8px,
-      transparent 8px 16px
-    );
-  }
-  .step {
-    position: relative;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .step-number {
-    display: grid;
-    place-items: center;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: var(--paper);
-    box-shadow:
-      inset 0 0 0 2px var(--green),
-      0 0 0 8px var(--paper);
-    color: var(--ink);
-    font-family: var(--display);
-    font-size: 22px;
-    font-weight: 800;
-  }
-  .step:nth-child(2) .step-number {
-    box-shadow:
-      inset 0 0 0 2px var(--blue),
-      0 0 0 8px var(--paper);
-  }
-  .step:nth-child(3) .step-number {
-    box-shadow:
-      inset 0 0 0 2px var(--yellow),
-      0 0 0 8px var(--paper);
-  }
-  .step h3 {
-    margin-top: 20px;
-    font-family: var(--display);
-    font-size: clamp(19px, 1.6vw, 22px);
-    line-height: 1.2;
-  }
-  .step p {
-    margin: 8px auto 0;
-    max-width: 300px;
-    color: var(--ink-2);
-    font-size: 15.5px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 28px 48px;
   }
   .steps-action {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    margin-top: clamp(36px, 4.5vw, 52px);
+    align-items: flex-start;
+    gap: 12px;
   }
   .steps-action p {
     margin: 0;
     font-size: 14px;
     color: var(--ink-3);
   }
+  .steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(20px, 4vw, 64px);
+    align-items: end;
+    margin: clamp(40px, 4.5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  }
+  .step {
+    --accent: var(--yellow);
+    --accent-ink: #8a6d00;
+    --h: clamp(64px, 7vw, 104px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .step:nth-child(2) {
+    --accent: var(--blue);
+    --accent-ink: #1279b0;
+    --h: clamp(104px, 11.5vw, 170px);
+  }
+  .step:nth-child(3) {
+    --accent: var(--green);
+    --accent-ink: #06873a;
+    --h: clamp(144px, 16vw, 236px);
+  }
+  :global(:root[data-theme="dark"]) .step {
+    --accent-ink: var(--accent);
+  }
+  .step-eyebrow {
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+  .step h3 {
+    margin-bottom: 12px;
+    font-size: clamp(22px, 2.2vw, 32px);
+    line-height: 1.1;
+  }
+  .step p {
+    margin: 0;
+    max-width: 330px;
+    color: var(--ink-2);
+    font-size: 15.5px;
+  }
+  .rise {
+    --hd: clamp(31px, 3.43vw, 47px);
+    display: block;
+    margin-top: 32px;
+    width: clamp(64px, 7vw, 96px);
+    height: var(--h);
+    background: var(--accent);
+    clip-path: polygon(
+      50% 0,
+      100% var(--hd),
+      71.5% var(--hd),
+      71.5% 100%,
+      28.5% 100%,
+      28.5% var(--hd),
+      0 var(--hd)
+    );
+    transform-origin: bottom;
+    transition: transform 1.1s var(--ease);
+  }
+  :global(.js) .steps .rise {
+    transform: scaleY(0);
+  }
+  :global(.js) .steps:global(.in) .rise {
+    transform: none;
+  }
+  :global(.js) .steps:global(.in) .step:nth-child(2) .rise {
+    transition-delay: 0.15s;
+  }
+  :global(.js) .steps:global(.in) .step:nth-child(3) .rise {
+    transition-delay: 0.3s;
+  }
 
   @media (max-width: 960px) {
-    .roles-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .role:not(:nth-child(3n + 1)) {
-      padding-left: 0;
-      border-left: 0;
-    }
-    .role:nth-child(2n) {
-      padding-left: clamp(18px, 2.4vw, 32px);
-      border-left: 1px solid var(--line);
-    }
-  }
-  @media (max-width: 760px) {
     .roles-head {
       grid-template-columns: 1fr;
       align-items: start;
     }
-    .roles-grid {
+    .roles-layout {
       grid-template-columns: 1fr;
     }
-    .role:nth-child(2n) {
-      padding-left: 0;
-      border-left: 0;
+    .roles-stage {
+      display: none;
     }
+    /* on smaller screens every role carries its own photo */
+    .role-photo {
+      position: relative;
+      display: block;
+      grid-column: 1 / -1;
+      margin: 0 0 14px;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--navy-2);
+    }
+    .role-photo :global(img) {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .role {
+      padding-left: 0;
+    }
+    .role::before {
+      display: none;
+    }
+    :global(.js) .role:not(.is-active) h3 {
+      color: var(--ink);
+    }
+    :global(.js) .role:not(.is-active) p {
+      color: var(--ink-2);
+    }
+  }
+  @media (max-width: 560px) {
+    .role {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+    .role-when {
+      grid-column: 2;
+      justify-self: start;
+      margin-top: 6px;
+    }
+  }
+  /* on phones the arrows lie down and point at the text */
+  @media (max-width: 760px) {
     .steps {
       grid-template-columns: 1fr;
-      text-align: left;
-    }
-    .steps::before {
-      top: 28px;
-      bottom: 28px;
-      left: 27px;
-      right: auto;
-      width: 2px;
-      height: auto;
-      background: repeating-linear-gradient(
-        180deg,
-        color-mix(in srgb, var(--ink) 28%, transparent) 0 8px,
-        transparent 8px 16px
-      );
+      gap: 0;
+      border-bottom: 0;
+      border-left: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
     }
     .step {
       display: grid;
-      grid-template-columns: 56px 1fr;
-      column-gap: 18px;
-      align-items: start;
+      grid-template-columns: auto 1fr;
+      column-gap: 20px;
+      padding: 22px 0;
     }
-    .step-number {
-      grid-row: 1 / 3;
+    .rise {
+      grid-column: 1;
+      grid-row: 1 / 4;
+      margin: 0;
+      width: var(--h);
+      height: 44px;
+      align-self: center;
+      transform-origin: left;
+      clip-path: polygon(
+        100% 50%,
+        calc(100% - 30px) 0,
+        calc(100% - 30px) 30%,
+        0 30%,
+        0 70%,
+        calc(100% - 30px) 70%,
+        calc(100% - 30px) 100%
+      );
     }
-    .step h3 {
-      margin-top: 14px;
+    .step {
+      --h: 44px;
     }
+    .step:nth-child(2) {
+      --h: 68px;
+    }
+    .step:nth-child(3) {
+      --h: 92px;
+    }
+    .step-eyebrow,
+    .step h3,
     .step p {
-      margin: 6px 0 0;
       grid-column: 2;
+    }
+    :global(.js) .steps .rise {
+      transform: scaleX(0);
+    }
+    :global(.js) .steps:global(.in) .rise {
+      transform: none;
     }
   }
 </style>

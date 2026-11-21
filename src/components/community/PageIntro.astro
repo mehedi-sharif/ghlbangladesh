@@ -1,75 +1,210 @@
 ---
-// Opening band of an inner page: navy like the homepage hero, joined to the
-// header, with a small label, the page title and a short introduction.
+// Opening banner of an inner page, built like the homepage hero: a meetup
+// photo under the same navy veil, the header floating on top, the glass label
+// with the round flag, a large title and a round "down" button. Centred.
+import Button from "./Button.astro";
+import Photo from "./Photo.astro";
+
 interface Props {
   kicker: string;
   title: string;
   // last words of the title, shown with the gradient
   accent?: string;
   lead?: string;
+  // meetup photo from public/images/community (name without size suffix)
+  photo: string;
+  // which part of the photo stays in view (CSS object-position)
+  focus?: string;
+  // button that leads to the first section of the page
+  next?: { label: string; href: string };
 }
-const { kicker, title, accent, lead } = Astro.props;
+const {
+  kicker,
+  title,
+  accent,
+  lead,
+  photo,
+  focus = "center",
+  next,
+} = Astro.props;
 ---
 
 <section class="page-intro on-dark" aria-labelledby="page-intro-title">
+  <div class="page-intro-media" aria-hidden="true" style={`--focus: ${focus}`}>
+    <Photo name={photo} alt="" eager sizes="100vw" />
+  </div>
   <div class="wrap page-intro-inner">
-    <span class="kicker">{kicker}</span>
+    <span class="page-intro-label"
+      ><span class="flag-mark" aria-hidden="true"></span>{kicker}<slot
+        name="status"
+      /></span
+    >
     <h1 id="page-intro-title">
       {title}
-      {accent && <span class="grad-text">{accent}</span>}
+      {
+        accent && (
+          <span
+            class:list={[
+              "grad-text",
+              { "no-break": accent.trim().split(/\s+/).length <= 2 },
+            ]}
+          >
+            {accent}
+          </span>
+        )
+      }
     </h1>
     {lead && <p>{lead}</p>}
     <slot />
+    {
+      next && (
+        <Button
+          variant="ghost"
+          size="lg"
+          icon="down"
+          label={next.label}
+          href={next.href}
+        />
+      )
+    }
   </div>
+  <span class="scroll-cue" aria-hidden="true">Scroll</span>
 </section>
 
 <style>
+  /* the header floats over the photo, as on the homepage */
+  :global(.inner-page:has(.page-intro) .site-header) {
+    position: absolute;
+    inset: 0 0 auto 0;
+    background: transparent;
+  }
+  :global(.inner-page:has(.page-intro) .site-header.menu-open) {
+    background: var(--navy);
+  }
+
   .page-intro {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
-    background: linear-gradient(170deg, var(--navy) 30%, #0c2c4a 100%);
+    display: grid;
+    align-items: center;
+    min-height: clamp(560px, 80svh, 780px);
+    background: var(--navy);
     color: var(--on-dark);
   }
-  /* thin band of the logo colours where the navy ends */
-  .page-intro::after {
+  .page-intro-media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+  .page-intro-media :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--focus);
+    transform: scale(1.04);
+    animation: intro-settle 2.4s var(--ease) both;
+  }
+  @keyframes intro-settle {
+    from {
+      transform: scale(1.14);
+    }
+  }
+  /* navy veil: darkest behind the text, lighter towards the edges, so the
+     photo shows around the title; dark again at the top for the header */
+  .page-intro::before {
     content: "";
     position: absolute;
-    inset: auto 0 0 0;
-    height: 4px;
-    background: var(--grad);
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(
+        58% 62% at 50% 56%,
+        rgba(6, 29, 48, 0.9) 0%,
+        rgba(6, 29, 48, 0.72) 55%,
+        rgba(6, 29, 48, 0.5) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(6, 29, 48, 0.75) 0%,
+        rgba(6, 29, 48, 0) 26%,
+        rgba(6, 29, 48, 0) 72%,
+        rgba(6, 29, 48, 0.8) 100%
+      );
   }
-  /* centred: label, title and introduction */
+
   .page-intro-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding-top: clamp(48px, 7vw, 104px);
-    padding-bottom: clamp(56px, 7vw, 104px);
+    /* room for the header above */
+    padding-top: clamp(124px, 14vw, 168px);
+    padding-bottom: clamp(64px, 8vw, 104px);
   }
-  /* a second gradient dash after the label, as on the homepage's centred titles */
-  .page-intro .kicker::after {
-    content: "";
-    width: 22px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--grad);
+  /* glass label with the round flag, like "Bangladesh local chapter" */
+  .page-intro-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px 8px 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--line-dark);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    font-size: 14px;
+    font-weight: 500;
   }
   .page-intro h1 {
-    margin: 18px auto 0;
-    max-width: 14ch;
+    margin: 28px auto 0;
+    max-width: 13ch;
     font-family: var(--display);
-    font-size: clamp(40px, 5.4vw, 80px);
+    font-size: clamp(44px, 7.4vw, 108px);
     font-weight: 800;
     letter-spacing: -0.035em;
-    line-height: 1;
+    line-height: 0.98;
+    color: #fff;
   }
   .page-intro h1 .grad-text {
-    display: inline-block;
+    display: inline;
     padding-bottom: 0.06em;
   }
+  /* short endings like "with us." stay on one line */
+  .page-intro h1 .no-break {
+    white-space: nowrap;
+  }
   .page-intro p {
-    margin: 22px auto 0;
+    margin: 26px auto 0;
     max-width: 560px;
     color: var(--on-dark-2);
     font-size: clamp(17px, 1.5vw, 20px);
     line-height: 1.6;
+  }
+  .page-intro-inner > :global(.btn) {
+    margin-top: 36px;
+  }
+
+  /* same entrance as the homepage hero */
+  :global(.js) .page-intro-inner > * {
+    animation: rise 1s var(--ease) both;
+  }
+  :global(.js) .page-intro-inner > :nth-child(2) {
+    animation-delay: 0.12s;
+  }
+  :global(.js) .page-intro-inner > :nth-child(n + 3) {
+    animation-delay: 0.26s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .page-intro-media :global(img),
+    :global(.js) .page-intro-inner > * {
+      animation: none;
+    }
+  }
+  @media (max-width: 700px) {
+    .page-intro {
+      min-height: 0;
+    }
   }
 </style>

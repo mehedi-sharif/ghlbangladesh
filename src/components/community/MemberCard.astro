@@ -4,26 +4,32 @@
 // member's website. Members marked `certified` carry the HighLevel Certified
 // Admin badge on the corner of their photo. Data: `members` in
 // src/data/community.ts; page: src/pages/members.astro.
+// Sample cards (`sample: true`) show an outline of a person instead of a photo
+// and a "Sample" label, so they can never pass for a real member.
 import Photo from "./Photo.astro";
+import type { Member } from "../../data/community";
 
 interface Props {
-  member: {
-    name: string;
-    role: string;
-    about: string;
-    photo: string;
-    alt: string;
-    focus?: string;
-    links?: { facebook?: string; website?: string };
-    certified?: boolean;
-  };
+  member: Member;
   // colour of the role dot, taken in turn from the three logo arrows
   accent?: "green" | "blue" | "yellow";
+  // unique id for the card heading (sample cards share a name)
+  uid?: string;
 }
 
-const { member, accent = "green" } = Astro.props;
-const { name, role, about, photo, alt, focus, links = {}, certified } = member;
-const id = `member-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+const { member, accent = "green", uid } = Astro.props;
+const {
+  name,
+  role,
+  about,
+  photo,
+  alt = "",
+  focus,
+  links = {},
+  certified,
+  sample,
+} = member;
+const id = uid ?? `member-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
 
 // The "f" of the official Facebook logo (Simple Icons, CC0), as in Button.astro
 const facebookF =
@@ -32,15 +38,34 @@ const globe =
   "M14.25 8A6.25 6.25 0 1 1 1.75 8a6.25 6.25 0 0 1 12.5 0ZM1.75 8h12.5M8 1.75c1.7 1.75 2.55 3.83 2.55 6.25S9.7 12.5 8 14.25C6.3 12.5 5.45 10.42 5.45 8S6.3 3.5 8 1.75Z";
 ---
 
-<article class="member-card" aria-labelledby={id} data-accent={accent}>
+<article
+  class:list={["member-card", { "is-sample": sample }]}
+  aria-labelledby={id}
+  data-accent={accent}
+>
   <div class="member-media">
-    <div class="member-photo" style={focus ? `--focus: ${focus}` : undefined}>
-      <Photo
-        name={photo}
-        alt={alt}
-        sizes="(max-width: 599px) calc(100vw - 56px), (max-width: 999px) 45vw, 400px"
-      />
-    </div>
+    {
+      photo && !sample ? (
+        <div
+          class="member-photo"
+          style={focus ? `--focus: ${focus}` : undefined}
+        >
+          <Photo
+            name={photo}
+            alt={alt}
+            sizes="(max-width: 599px) calc(100vw - 56px), (max-width: 999px) 45vw, 400px"
+          />
+        </div>
+      ) : (
+        <div class="member-photo member-placeholder">
+          <svg viewBox="0 0 200 250" aria-hidden="true">
+            <circle cx="100" cy="95" r="40" />
+            <path d="M22 250c0-58 34-96 78-96s78 38 78 96" />
+          </svg>
+          {sample && <span class="member-sample">Sample</span>}
+        </div>
+      )
+    }
     <span class="member-role"
       ><span class="member-dot" aria-hidden="true"></span>{role}</span
     >
@@ -140,6 +165,42 @@ const globe =
     overflow: hidden;
     border-radius: var(--radius);
     background: var(--navy-2);
+  }
+  /* sample card: an outline of a person on a tint of the card's colour */
+  .member-placeholder {
+    background: color-mix(in srgb, var(--accent) 14%, var(--paper-2));
+  }
+  :global(:root[data-theme="dark"]) .member-placeholder {
+    background: color-mix(in srgb, var(--accent) 12%, var(--navy-2));
+  }
+  .member-placeholder svg {
+    position: absolute;
+    inset: 12% 0 0;
+    width: 100%;
+    height: 88%;
+    fill: color-mix(in srgb, var(--accent) 38%, transparent);
+  }
+  .member-placeholder::after {
+    display: none;
+  }
+  .member-sample {
+    position: absolute;
+    z-index: 1;
+    top: 12px;
+    left: 12px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px dashed color-mix(in srgb, var(--ink) 40%, transparent);
+    background: var(--card);
+    color: var(--ink-2);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .member-card.is-sample {
+    border-style: dashed;
+    box-shadow: none;
   }
   .member-photo :global(img) {
     width: 100%;
@@ -286,6 +347,58 @@ const globe =
   }
   :global(:root[data-theme="dark"]) .member-card {
     box-shadow: none;
+  }
+  /* two cards per row on phones: smaller type, labels and links */
+  @media (max-width: 599px) {
+    .member-card {
+      padding: 5px;
+      border-radius: calc(var(--radius) + 2px);
+    }
+    .member-photo {
+      border-radius: calc(var(--radius) - 4px);
+    }
+    .member-role {
+      left: 7px;
+      bottom: 7px;
+      max-width: calc(100% - 14px);
+      gap: 6px;
+      padding: 4px 9px 5px 8px;
+      font-size: 11.5px;
+    }
+    .member-dot {
+      width: 6px;
+      height: 6px;
+    }
+    .member-sample {
+      top: 7px;
+      left: 7px;
+      padding: 3px 7px;
+      font-size: 10px;
+    }
+    .member-badge {
+      top: -10px;
+      right: -8px;
+      width: 62px;
+    }
+    .member-body {
+      padding: 12px 8px 8px;
+    }
+    .member-name {
+      font-size: 18px;
+    }
+    .member-about {
+      margin-top: 6px;
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
+    .member-links {
+      gap: 8px;
+      padding-top: 14px;
+    }
+    .member-link {
+      width: 36px;
+      height: 36px;
+    }
   }
   @media (prefers-reduced-motion: reduce) {
     .member-card,

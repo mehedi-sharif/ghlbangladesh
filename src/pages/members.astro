@@ -4,14 +4,17 @@ import PageIntro from "../components/community/PageIntro.astro";
 import MemberCard from "../components/community/MemberCard.astro";
 import Button from "../components/community/Button.astro";
 import Join from "../components/community/Join.astro";
-import { groupUrl, members } from "../data/community";
+import { groupUrl, members, sampleMembers } from "../data/community";
 
+// Real members first, then the sample cards (placeholders, see community.ts).
+const people = [...members, ...sampleMembers];
 // Each card takes the next colour of the three logo arrows for its role dot.
 const accents = ["green", "blue", "yellow"] as const;
-// The open seat after the members fills the rest of its row: with three
-// columns (desktop) and two columns (tablet). Wider seats lie on their side.
-const span3 = 3 - (members.length % 3);
-const span2 = 2 - (members.length % 2);
+// The open seat after the members fills the rest of its row: with four columns
+// (wide screens), three (laptop) and two (tablet). Wider seats lie on their side.
+const span4 = 4 - (people.length % 4);
+const span3 = 3 - (people.length % 3);
+const span2 = 2 - (people.length % 2);
 ---
 
 <Layout
@@ -39,21 +42,30 @@ const span2 = 2 - (members.length % 2);
           added here.
         </p>
       </div>
+      {
+        sampleMembers.length > 0 && (
+          <p class="members-sample-note reveal">
+            Cards marked “Sample” are placeholders for members still to be
+            added.
+          </p>
+        )
+      }
 
       <ul class="members-grid" role="list">
         {
-          members.map((member, index) => (
-            <li class="reveal" style={`--delay: ${index * 90}ms`}>
+          people.map((member, index) => (
+            <li class="reveal" style={`--delay: ${(index % 4) * 90}ms`}>
               <MemberCard
                 member={member}
                 accent={accents[index % accents.length]}
+                uid={member.sample ? `member-sample-${index + 1}` : undefined}
               />
             </li>
           ))
         }
         <li
           class="member-seat-item reveal"
-          style={`--delay: ${members.length * 90}ms; --span-3: ${span3}; --span-2: ${span2}`}
+          style={`--delay: 0ms; --span-4: ${span4}; --span-3: ${span3}; --span-2: ${span2}`}
         >
           <article class="member-seat" aria-labelledby="member-seat-heading">
             <div class="seat-frame" aria-hidden="true">
@@ -119,11 +131,20 @@ const span2 = 2 - (members.length % 2);
     color: var(--ink-2);
   }
 
+  .members-sample-note {
+    display: inline-block;
+    margin: 28px 0 0;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px dashed color-mix(in srgb, var(--ink) 30%, transparent);
+    color: var(--ink-2);
+    font-size: 14px;
+  }
   .members-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(16px, 2vw, 28px);
-    margin: clamp(40px, 5vw, 72px) 0 0;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 24px);
+    margin: clamp(32px, 4vw, 56px) 0 0;
     padding: 0;
     list-style: none;
   }
@@ -137,8 +158,16 @@ const span2 = 2 - (members.length % 2);
 
   /* the open seat: an empty card waiting for the next member */
   .member-seat-item {
-    grid-column: span var(--span-3);
+    grid-column: span var(--span-4);
     container-type: inline-size;
+  }
+  @media (max-width: 1179px) {
+    .members-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .member-seat-item {
+      grid-column: span var(--span-3);
+    }
   }
   .member-seat {
     display: flex;
@@ -316,13 +345,14 @@ const span2 = 2 - (members.length % 2);
       grid-column: span var(--span-2);
     }
   }
+  /* phones: two cards per row, so a long list stays easy to scan */
   @media (max-width: 599px) {
     .members-grid {
-      grid-template-columns: 1fr;
-      gap: 20px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
     }
     .member-seat-item {
-      grid-column: auto;
+      grid-column: 1 / -1;
     }
     /* on phones the empty photo frame does not need a full portrait */
     .seat-frame {

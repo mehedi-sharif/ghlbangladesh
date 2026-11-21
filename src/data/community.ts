@@ -211,16 +211,19 @@ export const volunteerRoles = [
 //   object-position, e.g. "62% center"; the first value moves left/right)
 // - links: facebook and website, both optional
 // - certified: true shows the HighLevel Certified Admin badge on the photo
-export const members: {
+export type Member = {
   name: string;
   role: string;
   about: string;
-  photo: string;
-  alt: string;
+  photo?: string;
+  alt?: string;
   focus?: string;
   links?: { facebook?: string; website?: string };
   certified?: boolean;
-}[] = [
+  // placeholder card without a real person (see sampleMembers below)
+  sample?: boolean;
+};
+export const members: Member[] = [
   {
     name: "Mehedi Sharif",
     role: "Chapter leader",
@@ -247,3 +250,14 @@ export const members: {
     },
   },
 ];
+// SAMPLE CARDS, NOT REAL PEOPLE: placeholders the user asked for so the Members
+// page can be seen with many people. Each one is marked "Sample" on the page and
+// has no photo, name or role. Replace them with real members (add those to
+// `members` above) and then delete this list; never send it to the standard
+// repository (mehedi-sharif/ghlbangladesh).
+export const sampleMembers: Member[] = Array.from({ length: 18 }, () => ({
+  name: "Member name",
+  role: "Role",
+  about: "A sentence or two about what this member does.",
+  sample: true,
+}));

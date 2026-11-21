@@ -420,21 +420,15 @@ p + p {
 .btn-chip svg + svg {
   transform: translate(var(--in));
 }
-/* icon chips: the globe slides up on hover; the Facebook logo fills its chip in brand blue */
-.btn-chip.globe {
+/* icon chips: the globe and the Facebook "f" slide up on hover; Facebook's chip is Facebook blue */
+.btn-chip.globe,
+.btn-chip.facebook {
   --in: 0, 250%;
   --out: 0, -250%;
 }
 .btn .btn-chip.facebook {
-  background: #fff;
-  color: #0866ff;
-}
-.btn-chip.facebook svg {
-  left: -1px;
-  top: -1px;
-  width: calc(100% + 2px);
-  height: calc(100% + 2px);
-  margin: 0;
+  background: #0866ff;
+  color: #fff;
 }
 .btn-chip .glyph {
   position: absolute;
@@ -502,11 +496,8 @@ p + p {
     color: #04240f;
   }
   .btn:hover .btn-chip.facebook {
-    background: #fff;
-    color: #0866ff;
-  }
-  .btn:hover .btn-chip.facebook svg {
-    transform: scale(1.08);
+    background: #0866ff;
+    color: #fff;
   }
 }
 

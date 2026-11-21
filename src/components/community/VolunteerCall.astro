@@ -40,7 +40,9 @@ const lights = [
   <div class="wrap volunteer-inner">
     <div class="volunteer-copy reveal">
       <span class="kicker">Become a volunteer</span>
-      <h2 id="volunteer-call-heading">Volunteer with us.</h2>
+      <h2 id="volunteer-call-heading">
+        Volunteer <span class="no-break">with us.</span>
+      </h2>
       <span class="volunteer-status"
         ><span class="volunteer-dot" aria-hidden="true"></span>Opening soon</span
       >
@@ -111,14 +113,18 @@ const lights = [
   }
   .volunteer-inner {
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
     gap: clamp(32px, 6vw, 96px);
     align-items: center;
   }
+  /* same size as the other section headings: 72px on desktop */
   .volunteer-copy h2 {
-    margin-top: 16px;
-    font-size: clamp(30px, 3.4vw, 46px);
-    line-height: 1.06;
+    margin-top: 18px;
+    font-size: clamp(38px, 5vw, 72px);
+    line-height: 1.04;
+  }
+  .no-break {
+    white-space: nowrap;
   }
   .volunteer-status {
     display: inline-flex;
@@ -190,7 +196,7 @@ const lights = [
   .volunteer-map {
     justify-self: center;
     width: 100%;
-    max-width: 340px;
+    max-width: 470px;
     height: auto;
     overflow: visible;
   }
@@ -229,7 +235,7 @@ const lights = [
       grid-template-columns: 1fr;
     }
     .volunteer-map {
-      max-width: 220px;
+      max-width: 260px;
       justify-self: start;
     }
   }

@@ -1,0 +1,297 @@
+---
+// One member of GHL Bangladesh as a card: portrait photo with the role on a
+// frosted label, name, what they do, and round links to Facebook and the
+// member's website. Members marked `certified` carry the HighLevel Certified
+// Admin badge on the corner of their photo. Data: `members` in
+// src/data/community.ts; page: src/pages/members.astro.
+import Photo from "./Photo.astro";
+
+interface Props {
+  member: {
+    name: string;
+    role: string;
+    about: string;
+    photo: string;
+    alt: string;
+    focus?: string;
+    links?: { facebook?: string; website?: string };
+    certified?: boolean;
+  };
+  // colour of the role dot, taken in turn from the three logo arrows
+  accent?: "green" | "blue" | "yellow";
+}
+
+const { member, accent = "green" } = Astro.props;
+const { name, role, about, photo, alt, focus, links = {}, certified } = member;
+const id = `member-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+
+// The "f" of the official Facebook logo (Simple Icons, CC0), as in Button.astro
+const facebookF =
+  "M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245Z";
+const globe =
+  "M14.25 8A6.25 6.25 0 1 1 1.75 8a6.25 6.25 0 0 1 12.5 0ZM1.75 8h12.5M8 1.75c1.7 1.75 2.55 3.83 2.55 6.25S9.7 12.5 8 14.25C6.3 12.5 5.45 10.42 5.45 8S6.3 3.5 8 1.75Z";
+---
+
+<article class="member-card" aria-labelledby={id} data-accent={accent}>
+  <div class="member-media">
+    <div class="member-photo" style={focus ? `--focus: ${focus}` : undefined}>
+      <Photo
+        name={photo}
+        alt={alt}
+        sizes="(max-width: 599px) calc(100vw - 56px), (max-width: 999px) 45vw, 400px"
+      />
+    </div>
+    <span class="member-role"
+      ><span class="member-dot" aria-hidden="true"></span>{role}</span
+    >
+    {
+      certified && (
+        <img
+          class="member-badge"
+          src="/images/community/highlevel-certified-admin.webp"
+          width="640"
+          height="789"
+          alt="HighLevel Certified Admin badge"
+          title="HighLevel Certified Admin"
+          loading="lazy"
+          decoding="async"
+        />
+      )
+    }
+  </div>
+  <div class="member-body">
+    <h3 class="member-name" id={id}>{name}</h3>
+    <p class="member-about">{about}</p>
+    {
+      (links.facebook || links.website) && (
+        <div class="member-links">
+          {links.facebook && (
+            <a
+              class="member-link facebook"
+              href={links.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${name} on Facebook (opens in a new tab)`}
+              title="Facebook"
+            >
+              <svg viewBox="6.6 4.4 11 19.6" aria-hidden="true">
+                <path fill="currentColor" d={facebookF} />
+              </svg>
+            </a>
+          )}
+          {links.website && (
+            <a
+              class="member-link website"
+              href={links.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${name}’s website (opens in a new tab)`}
+              title="Website"
+            >
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d={globe} />
+              </svg>
+            </a>
+          )}
+        </div>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .member-card {
+    --accent: var(--green);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 8px;
+    border-radius: calc(var(--radius) + 8px);
+    background: var(--card);
+    border: 1px solid var(--line);
+    box-shadow: 0 40px 80px -60px rgba(6, 29, 48, 0.45);
+    transition:
+      transform 0.5s var(--ease),
+      box-shadow 0.5s var(--ease);
+  }
+  .member-card[data-accent="blue"] {
+    --accent: var(--blue);
+  }
+  .member-card[data-accent="yellow"] {
+    --accent: var(--yellow);
+  }
+
+  /* portrait crop of a meetup photo; the source photo stays intact */
+  .member-media {
+    position: relative;
+  }
+  .member-photo {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--navy-2);
+  }
+  .member-photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--focus, center);
+    transition: transform 0.8s var(--ease);
+  }
+  /* soft shade at the foot of the photo so the role label always reads */
+  .member-photo::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 34%;
+    background: linear-gradient(180deg, transparent, rgba(6, 29, 48, 0.42));
+    pointer-events: none;
+  }
+
+  /* role on a frosted navy label, like the name labels in the story section */
+  .member-role {
+    position: absolute;
+    z-index: 1;
+    left: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    max-width: calc(100% - 24px);
+    padding: 7px 14px 8px 12px;
+    border-radius: 999px;
+    background: rgba(6, 29, 48, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .member-dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  /* the certification badge hangs on the corner of the photo like a medal */
+  .member-badge {
+    position: absolute;
+    z-index: 2;
+    top: -18px;
+    right: -14px;
+    width: clamp(92px, 8vw, 112px);
+    height: auto;
+    transform: rotate(9deg);
+    transform-origin: 50% 12%;
+    filter: drop-shadow(0 12px 18px rgba(6, 29, 48, 0.35));
+    transition: transform 0.7s var(--ease);
+  }
+
+  .member-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(18px, 1.8vw, 24px) clamp(14px, 1.5vw, 20px)
+      clamp(12px, 1.2vw, 16px);
+  }
+  .member-name {
+    font-family: var(--display);
+    font-size: clamp(24px, 2.1vw, 30px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+  .member-about {
+    margin: 10px 0 0;
+    color: var(--ink-2);
+    font-size: 15.5px;
+    line-height: 1.6;
+  }
+
+  /* round links along the foot of the card */
+  .member-links {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 22px;
+  }
+  .member-link {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease,
+      box-shadow 0.25s ease,
+      transform 0.25s var(--ease);
+  }
+  .member-link svg {
+    width: 17px;
+    height: 17px;
+  }
+  .member-link.facebook {
+    background: #0866ff;
+    color: #fff;
+  }
+  .member-link.facebook svg {
+    width: 18px;
+    height: 18px;
+  }
+  .member-link.website {
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 24%, transparent);
+  }
+  .member-link:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 3px;
+  }
+
+  @media (hover: hover) {
+    .member-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 50px 90px -55px rgba(6, 29, 48, 0.55);
+    }
+    .member-card:hover .member-photo :global(img) {
+      transform: scale(1.04);
+    }
+    .member-card:hover .member-badge {
+      transform: rotate(-3deg);
+    }
+    .member-link:hover {
+      transform: translateY(-2px);
+    }
+    .member-link.website:hover {
+      background: var(--green);
+      color: #04240f;
+      box-shadow: none;
+    }
+  }
+  :global(:root[data-theme="dark"]) .member-card {
+    box-shadow: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .member-card,
+    .member-photo :global(img),
+    .member-badge {
+      transition: none;
+    }
+  }
+</style>

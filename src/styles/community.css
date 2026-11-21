@@ -694,7 +694,9 @@ p + p {
 .mobile-nav .btn {
   margin-top: auto;
 }
-@media (max-width: 1000px) {
+/* five links fit next to the logo and the join button from 1181px; below
+   that the menu button takes over */
+@media (max-width: 1180px) {
   .header-inner {
     grid-template-columns: 1fr auto;
   }

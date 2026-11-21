@@ -1,0 +1,332 @@
+---
+import Layout from "../layouts/CommunityLayout.astro";
+import PageIntro from "../components/community/PageIntro.astro";
+import MemberCard from "../components/community/MemberCard.astro";
+import Button from "../components/community/Button.astro";
+import Join from "../components/community/Join.astro";
+import { groupUrl, members } from "../data/community";
+
+// Each card takes the next colour of the three logo arrows for its role dot.
+const accents = ["green", "blue", "yellow"] as const;
+// The open seat after the members fills the rest of its row: with three
+// columns (desktop) and two columns (tablet). Wider seats lie on their side.
+const span3 = 3 - (members.length % 3);
+const span2 = 2 - (members.length % 2);
+---
+
+<Layout
+  title="Members — GHL Bangladesh"
+  description="Meet the members of GHL Bangladesh, the HighLevel community in Bangladesh: who they are and what they do."
+>
+  <PageIntro
+    kicker="GHL Bangladesh"
+    title="Meet the"
+    accent="members."
+    lead="Get to know the people of HighLevel Bangladesh."
+    photo="dsc08687"
+    focus="center 62%"
+  />
+
+  <section class="members" id="members" aria-labelledby="members-heading">
+    <div class="wrap">
+      <div class="members-head reveal">
+        <div>
+          <span class="kicker">Members</span>
+          <h2 id="members-heading">Faces to names.</h2>
+        </div>
+        <p>
+          Who they are and what they do in the community. More members will be
+          added here.
+        </p>
+      </div>
+
+      <ul class="members-grid" role="list">
+        {
+          members.map((member, index) => (
+            <li class="reveal" style={`--delay: ${index * 90}ms`}>
+              <MemberCard
+                member={member}
+                accent={accents[index % accents.length]}
+              />
+            </li>
+          ))
+        }
+        <li
+          class="member-seat-item reveal"
+          style={`--delay: ${members.length * 90}ms; --span-3: ${span3}; --span-2: ${span2}`}
+        >
+          <article class="member-seat" aria-labelledby="member-seat-heading">
+            <div class="seat-frame" aria-hidden="true">
+              <span class="seat-person">
+                <svg viewBox="0 0 200 250" fill="none">
+                  <circle cx="100" cy="95" r="40"></circle>
+                  <path d="M22 250c0-58 34-96 78-96s78 38 78 96"></path>
+                </svg>
+                <span class="seat-you">
+                  <svg
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  >
+                    <path d="M8 3.5v9M3.5 8h9"></path>
+                  </svg>
+                  You
+                </span>
+              </span>
+              <span class="seat-label"
+                ><span class="seat-dot"></span>Open seat</span
+              >
+            </div>
+            <div class="seat-body">
+              <h3 id="member-seat-heading">Pull up a chair.</h3>
+              <p>
+                Work with HighLevel in Bangladesh? Join the community, ask
+                questions and share what you’re learning.
+              </p>
+              <div class="seat-action">
+                <Button label="Join the community" href={groupUrl} />
+              </div>
+            </div>
+          </article>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <Join />
+</Layout>
+
+<style>
+  .members {
+    padding: clamp(72px, 9vw, 130px) 0 clamp(64px, 8vw, 110px);
+  }
+  .members-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+    gap: 20px clamp(32px, 6vw, 96px);
+    align-items: end;
+  }
+  /* section headings: 72px on desktop, like the homepage */
+  .members-head h2 {
+    margin-top: 18px;
+    font-size: clamp(38px, 5vw, 72px);
+    line-height: 1.04;
+  }
+  .members-head p {
+    margin: 0;
+    color: var(--ink-2);
+  }
+
+  .members-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 28px);
+    margin: clamp(40px, 5vw, 72px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .members-grid > li {
+    min-width: 0;
+  }
+  /* cards come in one after another */
+  :global(.js) .members-grid > li.reveal {
+    transition-delay: var(--delay, 0ms);
+  }
+
+  /* the open seat: an empty card waiting for the next member */
+  .member-seat-item {
+    grid-column: span var(--span-3);
+    container-type: inline-size;
+  }
+  .member-seat {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 8px;
+    border-radius: calc(var(--radius) + 8px);
+    border: 1.5px dashed color-mix(in srgb, var(--ink) 26%, transparent);
+    background: color-mix(in srgb, var(--card) 45%, transparent);
+  }
+  .seat-frame {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--paper-2);
+  }
+  /* a dashed outline of a person, standing where the next photo goes */
+  :global(:root[data-theme="dark"]) .seat-frame {
+    background: rgba(255, 255, 255, 0.045);
+  }
+  .seat-person {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 100%;
+    aspect-ratio: 4 / 5;
+    transform: translateX(-50%);
+  }
+  .seat-person > svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: color-mix(in srgb, var(--ink) 4%, transparent);
+    stroke: color-mix(in srgb, var(--ink) 32%, transparent);
+    stroke-width: 2;
+    stroke-dasharray: 6 7;
+    stroke-linecap: round;
+    transition:
+      stroke 0.4s ease,
+      fill 0.4s ease;
+  }
+  .seat-person > svg > * {
+    vector-effect: non-scaling-stroke;
+  }
+  /* "+ You" sits in the head of the outline, like the open seat in Join */
+  .seat-you {
+    --seat-ink: #067a35;
+    position: absolute;
+    left: 50%;
+    top: 38%;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 2px;
+    width: clamp(56px, 21%, 76px);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--card);
+    box-shadow: inset 0 0 0 2px var(--seat-ink);
+    color: var(--seat-ink);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease,
+      transform 0.45s var(--ease);
+  }
+  .seat-you svg {
+    width: 16px;
+    height: 16px;
+  }
+  :global(:root[data-theme="dark"]) .seat-you {
+    --seat-ink: var(--green);
+  }
+  .seat-label {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 14px 8px 12px;
+    border-radius: 999px;
+    background: var(--card);
+    border: 1px dashed color-mix(in srgb, var(--ink) 26%, transparent);
+    color: var(--ink-2);
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .seat-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1.5px var(--ink-3);
+  }
+  .seat-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(18px, 1.8vw, 24px) clamp(14px, 1.5vw, 20px)
+      clamp(12px, 1.2vw, 16px);
+  }
+  .seat-body h3 {
+    font-family: var(--display);
+    font-size: clamp(24px, 2.1vw, 30px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+  .seat-body p {
+    margin: 10px 0 0;
+    color: var(--ink-2);
+    font-size: 15.5px;
+    line-height: 1.6;
+  }
+  .seat-action {
+    margin-top: auto;
+    padding-top: 22px;
+  }
+  .seat-action :global(.btn) {
+    flex: none;
+  }
+  /* pointing at the seat fills it in */
+  @media (hover: hover) {
+    .member-seat:hover .seat-person > svg {
+      stroke: var(--green);
+      fill: color-mix(in srgb, var(--green) 10%, transparent);
+    }
+    .member-seat:hover .seat-you {
+      background: var(--green);
+      color: #04240f;
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+  }
+
+  /* a seat that spans two or three columns lies on its side */
+  @container (min-width: 560px) {
+    .member-seat {
+      flex-direction: row;
+      align-items: stretch;
+    }
+    .seat-frame {
+      flex: 0 0 42%;
+      aspect-ratio: 1;
+    }
+    .seat-body {
+      justify-content: center;
+      padding: clamp(24px, 4cqw, 48px);
+    }
+    .seat-body p {
+      max-width: 420px;
+    }
+    .seat-action {
+      margin-top: 0;
+      padding-top: 26px;
+    }
+  }
+
+  @media (max-width: 999px) {
+    .members-head {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+    .members-head p {
+      max-width: 520px;
+    }
+    .members-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .member-seat-item {
+      grid-column: span var(--span-2);
+    }
+  }
+  @media (max-width: 599px) {
+    .members-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .member-seat-item {
+      grid-column: auto;
+    }
+    /* on phones the empty photo frame does not need a full portrait */
+    .seat-frame {
+      aspect-ratio: 4 / 3;
+    }
+  }
+</style>

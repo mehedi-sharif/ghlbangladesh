@@ -1,8 +1,7 @@
 ---
 // Opening banner of an inner page, built like the homepage hero: a meetup
 // photo under the same navy veil, the header floating on top, the glass label
-// with the round flag, a large title and a round "down" button. Centred.
-import Button from "./Button.astro";
+// with the round flag and a large title. Centred.
 import Photo from "./Photo.astro";
 
 interface Props {
@@ -15,18 +14,8 @@ interface Props {
   photo: string;
   // which part of the photo stays in view (CSS object-position)
   focus?: string;
-  // button that leads to the first section of the page
-  next?: { label: string; href: string };
 }
-const {
-  kicker,
-  title,
-  accent,
-  lead,
-  photo,
-  focus = "center",
-  next,
-} = Astro.props;
+const { kicker, title, accent, lead, photo, focus = "center" } = Astro.props;
 ---
 
 <section class="page-intro on-dark" aria-labelledby="page-intro-title">
@@ -56,17 +45,6 @@ const {
     </h1>
     {lead && <p>{lead}</p>}
     <slot />
-    {
-      next && (
-        <Button
-          variant="ghost"
-          size="lg"
-          icon="down"
-          label={next.label}
-          href={next.href}
-        />
-      )
-    }
   </div>
   <span class="scroll-cue" aria-hidden="true">Scroll</span>
 </section>
@@ -88,7 +66,7 @@ const {
     overflow: hidden;
     display: grid;
     align-items: center;
-    min-height: clamp(560px, 80svh, 780px);
+    min-height: clamp(480px, 68svh, 660px);
     background: var(--navy);
     color: var(--on-dark);
   }
@@ -181,9 +159,6 @@ const {
     color: var(--on-dark-2);
     font-size: clamp(17px, 1.5vw, 20px);
     line-height: 1.6;
-  }
-  .page-intro-inner > :global(.btn) {
-    margin-top: 36px;
   }
 
   /* same entrance as the homepage hero */

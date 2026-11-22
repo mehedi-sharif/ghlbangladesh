@@ -1,0 +1,121 @@
+---
+import Photo from "./Photo.astro";
+import type { Member } from "../../data/community";
+
+interface Props {
+  member: Member;
+}
+
+const { member } = Astro.props;
+const headingId = `member-${member.slug}`;
+---
+
+<article class="member-card" aria-labelledby={headingId}>
+  <div class="member-media" style={`--photo-focus: ${member.focus}`}>
+    <Photo
+      name={member.photo}
+      alt={member.alt}
+      sizes="(max-width: 600px) calc(100vw - 64px), (max-width: 1000px) 44vw, 380px"
+    />
+    <span class="member-role">{member.role}</span>
+  </div>
+  <div class="member-body">
+    <h3 id={headingId}>{member.name}</h3>
+    <p>{member.about}</p>
+    <div class="member-links" aria-label={`${member.name} profile links`}>
+      {
+        member.links.map((link) => (
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${member.name} — ${link.label} (opens in a new tab)`}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  .member-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: calc(var(--radius) + 8px);
+    background: var(--card);
+  }
+  .member-media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1;
+    border-radius: var(--radius);
+    background: var(--paper-2);
+  }
+  .member-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--photo-focus, center);
+  }
+  .member-role {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    max-width: calc(100% - 28px);
+    padding: 7px 13px;
+    border-radius: 999px;
+    background: var(--navy);
+    color: var(--on-dark);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .member-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 24px 18px 18px;
+  }
+  .member-body h3 {
+    color: var(--ink);
+    font-size: clamp(1.4rem, 2.1vw, 1.875rem);
+    line-height: 1.2;
+  }
+  .member-body p {
+    margin-top: 12px;
+    color: var(--ink-2);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .member-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin-top: auto;
+    padding-top: 20px;
+  }
+  .member-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--ink);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 1px;
+  }
+  .member-links a:hover {
+    color: var(--forest);
+  }
+  .member-links a:focus-visible {
+    outline: 2px solid var(--forest);
+    outline-offset: 4px;
+    border-radius: 3px;
+  }
+</style>

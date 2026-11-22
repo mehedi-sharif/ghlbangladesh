@@ -1,6 +1,51 @@
 export const groupUrl = "https://www.facebook.com/groups/highlevelbangladesh";
 export const albumUrl =
   "https://www.playbook.com/s/ghlprojects/QpYamYiVaSVjLdKCfJoqWhuU";
+
+export interface Member {
+  slug: string;
+  name: string;
+  role: string;
+  about: string;
+  photo: string;
+  alt: string;
+  focus: string;
+  links: { label: string; url: string }[];
+}
+
+// Add a profile only when its name, photo, role and links are confirmed.
+export const members: Member[] = [
+  {
+    slug: "mehedi-sharif",
+    name: "Mehedi Sharif",
+    role: "Chapter leader",
+    about:
+      "HighLevel Certified Admin and the chapter leader for HighLevel Bangladesh. Organises our local meetups.",
+    photo: "mehedi-portrait",
+    alt: "Mehedi Sharif speaking at the GHL Bangladesh meetup",
+    focus: "46% center",
+    links: [
+      {
+        label: "Facebook",
+        url: "https://www.facebook.com/mehedi.sharif.titas",
+      },
+      { label: "Website", url: "https://mehedisharif.com" },
+    ],
+  },
+  {
+    slug: "shariful-islam",
+    name: "Shariful Islam",
+    role: "Meetup co-organiser",
+    about: "Co-organised GHL Meetup Bangladesh 2026 with Mehedi Sharif.",
+    photo: "dsc08543",
+    alt: "Shariful Islam speaking into a microphone at the GHL Bangladesh meetup",
+    focus: "62% center",
+    links: [
+      { label: "Facebook", url: "https://www.facebook.com/vidmshariful" },
+    ],
+  },
+];
+
 export const resources = [
   {
     number: "01",

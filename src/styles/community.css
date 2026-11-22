@@ -621,7 +621,8 @@ p + p {
 .mobile-nav .btn {
   margin-top: auto;
 }
-@media (max-width: 1000px) {
+/* Five navigation links need room beside the full-size logo and join button. */
+@media (max-width: 1120px) {
   .header-inner {
     grid-template-columns: 1fr auto;
   }

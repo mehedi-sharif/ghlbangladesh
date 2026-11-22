@@ -2,6 +2,12 @@
 
 The community website stays in the main Astro repository and deploys through the existing `ghlbangladesh` Cloudflare Pages project. Production domains: https://ghlbangladesh.com and https://www.ghlbangladesh.com. The marketer’s `tffarhad/ghl-bangladesh-website` repository is a content-structure reference, not this source repository.
 
+## Members page
+
+The `/members` page follows the group-photo introduction and profile-card layout in Ridoy’s `ghl-bangladesh-redesign` reference, using the current shared layout, Plus Jakarta Sans, local photographs, and existing colour tokens. Header, mobile-menu, and footer navigation make the page discoverable. Phone layouts show one profile per row, with readable body text and labelled external links.
+
+Confirmed profiles are maintained in the `members` array in `src/data/community.ts` and rendered by `MemberCard.astro`. Mehedi Sharif is listed as chapter leader and a HighLevel Certified Admin; Shariful Islam is listed as co-organiser of the GHL Bangladesh 2026 meetup. Their existing approved photographs and public profile links are reused. The reference’s sample member cards are excluded. Add further members only with confirmed names, photographs, roles, descriptions, and links. The community invitation directs visitors to the established Facebook group and does not imply a profile-submission form or a new membership system.
+
 ## Development
 
 Use Node 22.12 or newer. Run `npm ci`, `npm run dev`, `npm run check`, and `npm run build`. The build output is `dist/`. npm is the package manager; `.npmrc` retains compatibility with an unused template integration whose peer range predates Astro 6. The new pages do not use that integration.
@@ -25,31 +31,31 @@ Use Node 22.12 or newer. Run `npm ci`, `npm run dev`, `npm run check`, and `npm 
 
 User-supplied collection: https://www.playbook.com/s/ghlprojects/QpYamYiVaSVjLdKCfJoqWhuU (`GHL Meetup Bangladesh 2026`). Public previews and official Playbook WEBP exports were resized to 640, 1200, and 1800px WebP files. All 15 gallery filenames selected by Mehedi are imported, alongside the five existing photos; his DSC08672.JPG portrait is used separately in the story section. The public website serves local optimized copies, not expiring Playbook URLs or 18–26MB originals.
 
-| Local name | Source filename | Use |
-| --- | --- | --- |
-| meetup | DSC08684.JPG | Community group photo and hero |
-| conversations | DSC08234.JPG | Candid discussion |
-| speaker | DSC08669.JPG | Presentation |
-| building | DSC08236.JPG | Attendee working on a laptop |
-| workshop | DSC08662.JPG | Presentation with projected screen |
-| dsc08253 | DSC08253.JPG | Shariful Islam portrait in Our story; identified by Mehedi |
-| dsc08436 | DSC08436.JPG | Parliament view selected by Mehedi |
-| dsc08687 | DSC08687.JPG | Additional meetup group portrait selected by Mehedi |
-| dsc08636 | DSC08636.JPG | Selected event gallery photo |
-| dsc08567 | DSC08567.JPG | Selected event gallery photo |
-| dsc08546 | DSC08546.JPG | Selected event gallery photo |
-| dsc08543 | DSC08543.JPG | Selected event gallery photo |
-| dsc08517 | DSC08517.JPG | Selected event gallery photo |
-| dsc08501 | DSC08501.JPG | Selected event gallery photo |
-| dsc08489 | DSC08489.JPG | Selected event gallery photo |
-| dsc08463 | DSC08463.JPG | Selected event gallery photo |
-| dsc08408 | DSC08408.JPG | Selected event gallery photo |
-| dsc08339 | DSC08339.JPG | Selected event gallery photo |
-| dsc08278 | DSC08278.JPG | Selected event gallery photo |
-| dsc08260 | DSC08260.JPG | Selected event gallery photo |
-| dsc08237 | DSC08237.JPG | Selected event gallery photo |
-| dsc08548 | DSC08548.JPG | Mehedi’s seated story photo, exported from the original 7952×5304 JPEG |
-| mehedi-portrait | DSC08672.JPG | Chapter-leader photo, re-exported from the original 7952×5304 JPEG at higher quality |
+| Local name      | Source filename | Use                                                                                  |
+| --------------- | --------------- | ------------------------------------------------------------------------------------ |
+| meetup          | DSC08684.JPG    | Community group photo and hero                                                       |
+| conversations   | DSC08234.JPG    | Candid discussion                                                                    |
+| speaker         | DSC08669.JPG    | Presentation                                                                         |
+| building        | DSC08236.JPG    | Attendee working on a laptop                                                         |
+| workshop        | DSC08662.JPG    | Presentation with projected screen                                                   |
+| dsc08253        | DSC08253.JPG    | Shariful Islam portrait in Our story; identified by Mehedi                           |
+| dsc08436        | DSC08436.JPG    | Parliament view selected by Mehedi                                                   |
+| dsc08687        | DSC08687.JPG    | Additional meetup group portrait selected by Mehedi                                  |
+| dsc08636        | DSC08636.JPG    | Selected event gallery photo                                                         |
+| dsc08567        | DSC08567.JPG    | Selected event gallery photo                                                         |
+| dsc08546        | DSC08546.JPG    | Selected event gallery photo                                                         |
+| dsc08543        | DSC08543.JPG    | Selected event gallery photo                                                         |
+| dsc08517        | DSC08517.JPG    | Selected event gallery photo                                                         |
+| dsc08501        | DSC08501.JPG    | Selected event gallery photo                                                         |
+| dsc08489        | DSC08489.JPG    | Selected event gallery photo                                                         |
+| dsc08463        | DSC08463.JPG    | Selected event gallery photo                                                         |
+| dsc08408        | DSC08408.JPG    | Selected event gallery photo                                                         |
+| dsc08339        | DSC08339.JPG    | Selected event gallery photo                                                         |
+| dsc08278        | DSC08278.JPG    | Selected event gallery photo                                                         |
+| dsc08260        | DSC08260.JPG    | Selected event gallery photo                                                         |
+| dsc08237        | DSC08237.JPG    | Selected event gallery photo                                                         |
+| dsc08548        | DSC08548.JPG    | Mehedi’s seated story photo, exported from the original 7952×5304 JPEG               |
+| mehedi-portrait | DSC08672.JPG    | Chapter-leader photo, re-exported from the original 7952×5304 JPEG at higher quality |
 
 DSC08667.JPG was excluded because it was identified as reference-only. No upload date was used as an event date. No stock imagery, invented testimonials, or fabricated statistics are used. The Urbanist font is served locally from the prior website asset, removing build-time Google Fonts requests.
 

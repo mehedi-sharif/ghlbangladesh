@@ -1,0 +1,279 @@
+---
+import Layout from "../layouts/CommunityLayout.astro";
+import MemberCard from "../components/community/MemberCard.astro";
+import Photo from "../components/community/Photo.astro";
+import Join from "../components/community/Join.astro";
+import { groupUrl, members } from "../data/community";
+---
+
+<Layout
+  title="Members — GHL Bangladesh"
+  description="Meet the people of GHL Bangladesh. Get to know the chapter leader and meetup co-organiser behind our local HighLevel community."
+>
+  <section class="members-intro" aria-labelledby="members-title">
+    <div class="wrap members-intro-inner">
+      <div class="members-intro-copy">
+        <span class="members-label">GHL Bangladesh</span>
+        <h1 id="members-title">Meet the <span>members.</span></h1>
+        <p>Get to know the people of HighLevel Bangladesh.</p>
+      </div>
+      <figure class="members-intro-photo">
+        <Photo
+          name="dsc08687"
+          alt="GHL Bangladesh community members gathered for a group photo at the meetup"
+          eager
+          sizes="(max-width: 760px) calc(100vw - 40px), 48vw"
+        />
+      </figure>
+    </div>
+  </section>
+
+  <section class="members-directory" aria-labelledby="members-heading">
+    <div class="wrap">
+      <div class="members-heading">
+        <div>
+          <span class="members-label">Our community</span>
+          <h2 id="members-heading">Faces to names.</h2>
+        </div>
+        <p>
+          Meet the people helping bring us together. We’ll add more member
+          profiles as the community grows.
+        </p>
+      </div>
+      <ul class="members-grid" role="list">
+        {
+          members.map((member) => (
+            <li>
+              <MemberCard member={member} />
+            </li>
+          ))
+        }
+        <li class="member-invite-item">
+          <article
+            class="member-invite"
+            aria-labelledby="member-invite-heading"
+          >
+            <div class="member-invite-portrait" aria-hidden="true">
+              <svg viewBox="0 0 200 250" fill="none">
+                <circle cx="100" cy="80" r="35"></circle>
+                <path d="M26 250v-30c0-44 33-76 74-76s74 32 74 76v30"></path>
+              </svg>
+              <span>You’re welcome here</span>
+            </div>
+            <div class="member-invite-body">
+              <h3 id="member-invite-heading">Pull up a chair.</h3>
+              <p>
+                Work with HighLevel in Bangladesh? Join the conversations, ask
+                questions, and share what you’re learning.
+              </p>
+              <a
+                href={groupUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Find us on Facebook (opens in a new tab)"
+                >Find us on Facebook</a
+              >
+            </div>
+          </article>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <Join />
+</Layout>
+
+<style>
+  .members-intro {
+    padding-block: clamp(52px, 7vw, 96px);
+  }
+  .members-intro-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    align-items: center;
+    gap: clamp(32px, 5vw, 72px);
+  }
+  .members-label {
+    display: block;
+    margin-bottom: 18px;
+    color: var(--ink-3);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.5;
+    text-transform: none;
+  }
+  .members-intro h1 {
+    max-width: 580px;
+    font-size: clamp(2.75rem, 5.3vw, 4.75rem);
+    line-height: 1.08;
+  }
+  .members-intro h1 span {
+    color: var(--forest);
+  }
+  .members-intro-copy > p {
+    max-width: 440px;
+    margin-top: 24px;
+    color: var(--ink-2);
+    font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+    line-height: 1.7;
+  }
+  .members-intro-photo {
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--paper-2);
+  }
+  .members-intro-photo :global(img) {
+    width: 100%;
+    height: auto;
+  }
+  .members-directory {
+    padding-block: clamp(56px, 7vw, 88px) clamp(64px, 8vw, 104px);
+    background: #f5f6f1;
+    border-top: 1px solid var(--line);
+  }
+  .members-heading {
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 390px);
+    align-items: end;
+    gap: 24px;
+  }
+  .members-heading h2 {
+    font-size: clamp(2rem, 3.6vw, 3.25rem);
+  }
+  .members-heading > p {
+    color: var(--ink-2);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .members-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(20px, 2.2vw, 30px);
+    margin: 40px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .members-grid > li {
+    min-width: 0;
+  }
+  .member-invite {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 8px;
+    border: 1px dashed #9caaa0;
+    border-radius: calc(var(--radius) + 8px);
+  }
+  .member-invite-portrait {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1;
+    border-radius: var(--radius);
+    background: var(--paper-2);
+  }
+  .member-invite-portrait svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    stroke: #718574;
+    stroke-width: 1.5;
+    stroke-dasharray: 5 6;
+  }
+  .member-invite-portrait span {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    padding: 7px 13px;
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--ink-2);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .member-invite-body {
+    padding: 24px 18px 18px;
+  }
+  .member-invite-body h3 {
+    font-size: clamp(1.4rem, 2.1vw, 1.875rem);
+    line-height: 1.2;
+  }
+  .member-invite-body p {
+    margin-top: 12px;
+    color: var(--ink-2);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .member-invite-body a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 20px;
+    color: var(--ink);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 1px;
+  }
+  .member-invite-body a:hover {
+    color: var(--forest);
+  }
+  .member-invite-body a:focus-visible {
+    outline: 2px solid var(--forest);
+    outline-offset: 4px;
+    border-radius: 3px;
+  }
+  @media (max-width: 1000px) {
+    .members-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .member-invite-item {
+      grid-column: 1 / -1;
+    }
+    .member-invite {
+      flex-direction: row;
+      align-items: center;
+    }
+    .member-invite-portrait {
+      flex: 0 0 38%;
+    }
+    .member-invite-body {
+      padding: 28px;
+    }
+  }
+  @media (max-width: 760px) {
+    .members-intro-inner,
+    .members-heading {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .members-intro h1 {
+      max-width: 480px;
+    }
+    .members-intro-copy > p {
+      margin-top: 20px;
+    }
+    .members-grid {
+      margin-top: 30px;
+    }
+    .members-heading > p {
+      max-width: 480px;
+    }
+  }
+  @media (max-width: 600px) {
+    .members-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+    .member-invite {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .member-invite-portrait {
+      flex-basis: auto;
+      aspect-ratio: 4 / 3;
+    }
+    .member-invite-body {
+      padding: 24px 18px 18px;
+    }
+  }
+</style>

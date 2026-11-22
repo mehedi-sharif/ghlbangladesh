@@ -1,9 +1,14 @@
 ---
 import Layout from "../layouts/CommunityLayout.astro";
 import MemberCard from "../components/community/MemberCard.astro";
-import Photo from "../components/community/Photo.astro";
 import Join from "../components/community/Join.astro";
-import { groupUrl, members } from "../data/community";
+import { groupUrl, members, sampleMembers } from "../data/community";
+
+const people = [...members, ...sampleMembers];
+const accents = ["green", "blue", "yellow"] as const;
+const span4 = 4 - (people.length % 4);
+const span3 = 3 - (people.length % 3);
+const span2 = 2 - (people.length % 2);
 ---
 
 <Layout
@@ -13,42 +18,32 @@ import { groupUrl, members } from "../data/community";
   <section class="members-intro" aria-labelledby="members-title">
     <div class="wrap members-intro-inner">
       <div class="members-intro-copy">
-        <span class="members-label">GHL Bangladesh</span>
         <h1 id="members-title">Meet the <span>members.</span></h1>
         <p>Get to know the people of HighLevel Bangladesh.</p>
       </div>
-      <figure class="members-intro-photo">
-        <Photo
-          name="dsc08687"
-          alt="GHL Bangladesh community members gathered for a group photo at the meetup"
-          eager
-          sizes="(max-width: 760px) calc(100vw - 40px), 48vw"
-        />
-      </figure>
     </div>
   </section>
 
   <section class="members-directory" aria-labelledby="members-heading">
     <div class="wrap">
       <div class="members-heading">
-        <div>
-          <span class="members-label">Our community</span>
-          <h2 id="members-heading">Faces to names.</h2>
-        </div>
-        <p>
-          Meet the people helping bring us together. We’ll add more member
-          profiles as the community grows.
-        </p>
+        <h2 id="members-heading">Faces to names.</h2>
       </div>
       <ul class="members-grid" role="list">
         {
-          members.map((member) => (
+          people.map((member, index) => (
             <li>
-              <MemberCard member={member} />
+              <MemberCard
+                member={member}
+                accent={accents[index % accents.length]}
+              />
             </li>
           ))
         }
-        <li class="member-invite-item">
+        <li
+          class="member-invite-item"
+          style={`--span-4: ${span4}; --span-3: ${span3}; --span-2: ${span2}`}
+        >
           <article
             class="member-invite"
             aria-labelledby="member-invite-heading"
@@ -87,22 +82,13 @@ import { groupUrl, members } from "../data/community";
     padding-block: clamp(52px, 7vw, 96px);
   }
   .members-intro-inner {
-    display: grid;
-    grid-template-columns: 1fr 1.1fr;
-    align-items: center;
-    gap: clamp(32px, 5vw, 72px);
+    text-align: center;
   }
-  .members-label {
-    display: block;
-    margin-bottom: 18px;
-    color: var(--ink-3);
-    font-size: 0.875rem;
-    font-weight: 600;
-    line-height: 1.5;
-    text-transform: none;
+  .members-intro-copy {
+    max-width: 850px;
+    margin-inline: auto;
   }
   .members-intro h1 {
-    max-width: 580px;
     font-size: clamp(2.75rem, 5.3vw, 4.75rem);
     line-height: 1.08;
   }
@@ -110,50 +96,34 @@ import { groupUrl, members } from "../data/community";
     color: var(--forest);
   }
   .members-intro-copy > p {
-    max-width: 440px;
-    margin-top: 24px;
+    max-width: 620px;
+    margin: 24px auto 0;
     color: var(--ink-2);
     font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
     line-height: 1.7;
-  }
-  .members-intro-photo {
-    overflow: hidden;
-    border-radius: var(--radius);
-    background: var(--paper-2);
-  }
-  .members-intro-photo :global(img) {
-    width: 100%;
-    height: auto;
   }
   .members-directory {
     padding-block: clamp(56px, 7vw, 88px) clamp(64px, 8vw, 104px);
     background: #f5f6f1;
     border-top: 1px solid var(--line);
   }
-  .members-heading {
-    display: grid;
-    grid-template-columns: 1fr minmax(0, 390px);
-    align-items: end;
-    gap: 24px;
-  }
   .members-heading h2 {
     font-size: clamp(2rem, 3.6vw, 3.25rem);
   }
-  .members-heading > p {
-    color: var(--ink-2);
-    font-size: 1rem;
-    line-height: 1.7;
-  }
   .members-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(20px, 2.2vw, 30px);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 24px);
     margin: 40px 0 0;
     padding: 0;
     list-style: none;
   }
   .members-grid > li {
     min-width: 0;
+  }
+  .member-invite-item {
+    grid-column: span var(--span-4);
+    container-type: inline-size;
   }
   .member-invite {
     display: flex;
@@ -223,13 +193,7 @@ import { groupUrl, members } from "../data/community";
     outline-offset: 4px;
     border-radius: 3px;
   }
-  @media (max-width: 1000px) {
-    .members-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .member-invite-item {
-      grid-column: 1 / -1;
-    }
+  @container (min-width: 560px) {
     .member-invite {
       flex-direction: row;
       align-items: center;
@@ -241,28 +205,33 @@ import { groupUrl, members } from "../data/community";
       padding: 28px;
     }
   }
+  @media (max-width: 1179px) {
+    .members-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .member-invite-item {
+      grid-column: span var(--span-3);
+    }
+  }
+  @media (max-width: 999px) {
+    .members-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .member-invite-item {
+      grid-column: span var(--span-2);
+    }
+  }
   @media (max-width: 760px) {
-    .members-intro-inner,
-    .members-heading {
-      grid-template-columns: minmax(0, 1fr);
-    }
-    .members-intro h1 {
-      max-width: 480px;
-    }
     .members-intro-copy > p {
       margin-top: 20px;
     }
     .members-grid {
       margin-top: 30px;
     }
-    .members-heading > p {
-      max-width: 480px;
-    }
   }
-  @media (max-width: 600px) {
+  @media (max-width: 599px) {
     .members-grid {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 24px;
+      gap: 12px;
     }
     .member-invite {
       flex-direction: column;

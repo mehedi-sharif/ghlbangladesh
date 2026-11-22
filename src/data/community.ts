@@ -7,9 +7,10 @@ export interface Member {
   name: string;
   role: string;
   about: string;
-  photo: string;
-  alt: string;
-  focus: string;
+  photo?: string;
+  alt?: string;
+  focus?: string;
+  sample?: boolean;
   links: { label: string; url: string }[];
 }
 
@@ -35,7 +36,7 @@ export const members: Member[] = [
   {
     slug: "shariful-islam",
     name: "Shariful Islam",
-    role: "Meetup co-organiser",
+    role: "Co-organiser",
     about: "Co-organised GHL Meetup Bangladesh 2026 with Mehedi Sharif.",
     photo: "dsc08543",
     alt: "Shariful Islam speaking into a microphone at the GHL Bangladesh meetup",
@@ -45,6 +46,19 @@ export const members: Member[] = [
     ],
   },
 ];
+
+// These are visibly labelled placeholders, not community member profiles.
+export const sampleMembers: Member[] = Array.from(
+  { length: 18 },
+  (_, index) => ({
+    slug: `sample-member-${index + 1}`,
+    name: "Member name",
+    role: "Role",
+    about: "A sentence or two about what this member does.",
+    sample: true,
+    links: [],
+  }),
+);
 
 export const resources = [
   {

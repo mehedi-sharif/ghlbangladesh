@@ -8,6 +8,10 @@ The `/members` page uses a centered, text-only introduction. At Mehedi’s reque
 
 Confirmed profiles are maintained in the `members` array in `src/data/community.ts` and rendered by `MemberCard.astro`. Mehedi Sharif is listed as chapter leader and a HighLevel Certified Admin; Shariful Islam is listed as co-organiser of the GHL Bangladesh 2026 meetup. Their existing approved photographs and public profile links are reused. Eighteen separate `sampleMembers` placeholders reproduce the reference shown by Mehedi; they have explicit “Sample” labels, generic names and descriptions, coloured silhouettes, and no real portraits or profile links. Add further real members only with confirmed names, photographs, roles, descriptions, and links. The community invitation directs visitors to the established Facebook group and does not imply a profile-submission form or a new membership system.
 
+## Homepage benefit arrows
+
+The Learn, Connect, and Grow arrows use the join banner’s rounded arrow geometry, floating outline, and fading tail. `RisingArrow.astro` supplies a decorative SVG with unique gradient and mask IDs for each instance. The overview keeps its yellow/blue/green colours, increasing heights, staggered reveal, and horizontal arrows beside the text on phones. The join banner itself remains unchanged.
+
 ## Development
 
 Use Node 22.12 or newer. Run `npm ci`, `npm run dev`, `npm run check`, and `npm run build`. The build output is `dist/`. npm is the package manager; `.npmrc` retains compatibility with an unused template integration whose peer range predates Astro 6. The new pages do not use that integration.

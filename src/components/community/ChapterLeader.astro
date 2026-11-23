@@ -113,6 +113,8 @@ const standalone = headingTag === "h1";
     width: clamp(32px, 3.2vw, 40px);
     height: auto;
     object-fit: contain;
+    /* Center the round seal beside the name; its ribbons extend below it. */
+    transform: translateY(12.5%);
   }
   /* gradient edge along the bottom of the photo */
   .chapter-profile-visual::after {

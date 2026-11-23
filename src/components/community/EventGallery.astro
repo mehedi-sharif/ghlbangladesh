@@ -48,7 +48,6 @@ const sizes = {
             class="event-gallery-photo"
             href={`/images/community/${photo.name}-1800.webp`}
             data-event-photo
-            data-caption={photo.caption}
             aria-label={`Enlarge photo: ${photo.alt}`}
             aria-controls="meetup-photo-dialog"
             aria-haspopup="dialog"
@@ -67,11 +66,12 @@ const sizes = {
     class="event-photo-dialog"
     id="meetup-photo-dialog"
     aria-labelledby="meetup-photo-dialog-title"
-    aria-describedby="meetup-photo-caption"
   >
     <div class="event-photo-dialog-header">
       <h3 id="meetup-photo-dialog-title">
-        GHL Meetup Bangladesh 2026<span class="event-photo-counter"></span>
+        GHL Meetup Bangladesh 2026<span
+          class="event-photo-counter"
+          aria-live="polite"></span>
       </h3>
       <Button
         class="event-photo-close"
@@ -83,7 +83,7 @@ const sizes = {
         autofocus
       />
     </div>
-    <!-- the photo is positioned against this frame, so it can never grow over the caption or the buttons -->
+    <!-- Keep the photo inside its frame and clear of the viewer controls. -->
     <div class="event-photo-image-frame">
       <img
         class="event-photo-full"
@@ -92,7 +92,6 @@ const sizes = {
       />
     </div>
     <div class="event-photo-dialog-footer">
-      <p id="meetup-photo-caption" aria-live="polite"></p>
       <div class="event-photo-controls">
         <Button
           class="event-photo-previous"
@@ -161,16 +160,12 @@ const sizes = {
       );
       const image =
         dialog?.querySelector<HTMLImageElement>(".event-photo-full");
-      const caption = dialog?.querySelector<HTMLElement>(
-        "#meetup-photo-caption",
-      );
       const counter = dialog?.querySelector<HTMLElement>(
         ".event-photo-counter",
       );
       if (
         !dialog ||
         !image ||
-        !caption ||
         !counter ||
         typeof dialog.showModal !== "function"
       )
@@ -189,8 +184,6 @@ const sizes = {
         image.alt =
           link.querySelector<HTMLImageElement>("img")?.alt ||
           "GHL Bangladesh meetup photo";
-        caption.textContent =
-          link.dataset.caption || "GHL Meetup Bangladesh 2026";
         counter.textContent = `${activeIndex + 1} / ${links.length}`;
       };
 
@@ -296,30 +289,9 @@ const sizes = {
       transform 0.7s var(--ease),
       filter 0.4s;
   }
-  /* the caption slides up over the photo on hover and keyboard focus */
-  .event-gallery-photo::after {
-    content: attr(data-caption);
-    position: absolute;
-    inset: auto 0 0 0;
-    padding: 40px 16px 14px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #fff;
-    background: linear-gradient(transparent, rgba(6, 29, 48, 0.85));
-    opacity: 0;
-    transform: translateY(8px);
-    transition:
-      opacity 0.35s,
-      transform 0.35s;
-  }
   .event-gallery-photo:hover :global(img),
   .event-gallery-photo:focus-visible :global(img) {
     transform: scale(1.06);
-  }
-  .event-gallery-photo:hover::after,
-  .event-gallery-photo:focus-visible::after {
-    opacity: 1;
-    transform: none;
   }
   @media (max-width: 900px) {
     .event-gallery-grid {
@@ -421,14 +393,9 @@ const sizes = {
   .event-photo-dialog-footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 16px;
     padding: 16px clamp(16px, 3vw, 32px) 22px;
-  }
-  .event-photo-dialog-footer p {
-    margin: 0;
-    font-size: 16px;
-    color: var(--on-dark);
   }
   .event-photo-dialog :global(.btn) {
     flex: none;

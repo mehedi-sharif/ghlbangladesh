@@ -122,6 +122,8 @@ Requested by Ridoy after the first review:
 
 The follow-up review reduced the certification badge to 32–40px wide and removed the entire avatar row from the shared connection banner.
 
+Photo captions were subsequently removed from the homepage gallery, enlarged-photo viewers, standalone event gallery and event-page photo sections. Photo alt text and accessible enlargement controls remain available; the homepage viewer still announces its photo counter.
+
 ## Home v3 (draft)
 
 A dark, feed-style homepage draft proposed by Ridoy, inspired by the feel of daily.dev (not its assets or wording). Route `/v3` (`src/pages/v3.astro`), marked `noindex`. The live homepage and every other page are unchanged; v3 has its own layout (`src/layouts/CommunityLayoutV3.astro`, own header, mobile menu and global tokens) and sections in `src/components/community/v3/`. It does not import `community.css`.

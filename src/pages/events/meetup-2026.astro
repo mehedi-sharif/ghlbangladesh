@@ -20,7 +20,6 @@ import { photos, albumUrl } from "../../data/community";
             <button
               class="gallery-photo"
               data-photo={`/images/community/${photo.name}-1800.webp`}
-              data-caption={photo.caption}
               aria-label={`Enlarge photo: ${photo.alt}`}
             >
               <Photo
@@ -34,7 +33,6 @@ import { photos, albumUrl } from "../../data/community";
                 eager={photo.name === "meetup"}
               />
             </button>
-            <figcaption>{photo.caption}</figcaption>
           </>
         </figure>
       ))
@@ -56,23 +54,19 @@ import { photos, albumUrl } from "../../data/community";
         src="/images/community/meetup-1200.webp"
         alt="GHL Bangladesh meetup group photograph"
       /><div class="dialog-caption">
-        <p id="dialog-caption"></p><button class="dialog-close" autofocus
-          >Close ✕</button
-        >
+        <button class="dialog-close" autofocus>Close ✕</button>
       </div>
     </div>
   </dialog><script>
     const dialog = document.querySelector<HTMLDialogElement>(".gallery-dialog");
     const image = document.querySelector<HTMLImageElement>("#dialog-photo");
-    const caption = document.querySelector<HTMLElement>("#dialog-caption");
     document
       .querySelectorAll<HTMLButtonElement>(".gallery-photo")
       .forEach((button) =>
         button.addEventListener("click", () => {
-          if (!dialog || !image || !caption) return;
+          if (!dialog || !image) return;
           image.src = button.dataset.photo || "";
           image.alt = button.querySelector("img")?.alt || "";
-          caption.textContent = button.dataset.caption || "";
           dialog.showModal();
         }),
       );
@@ -93,3 +87,9 @@ import { photos, albumUrl } from "../../data/community";
     });
   </script></Layout
 >
+
+<style>
+  .dialog-caption {
+    justify-content: flex-end;
+  }
+</style>

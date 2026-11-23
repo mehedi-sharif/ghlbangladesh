@@ -7,8 +7,6 @@
 import Button from "./Button.astro";
 import Photo from "./Photo.astro";
 import { albumUrl, lastEvent, photos } from "../../data/community";
-
-const pad = (n: number) => String(n).padStart(2, "0");
 ---
 
 <section
@@ -61,7 +59,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
             aria-hidden={copy ? "true" : undefined}
             inert={copy ? true : undefined}
           >
-            {photos.map((photo, index) => (
+            {photos.map((photo) => (
               <li class="ep-frame">
                 <a
                   href={lastEvent.galleryUrl}
@@ -74,12 +72,6 @@ const pad = (n: number) => String(n).padStart(2, "0");
                     sizes="(max-width: 760px) 300px, 390px"
                   />
                 </a>
-                <span class="ep-frame-caption">
-                  <span class="ep-frame-number" aria-hidden="true">
-                    {pad(index + 1)}
-                  </span>
-                  {photo.caption}
-                </span>
               </li>
             ))}
           </ul>
@@ -255,25 +247,6 @@ const pad = (n: number) => String(n).padStart(2, "0");
   .ep-frame-photo:hover :global(img) {
     transform: scale(1.05);
   }
-  .ep-frame-caption {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin-top: 12px;
-    padding-bottom: 14px;
-    font-size: 13.5px;
-    line-height: 1.4;
-    color: var(--on-dark-2);
-  }
-  .ep-frame-number {
-    flex: none;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: var(--yellow);
-    font-variant-numeric: tabular-nums;
-  }
-
   /* reduced motion: a still strip to scroll through */
   @media (prefers-reduced-motion: reduce) {
     .ep-film-toggle,

@@ -1,7 +1,6 @@
 ---
 import BangladeshMap from "./BangladeshMap.astro";
 import Button from "./Button.astro";
-import { groupUrl } from "../../data/community";
 // Wording follows the volunteers page: roles are not open yet, so nothing is promised.
 ---
 
@@ -12,7 +11,6 @@ import { groupUrl } from "../../data/community";
 >
   <div class="wrap volunteer-inner">
     <div class="volunteer-copy reveal">
-      <span class="kicker">Become a volunteer</span>
       <h2 id="volunteer-call-heading">
         Volunteer <span class="no-break">with us.</span>
       </h2>
@@ -27,12 +25,7 @@ import { groupUrl } from "../../data/community";
         opportunities open.
       </p>
       <div class="volunteer-actions">
-        <Button
-          variant="outline"
-          label="Get community updates"
-          href={groupUrl}
-        />
-        <a class="volunteer-more" href="/volunteers">Volunteers page</a>
+        <Button variant="outline" label="Volunteer Page" href="/volunteers" />
       </div>
     </div>
 
@@ -119,14 +112,6 @@ import { groupUrl } from "../../data/community";
   .volunteer-actions :global(.btn) {
     flex: none;
   }
-  .volunteer-more {
-    font-weight: 600;
-    text-decoration: underline;
-    text-decoration-color: var(--blue);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4px;
-  }
-
   /* the GHL Bangladesh emblem as a dotted map */
   .volunteer-map {
     justify-self: center;

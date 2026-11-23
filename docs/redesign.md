@@ -114,6 +114,12 @@ Requested by Ridoy after the first review:
 - **Members page**: Titas vai’s own Members page (see “Members page” at the top of this file) is kept; the draft built here was replaced by it when his changes were merged.
 - **Navigation**: “Events” now opens the Events page (`/events`) on every page (header and footer), after Titas vai’s “Members” link; the menu button takes over below 1121px (his breakpoint) so the five links never squeeze the logo.
 
+### Homepage review adjustments (23 November 2026)
+
+- Moved the Certified Admin badge from the portrait to a responsive row beside Mehedi Sharif’s name. The profile actions now list his website first and Facebook second.
+- Removed the homepage volunteer section’s “Become a volunteer” subtitle and duplicate text link. Its single “Volunteer Page” button opens `/volunteers`.
+- Removed the selected third avatar from the shared connection banner, retaining the other five faces and the open “You” seat.
+
 ## Home v3 (draft)
 
 A dark, feed-style homepage draft proposed by Ridoy, inspired by the feel of daily.dev (not its assets or wording). Route `/v3` (`src/pages/v3.astro`), marked `noindex`. The live homepage and every other page are unchanged; v3 has its own layout (`src/layouts/CommunityLayoutV3.astro`, own header, mobile menu and global tokens) and sections in `src/components/community/v3/`. It does not import `community.css`.

@@ -266,6 +266,18 @@ const benefits = [
   </section>
 
   <section
+    class="wrap mastermind-eligibility"
+    aria-labelledby="mastermind-eligibility-heading"
+  >
+    <h2 id="mastermind-eligibility-heading">Who Should Wait to Apply</h2>
+    <ul class="benefit-points">
+      <li>You’re planning to start working with HighLevel.</li>
+      <li>You’re new to HighLevel and still learning the basics.</li>
+      <li>You have two years or less of hands-on HighLevel experience.</li>
+    </ul>
+  </section>
+
+  <section
     class="wrap mastermind-benefits"
     aria-labelledby="membership-benefits"
   >
@@ -468,11 +480,21 @@ const benefits = [
     list-style: none;
   }
 
-  .benefit {
+  .benefit,
+  .mastermind-eligibility {
     padding: clamp(22px, 3vw, 40px);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background: var(--card);
+  }
+
+  .mastermind-eligibility {
+    margin-top: clamp(20px, 3vw, 32px);
+    border-inline-start: 4px solid var(--yellow);
+  }
+
+  .mastermind-eligibility h2 {
+    font-size: clamp(24px, 3vw, 36px);
   }
 
   .benefit-icon {

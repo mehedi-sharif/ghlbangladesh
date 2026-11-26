@@ -1,11 +1,11 @@
 ---
 // Opening banner of an inner page, built like the homepage hero: a meetup
-// photo under the same navy veil, the header floating on top, the glass label
-// with the round flag and a large title. Centred.
+// photo under the same navy veil, the header floating on top, and a large
+// title with an optional glass label and round flag. Centred.
 import Photo from "./Photo.astro";
 
 interface Props {
-  kicker: string;
+  kicker?: string;
   title: string;
   // last words of the title, shown with the gradient
   accent?: string;
@@ -23,11 +23,15 @@ const { kicker, title, accent, lead, photo, focus = "center" } = Astro.props;
     <Photo name={photo} alt="" eager sizes="100vw" />
   </div>
   <div class="wrap page-intro-inner">
-    <span class="page-intro-label"
-      ><span class="flag-mark" aria-hidden="true"></span>{kicker}<slot
-        name="status"
-      /></span
-    >
+    {
+      kicker && (
+        <span class="page-intro-label">
+          <span class="flag-mark" aria-hidden="true" />
+          {kicker}
+          <slot name="status" />
+        </span>
+      )
+    }
     <h1 id="page-intro-title">
       {title}
       {
@@ -144,6 +148,9 @@ const { kicker, title, accent, lead, photo, focus = "center" } = Astro.props;
     letter-spacing: -0.035em;
     line-height: 0.98;
     color: #fff;
+  }
+  .page-intro h1:first-child {
+    margin-top: 0;
   }
   .page-intro h1 .grad-text {
     display: inline;

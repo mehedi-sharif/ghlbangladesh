@@ -629,7 +629,7 @@ p + p {
   text-decoration: none;
   font-size: 14.5px;
   font-weight: 500;
-  padding: 8px 16px;
+  padding: 8px 12px;
   border-radius: 999px;
   transition:
     background 0.2s,
@@ -673,6 +673,7 @@ p + p {
   position: fixed;
   inset: 0;
   z-index: -1;
+  overflow-y: auto;
   background: var(--navy);
   padding: 100px 24px 32px;
   display: flex;
@@ -694,7 +695,16 @@ p + p {
 .mobile-nav .btn {
   margin-top: auto;
 }
-/* Five navigation links need room beside the full-size logo and join button. */
+@media (min-width: 1121px) and (max-width: 1240px) {
+  .site-header .header-inner {
+    width: calc(100% - 56px);
+    padding-inline: 0;
+    gap: 16px;
+  }
+  .desktop-nav a {
+    padding-inline: 8px;
+  }
+}
 @media (max-width: 1120px) {
   .header-inner {
     grid-template-columns: 1fr auto;

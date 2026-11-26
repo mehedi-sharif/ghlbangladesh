@@ -1,0 +1,290 @@
+---
+import {
+  LuAward,
+  LuContactRound,
+  LuHandshake,
+  LuLayers3,
+  LuMessagesSquare,
+  LuPresentation,
+  LuTicketCheck,
+} from "react-icons/lu";
+import Layout from "../layouts/CommunityLayout.astro";
+import PageIntro from "../components/community/PageIntro.astro";
+import Button from "../components/community/Button.astro";
+
+const name = "GoHighLevel Bangladesh Mastermind";
+const lead =
+  "A private network for serious GoHighLevel professionals who want to grow beyond what they can achieve alone.";
+
+const benefits = [
+  {
+    title: "Private Mastermind Calls",
+    Icon: LuMessagesSquare,
+    color: "green",
+    points: [
+      "Weekly private calls with experienced members.",
+      "Share business challenges and get feedback.",
+      "Discuss scaling, pricing, operations, and growth.",
+    ],
+  },
+  {
+    title: "Exclusive Expert Sessions",
+    Icon: LuPresentation,
+    color: "blue",
+    points: [
+      "Monthly sessions with international GHL experts.",
+      "Invite successful agency owners and SaaS founders.",
+      "Learn directly from people building successful businesses.",
+    ],
+  },
+  {
+    title: "Business Opportunity Network",
+    Icon: LuHandshake,
+    color: "yellow",
+    points: [
+      "Share client referrals and project opportunities.",
+      "Find white-label fulfillment partners.",
+      "Connect with potential business partners.",
+      "Collaborate on bigger projects.",
+    ],
+  },
+  {
+    title: "Exclusive Member Directory",
+    Icon: LuContactRound,
+    color: "green",
+    points: [
+      "Professional listing on the Bangladesh HighLevel website.",
+      "Showcase expertise, services, portfolio, and certifications.",
+    ],
+  },
+  {
+    title: "HighLevel Insider Sessions",
+    Icon: LuLayers3,
+    color: "blue",
+    points: [
+      "Explore new business opportunities around HighLevel.",
+      "Exchange technical knowledge and solutions.",
+      "Share advanced implementation strategies.",
+      "Discuss upcoming features and ecosystem changes.",
+    ],
+  },
+  {
+    title: "VIP Community Access",
+    Icon: LuTicketCheck,
+    color: "yellow",
+    points: [
+      "VIP access to selected events and visiting industry leaders.",
+      "Priority invitations to local chapter events.",
+      "Exclusive networking meetups.",
+    ],
+  },
+  {
+    title: "Member Recognition",
+    Icon: LuAward,
+    color: "green",
+    points: [
+      "Opportunities to speak at community events.",
+      "Showcase successful projects and achievements.",
+      "Founding member recognition.",
+      "Monthly member spotlight.",
+    ],
+  },
+];
+---
+
+<Layout title={name} description={lead}>
+  <div class="mastermind-intro">
+    <PageIntro
+      title="GoHighLevel Bangladesh"
+      accent="Mastermind"
+      lead={lead}
+      photo="dsc08463"
+      focus="center 42%"
+    >
+      <Button
+        class="intro-action"
+        href="#founding-membership"
+        label="See founding membership"
+        icon="down"
+      />
+    </PageIntro>
+  </div>
+
+  <section
+    class="wrap mastermind-benefits"
+    aria-labelledby="membership-benefits"
+  >
+    <h2 id="membership-benefits">Membership benefits</h2>
+    <ol class="benefit-grid" role="list">
+      {
+        benefits.map(({ title, Icon, color, points }) => (
+          <li class="benefit">
+            <span class="benefit-icon" data-color={color} aria-hidden="true">
+              <Icon size={28} strokeWidth={1.75} focusable="false" />
+            </span>
+            <h3>{title}</h3>
+            <ul class="benefit-points">
+              {points.map((point) => (
+                <li>{point}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <div class="wrap package-wrap">
+    <section
+      class="package"
+      id="founding-membership"
+      aria-labelledby="founding-package-heading"
+      tabindex="-1"
+    >
+      <div>
+        <h2 id="founding-package-heading">Founding Member Package</h2>
+        <p>Limited to 10 founding members.</p>
+      </div>
+      <p class="price"><strong>$197</strong> <span>/ year</span></p>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .mastermind-intro :global(.page-intro h1) {
+    max-width: 22ch;
+    font-size: clamp(42px, 6.1vw, 88px);
+    text-wrap: balance;
+  }
+
+  .mastermind-intro :global(#page-intro-title .grad-text) {
+    display: block;
+    width: fit-content;
+    margin-inline: auto;
+  }
+
+  .mastermind-intro :global(.intro-action) {
+    margin-top: 28px;
+  }
+
+  .mastermind-benefits {
+    padding-block: clamp(56px, 8vw, 108px) clamp(44px, 5.5vw, 72px);
+  }
+
+  .benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: clamp(24px, 4vw, 44px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .benefit {
+    padding: clamp(22px, 3vw, 40px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--card);
+  }
+
+  .benefit-icon {
+    --icon-accent: var(--green);
+    display: grid;
+    place-items: center;
+    width: 56px;
+    aspect-ratio: 1;
+    margin-bottom: 20px;
+    border: 1px solid color-mix(in srgb, var(--icon-accent) 34%, var(--card));
+    border-radius: var(--radius-sm);
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--icon-accent) 9%, var(--card)),
+      color-mix(in srgb, var(--icon-accent) 23%, var(--card))
+    );
+    box-shadow: 0 3px 0 color-mix(in srgb, var(--icon-accent) 22%, var(--card));
+    color: color-mix(in srgb, var(--icon-accent) 34%, var(--ink));
+  }
+
+  .benefit-icon[data-color="blue"] {
+    --icon-accent: var(--blue);
+  }
+
+  .benefit-icon[data-color="yellow"] {
+    --icon-accent: var(--yellow);
+  }
+
+  .benefit h3 {
+    font-size: clamp(21px, 2vw, 30px);
+  }
+
+  .benefit-points {
+    display: grid;
+    gap: 6px;
+    margin: 16px 0 0;
+    padding-inline-start: 1.15em;
+    color: var(--ink-2);
+  }
+
+  .benefit-points li::marker {
+    color: var(--forest);
+  }
+
+  .benefit:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .benefit:last-child:nth-child(odd) .benefit-points {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+  }
+
+  .package-wrap {
+    padding-bottom: clamp(56px, 8vw, 108px);
+  }
+
+  .package {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px 48px;
+    padding: clamp(26px, 5vw, 72px);
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius);
+    background:
+      radial-gradient(ellipse at top right, var(--navy-3), transparent 70%),
+      var(--navy);
+    color: var(--on-dark);
+  }
+
+  .package p {
+    margin: 12px 0 0;
+    color: var(--on-dark-2);
+  }
+
+  .package .price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .price strong {
+    color: #8ee6b0;
+    font-size: clamp(44px, 7vw, 80px);
+    line-height: 1;
+    letter-spacing: -0.055em;
+  }
+
+  @media (max-width: 720px) {
+    .benefit-grid,
+    .benefit:last-child:nth-child(odd) .benefit-points {
+      grid-template-columns: 1fr;
+    }
+
+    .package {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

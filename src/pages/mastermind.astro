@@ -12,8 +12,7 @@ import Layout from "../layouts/CommunityLayout.astro";
 import MemberCard from "../components/community/MemberCard.astro";
 import PageIntro from "../components/community/PageIntro.astro";
 import Button from "../components/community/Button.astro";
-import Photo from "../components/community/Photo.astro";
-import { lastEvent, type Member } from "../data/community";
+import type { Member } from "../data/community";
 
 const name = "GoHighLevel Bangladesh Mastermind";
 const lead =
@@ -190,7 +189,7 @@ const benefits = [
 
   <section class="wrap mastermind-audience" aria-labelledby="audience-heading">
     <div>
-      <h2 id="audience-heading">Who it’s for</h2>
+      <h2 id="audience-heading">Let’s Scale Together</h2>
       <p>
         You’ve worked hands-on with HighLevel for about <strong
           >five or six years</strong
@@ -206,14 +205,17 @@ const benefits = [
         worked for others, and keep learning together.
       </p>
     </div>
-    <figure class="audience-photo">
-      <Photo
-        name="conversations"
-        alt="Meetup attendees sitting together and exchanging ideas"
-        sizes="(max-width: 840px) calc(100vw - 96px), 38vw"
-      />
-      <figcaption>{lastEvent.name}</figcaption>
-    </figure>
+    <img
+      class="audience-photo"
+      src="/images/community/mastermind-connection.webp"
+      srcset="/images/community/mastermind-connection-640.webp 640w, /images/community/mastermind-connection.webp 1272w"
+      sizes="(max-width: 840px) min(calc(100vw - 96px), 560px), 38vw"
+      width="1272"
+      height="1194"
+      alt="Several people resting their hands on the same tree branch"
+      loading="lazy"
+      decoding="async"
+    />
   </section>
 
   <section
@@ -376,20 +378,11 @@ const benefits = [
   }
 
   .audience-photo {
-    margin: 0;
-  }
-
-  .audience-photo :global(img) {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    height: auto;
+    aspect-ratio: 1;
     border-radius: var(--radius-sm);
     object-fit: cover;
-  }
-
-  .audience-photo figcaption {
-    margin-top: 10px;
-    font-size: 0.875rem;
-    color: color-mix(in srgb, var(--navy) 78%, #fff);
   }
 
   .mastermind-lines {

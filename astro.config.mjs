@@ -10,6 +10,7 @@ export default defineConfig({
   trailingSlash: "never",
   redirects: {
     "/about": "/community",
+    "/contact": { status: 302, destination: "/#chapter-leader" },
     "/teams": "/community",
     "/donation": "/community",
     "/reviews": "/community",

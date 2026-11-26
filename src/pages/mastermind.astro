@@ -134,6 +134,39 @@ const profileGroups: {
           },
         ],
       },
+      {
+        slug: "tareq-mahmud",
+        name: "Tareq Mahmud",
+        role: "Founder of FunnelCare",
+        about:
+          "Since 2019, Tareq has helped businesses automate their operations with HighLevel and developed custom apps for workflows and integrations the platform doesn’t support natively.",
+        photoFile: {
+          src: "/images/community/tareq-mahmud.webp",
+          width: 640,
+          height: 824,
+          fit: "contain",
+        },
+        focus: "center bottom",
+        alt: "Tareq Mahmud, founder of FunnelCare",
+        verified: true,
+        links: [],
+      },
+      {
+        slug: "anis-mahmud-anik",
+        name: "Anis Mahmud Anik",
+        role: "HighLevel Certified Admin",
+        about:
+          "Former Team Lead and Voice of Business Inspection BD. Built Business Inspection BD into Bangladesh’s first business content venture. Now bringing that systems thinking to growing businesses on HighLevel.",
+        photoFile: {
+          src: "/images/community/anis-mahmud-anik.webp",
+          width: 640,
+          height: 569,
+        },
+        focus: "center 25%",
+        alt: "Anis Mahmud Anik",
+        verified: true,
+        links: [],
+      },
     ],
   },
 ];
@@ -226,9 +259,11 @@ const benefits = [
     >
       <div class="intro-actions">
         <Button
-          href="#founding-membership"
+          href={applicationUrl}
           label="Apply for Membership"
-          icon="down"
+          data-membership-open
+          aria-haspopup="dialog"
+          aria-controls="membership-dialog"
         />
       </div>
     </PageIntro>
@@ -350,7 +385,13 @@ const benefits = [
           <p class="price"><strong>$197</strong> <span>/ year</span></p>
           <p>Limited to 20 founding members.</p>
         </div>
-        <Button href={applicationUrl} label="Apply for Membership" />
+        <Button
+          href={applicationUrl}
+          label="Apply for Membership"
+          data-membership-open
+          aria-haspopup="dialog"
+          aria-controls="membership-dialog"
+        />
       </div>
       <ol class="join-steps" role="list">
         {
@@ -390,9 +431,85 @@ const benefits = [
       </li>
     </ul>
   </section>
+  <dialog id="membership-dialog" aria-labelledby="membership-dialog-title">
+    <div class="membership-popup">
+      <header class="membership-popup-header">
+        <h2 id="membership-dialog-title">Apply for Membership</h2>
+        <button type="button" class="membership-close" aria-label="Close membership application" autofocus>✕</button>
+      </header>
+      <iframe
+        data-src={applicationUrl}
+        title="Mastermind membership application form"
+        class="membership-form"
+      ></iframe>
+      <p class="membership-fallback">
+        Having trouble with the form? <a href={applicationUrl} target="_blank" rel="noopener noreferrer">Open it in a new tab</a>.
+      </p>
+    </div>
+  </dialog>
+  <script>
+    const dialog = document.querySelector<HTMLDialogElement>("#membership-dialog");
+    const frame = dialog?.querySelector<HTMLIFrameElement>("iframe");
+    let opener: HTMLElement | null = null;
+    let previousOverflow = "";
+
+    document.querySelectorAll<HTMLAnchorElement>("[data-membership-open]").forEach((trigger) => {
+      trigger.addEventListener("click", (event) => {
+        if (!dialog || !frame) return;
+        event.preventDefault();
+        opener = trigger;
+        previousOverflow = document.body.style.overflow;
+        if (!frame.getAttribute("src")) frame.src = frame.dataset.src!;
+        dialog.showModal();
+        document.body.style.overflow = "hidden";
+      });
+    });
+    dialog?.querySelector(".membership-close")?.addEventListener("click", () => dialog.close());
+    dialog?.addEventListener("click", (event) => {
+      if (event.target !== dialog) return;
+      const bounds = dialog.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+    });
+    dialog?.addEventListener("close", () => {
+      document.body.style.overflow = previousOverflow;
+      opener?.focus({ preventScroll: true });
+    });
+  </script>
 </Layout>
 
 <style>
+  #membership-dialog {
+    width: min(760px, calc(100vw - 32px));
+    max-width: none;
+    max-height: calc(100dvh - 32px);
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--card);
+    color: var(--ink);
+    box-shadow: 0 24px 80px rgb(0 0 0 / 30%);
+  }
+  #membership-dialog::backdrop { background: rgb(3 16 29 / 75%); }
+  .membership-popup { display: flex; flex-direction: column; height: min(850px, calc(100dvh - 32px)); }
+  .membership-popup-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; }
+  .membership-popup-header h2 { margin: 0; font-size: clamp(18px, 4vw, 24px); }
+  .membership-close { flex: none; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; background: var(--paper-2); color: var(--ink); cursor: pointer; }
+  .membership-form { display: block; width: 100%; flex: 1; min-height: 0; border: 0; background: #fff; }
+  .membership-fallback { margin: 0; padding: 12px 20px; font-size: 13px; }
+  .membership-fallback a { text-decoration: underline; }
+
+  :global(#member-card-farhad-hossen .member-photo) {
+    background: var(--paper-2);
+  }
+
+  :global(#member-card-tareq-mahmud .member-photo img) {
+    object-fit: cover;
+    object-position: center top;
+    scale: 1.65;
+    transform-origin: center top;
+  }
+
   .mastermind-intro :global(.page-intro h1) {
     max-width: 22ch;
     font-size: clamp(42px, 6.1vw, 88px);

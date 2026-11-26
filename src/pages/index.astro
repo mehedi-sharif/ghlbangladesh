@@ -9,6 +9,7 @@ import ChapterLeader from "../components/community/ChapterLeader.astro";
 import Button from "../components/community/Button.astro";
 import EventsOverview from "../components/community/EventsOverview.astro";
 import VolunteerCall from "../components/community/VolunteerCall.astro";
+import { mastermindStatus } from "../data/community";
 ---
 
 <Layout>
@@ -60,6 +61,11 @@ import VolunteerCall from "../components/community/VolunteerCall.astro";
   <MeetupRecap />
   <CommunityStory />
   <ChapterLeader />
+  <section class="wrap mastermind-update" aria-labelledby="mastermind-update-heading">
+    <h2 id="mastermind-update-heading">GoHighLevel Bangladesh Mastermind</h2>
+    <p>{mastermindStatus}</p>
+    <Button variant="outline" label="Explore the Mastermind" href="/mastermind" />
+  </section>
   <VolunteerCall />
   <Join />
   <script>
@@ -112,3 +118,15 @@ import VolunteerCall from "../components/community/VolunteerCall.astro";
     }
   </script>
 </Layout>
+
+<style>
+  .mastermind-update {
+    padding-bottom: clamp(56px, 8vw, 100px);
+  }
+  .mastermind-update h2 {
+    font-size: clamp(30px, 4vw, 52px);
+  }
+  .mastermind-update p {
+    margin: 12px 0 20px;
+  }
+</style>

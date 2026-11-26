@@ -12,7 +12,7 @@ import Layout from "../layouts/CommunityLayout.astro";
 import MemberCard from "../components/community/MemberCard.astro";
 import PageIntro from "../components/community/PageIntro.astro";
 import Button from "../components/community/Button.astro";
-import type { Member } from "../data/community";
+import { mastermindStatus, type Member } from "../data/community";
 
 const name = "GoHighLevel Bangladesh Mastermind";
 const lead =
@@ -296,6 +296,7 @@ const benefits = [
       focus="center 42%"
     >
       <div class="intro-actions">
+        <p class="mastermind-status">{mastermindStatus}</p>
         <Button
           href={applicationUrl}
           label="Apply for Membership"
@@ -562,6 +563,10 @@ const benefits = [
 
   .intro-actions {
     margin-top: 28px;
+  }
+  .mastermind-status {
+    margin: 0 auto 18px;
+    color: inherit;
   }
 
   .mastermind-rules {

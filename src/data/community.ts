@@ -1,4 +1,6 @@
 export const groupUrl = "https://www.facebook.com/groups/highlevelbangladesh";
+export const mastermindStatus =
+  "5 members have already joined, 3 guests are confirmed, and more guests are on the way.";
 export const albumUrl =
   "https://www.playbook.com/s/ghlprojects/QpYamYiVaSVjLdKCfJoqWhuU";
 

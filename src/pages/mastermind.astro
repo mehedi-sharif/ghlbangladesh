@@ -17,7 +17,8 @@ import type { Member } from "../data/community";
 const name = "GoHighLevel Bangladesh Mastermind";
 const lead =
   "A private group from Bangladesh for experienced HighLevel builders. Share what you’ve learned and get help with the hard problems you’ve been solving on your own.";
-const applicationUrl = "/contact";
+const applicationUrl =
+  "https://api.megamindcrm.com/widget/form/CGSe0dexsjTlbGqSQU9D";
 
 const joinSteps = [
   {
@@ -42,6 +43,7 @@ const profileGroups: {
   title: string;
   accent: "green" | "blue";
   emptyName: string;
+  minimumCards: number;
   people: Member[];
 }[] = [
   {
@@ -49,6 +51,7 @@ const profileGroups: {
     title: "Guests",
     accent: "blue",
     emptyName: "Guest to be announced",
+    minimumCards: 3,
     people: [
       {
         slug: "arham-abid",
@@ -64,6 +67,23 @@ const profileGroups: {
         alt: "Arham Abid",
         links: [],
       },
+      {
+        slug: "rayhan-hossain",
+        name: "Rayhan Hossain",
+        role: "Creative Strategist and Copywriter",
+        about:
+          "Creative Engine Behind 9-Figure DTC Growth | $23M+ Revenue | $12M+ Ad Spend | Your Creative Team Has Probably Seen My Work",
+        photoFile: {
+          src: "/images/community/rayhan-hossain.webp",
+          width: 640,
+          height: 717,
+        },
+        focus: "center 22%",
+        alt: "Rayhan Hossain",
+        links: [
+          { label: "LinkedIn", url: "https://www.linkedin.com/in/rayhossain/" },
+        ],
+      },
     ],
   },
   {
@@ -71,6 +91,7 @@ const profileGroups: {
     title: "Members",
     accent: "green",
     emptyName: "Member to be announced",
+    minimumCards: 20,
     people: [
       {
         slug: "mehedi-sharif",
@@ -98,9 +119,9 @@ const benefits = [
     Icon: LuMessagesSquare,
     color: "green",
     points: [
-      "Weekly private calls with experienced members.",
-      "Share business challenges and get feedback.",
-      "Discuss scaling, pricing, operations, and growth.",
+      "Join a private call with experienced members each week.",
+      "Get feedback on your business problems.",
+      "Discuss prices, daily work, and ways to grow your business.",
     ],
   },
   {
@@ -108,9 +129,8 @@ const benefits = [
     Icon: LuPresentation,
     color: "blue",
     points: [
-      "Monthly sessions with international GHL experts.",
-      "Invite successful agency owners and SaaS founders.",
-      "Learn directly from people building successful businesses.",
+      "Join a monthly session with HighLevel experts from around the world.",
+      "Learn how agency owners and software founders built their businesses.",
     ],
   },
   {
@@ -118,10 +138,9 @@ const benefits = [
     Icon: LuHandshake,
     color: "yellow",
     points: [
-      "Share client referrals and project opportunities.",
-      "Find white-label fulfillment partners.",
-      "Connect with potential business partners.",
-      "Collaborate on bigger projects.",
+      "Refer clients and share new projects with members.",
+      "Find partners who can do work under your brand.",
+      "Work with other members on larger projects.",
     ],
   },
   {
@@ -129,8 +148,8 @@ const benefits = [
     Icon: LuContactRound,
     color: "green",
     points: [
-      "Professional listing on the Bangladesh HighLevel website.",
-      "Showcase expertise, services, portfolio, and certifications.",
+      "Get a profile on the GHL Bangladesh website.",
+      "List your skills, services, past work, and certifications.",
     ],
   },
   {
@@ -138,10 +157,9 @@ const benefits = [
     Icon: LuLayers3,
     color: "blue",
     points: [
-      "Explore new business opportunities around HighLevel.",
-      "Exchange technical knowledge and solutions.",
-      "Share advanced implementation strategies.",
-      "Discuss upcoming features and ecosystem changes.",
+      "Find new ways to build a business with HighLevel.",
+      "Share solutions for complex HighLevel setups.",
+      "Discuss upcoming HighLevel features and changes in the community.",
     ],
   },
   {
@@ -149,9 +167,9 @@ const benefits = [
     Icon: LuTicketCheck,
     color: "yellow",
     points: [
-      "VIP access to selected events and visiting industry leaders.",
-      "Priority invitations to local chapter events.",
-      "Exclusive networking meetups.",
+      "Get VIP access to select events and meet visiting industry leaders.",
+      "Get early invites to local chapter events.",
+      "Meet other members at private meetups.",
     ],
   },
   {
@@ -159,16 +177,20 @@ const benefits = [
     Icon: LuAward,
     color: "green",
     points: [
-      "Opportunities to speak at community events.",
-      "Showcase successful projects and achievements.",
-      "Founding member recognition.",
-      "Monthly member spotlight.",
+      "Get a chance to speak at community events.",
+      "Share your best work in the monthly member spotlight.",
+      "Get recognition as a founding member.",
     ],
   },
 ];
 ---
 
-<Layout title={name} description={lead}>
+<Layout
+  title={name}
+  description={lead}
+  socialImage="/images/community/mastermind-og.jpg"
+  socialImageAlt="GoHighLevel Bangladesh Mastermind. Let’s Scale Together."
+>
   <div class="mastermind-intro">
     <PageIntro
       title="GoHighLevel Bangladesh"
@@ -244,10 +266,11 @@ const benefits = [
 
   <div class="wrap mastermind-people">
     {
-      profileGroups.map(({ id, title, accent, emptyName, people }) => {
+      profileGroups.map((group) => {
+        const { id, title, accent, emptyName, minimumCards, people } = group;
         const headingId = `mastermind-${id}-heading`;
         const placeholders: Member[] = Array.from(
-          { length: Math.max(0, 3 - people.length) },
+          { length: Math.max(0, minimumCards - people.length) },
           (_, index) => ({
             slug: `${id}-placeholder-${index + 1}`,
             name: emptyName,
@@ -288,7 +311,7 @@ const benefits = [
         <div class="package-details">
           <h3>Founding Member Package</h3>
           <p class="price"><strong>$197</strong> <span>/ year</span></p>
-          <p>Limited to 10 founding members.</p>
+          <p>Limited to 20 founding members.</p>
         </div>
         <Button href={applicationUrl} label="Apply for Membership" />
       </div>

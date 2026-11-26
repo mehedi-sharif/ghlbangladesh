@@ -9,12 +9,89 @@ import {
   LuTicketCheck,
 } from "react-icons/lu";
 import Layout from "../layouts/CommunityLayout.astro";
+import MemberCard from "../components/community/MemberCard.astro";
 import PageIntro from "../components/community/PageIntro.astro";
 import Button from "../components/community/Button.astro";
+import Photo from "../components/community/Photo.astro";
+import { lastEvent, type Member } from "../data/community";
 
 const name = "GoHighLevel Bangladesh Mastermind";
 const lead =
-  "A private network for serious GoHighLevel professionals who want to grow beyond what they can achieve alone.";
+  "A private group from Bangladesh for experienced HighLevel builders. Share what you’ve learned and get help with the hard problems you’ve been solving on your own.";
+const applicationUrl = "/contact";
+
+const joinSteps = [
+  {
+    title: "Apply",
+    description:
+      "Tell us about your HighLevel experience, what you’re building, and why you want to join.",
+  },
+  {
+    title: "Get Reviewed",
+    description:
+      "We review each application. If your experience fits the group, we’ll invite you to a short intro call.",
+  },
+  {
+    title: "Join & Build",
+    description:
+      "Meet the other founding members, join the private calls, and bring a challenge or lesson to share.",
+  },
+];
+
+const profileGroups: {
+  id: string;
+  title: string;
+  accent: "green" | "blue";
+  emptyName: string;
+  people: Member[];
+}[] = [
+  {
+    id: "guests",
+    title: "Guests",
+    accent: "blue",
+    emptyName: "Guest to be announced",
+    people: [
+      {
+        slug: "arham-abid",
+        name: "Arham Abid",
+        role: "Founder and CEO of GHLStarboys",
+        about:
+          "Arham also founded Rozi Academy. His team helps agencies set up HighLevel, build workflows and funnels, and support their clients.",
+        photoFile: {
+          src: "/images/community/arham-abid.png",
+          width: 447,
+          height: 447,
+        },
+        alt: "Arham Abid",
+        links: [],
+      },
+    ],
+  },
+  {
+    id: "members",
+    title: "Members",
+    accent: "green",
+    emptyName: "Member to be announced",
+    people: [
+      {
+        slug: "mehedi-sharif",
+        name: "Mehedi Sharif",
+        role: "Mastermind host",
+        about: "HighLevel Bangladesh chapter leader.",
+        photoFile: {
+          src: "/images/community/mehedi-sharif-400.png",
+          width: 400,
+          height: 463,
+          fit: "contain",
+        },
+        focus: "center bottom",
+        alt: "Mehedi Sharif",
+        verified: true,
+        links: [{ label: "Meet Mehedi", url: "/contact" }],
+      },
+    ],
+  },
+];
 
 const benefits = [
   {
@@ -101,20 +178,49 @@ const benefits = [
       photo="dsc08463"
       focus="center 42%"
     >
-      <Button
-        class="intro-action"
-        href="#founding-membership"
-        label="See founding membership"
-        icon="down"
-      />
+      <div class="intro-actions">
+        <Button
+          href="#founding-membership"
+          label="Apply for Membership"
+          icon="down"
+        />
+      </div>
     </PageIntro>
   </div>
+
+  <section class="wrap mastermind-audience" aria-labelledby="audience-heading">
+    <div>
+      <h2 id="audience-heading">Who it’s for</h2>
+      <p>
+        You’ve worked hands-on with HighLevel for about <strong
+          >five or six years</strong
+        >. You’ve built complex automations and handled large projects. You may
+        have served
+        <strong>100 or more clients</strong>, helped launch businesses, or built
+        one of your own.
+      </p>
+      <p>
+        You’ve done well on your own. When growth slows or your next step feels
+        unclear, it helps to talk with people who do similar work. The
+        Mastermind gives you a place to share what you’ve learned, hear what’s
+        worked for others, and keep learning together.
+      </p>
+    </div>
+    <figure class="audience-photo">
+      <Photo
+        name="conversations"
+        alt="Meetup attendees sitting together and exchanging ideas"
+        sizes="(max-width: 840px) calc(100vw - 96px), 38vw"
+      />
+      <figcaption>{lastEvent.name}</figcaption>
+    </figure>
+  </section>
 
   <section
     class="wrap mastermind-benefits"
     aria-labelledby="membership-benefits"
   >
-    <h2 id="membership-benefits">Membership benefits</h2>
+    <h2 id="membership-benefits">What You Get as a Member</h2>
     <ol class="benefit-grid" role="list">
       {
         benefits.map(({ title, Icon, color, points }) => (
@@ -134,20 +240,94 @@ const benefits = [
     </ol>
   </section>
 
+  <div class="wrap mastermind-people">
+    {
+      profileGroups.map(({ id, title, accent, emptyName, people }) => {
+        const headingId = `mastermind-${id}-heading`;
+        const placeholders: Member[] = Array.from(
+          { length: Math.max(0, 3 - people.length) },
+          (_, index) => ({
+            slug: `${id}-placeholder-${index + 1}`,
+            name: emptyName,
+            role: "",
+            about: "",
+            sample: true,
+            links: [],
+          }),
+        );
+        return (
+          <section aria-labelledby={headingId}>
+            <h2 id={headingId}>{title}</h2>
+            <ul class="mastermind-profile-grid" role="list">
+              {[...people, ...placeholders].map((member) => (
+                <li>
+                  <MemberCard member={member} accent={accent} sampleLabel="" />
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })
+    }
+  </div>
+
   <div class="wrap package-wrap">
     <section
       class="package"
       id="founding-membership"
-      aria-labelledby="founding-package-heading"
+      aria-labelledby="how-to-join-heading"
       tabindex="-1"
     >
-      <div>
-        <h2 id="founding-package-heading">Founding Member Package</h2>
-        <p>Limited to 10 founding members.</p>
+      <div class="package-summary">
+        <h2 id="how-to-join-heading">How to Join</h2>
+        <p>
+          We’re keeping the group small so members can get to know each other.
+        </p>
+        <div class="package-details">
+          <h3>Founding Member Package</h3>
+          <p class="price"><strong>$197</strong> <span>/ year</span></p>
+          <p>Limited to 10 founding members.</p>
+        </div>
+        <Button href={applicationUrl} label="Apply for Membership" />
       </div>
-      <p class="price"><strong>$197</strong> <span>/ year</span></p>
+      <ol class="join-steps" role="list">
+        {
+          joinSteps.map(({ title, description }, index) => (
+            <li class="join-step">
+              <span class="join-step-number" aria-hidden="true">
+                {index + 1}
+              </span>
+              <div class="join-step-details">
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
     </section>
   </div>
+
+  <section class="wrap mastermind-rules" aria-labelledby="rules-heading">
+    <h2 id="rules-heading">Group rules</h2>
+    <ul class="mastermind-lines" role="list">
+      <li>
+        <h3>Keep details private</h3>
+        <p>
+          Keep group discussions within the group. Leave out private client
+          details when you share a case.
+        </p>
+      </li>
+      <li>
+        <h3>Take part</h3>
+        <p>Share what you’ve tried and offer feedback when you can.</p>
+      </li>
+      <li>
+        <h3>Keep calls free of sales pitches</h3>
+        <p>Ask before sending a sales message to another member.</p>
+      </li>
+    </ul>
+  </section>
 </Layout>
 
 <style>
@@ -163,8 +343,75 @@ const benefits = [
     margin-inline: auto;
   }
 
-  .mastermind-intro :global(.intro-action) {
+  .intro-actions {
     margin-top: 28px;
+  }
+
+  .mastermind-rules {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 24px clamp(32px, 7vw, 96px);
+    padding-block: clamp(48px, 7vw, 92px);
+  }
+
+  .mastermind-audience {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(24px, 4vw, 56px);
+    margin-top: clamp(36px, 6vw, 84px);
+    padding: clamp(32px, 5vw, 64px) clamp(20px, 5vw, 72px);
+    border: 2px solid var(--green);
+    border-radius: calc(var(--radius) + 8px);
+    background: #fff;
+    box-shadow: 0 20px 44px -30px rgba(6, 29, 48, 0.35);
+    color: var(--navy);
+    text-align: center;
+  }
+
+  .mastermind-audience p {
+    max-width: 68ch;
+    margin: 16px auto 0;
+    color: color-mix(in srgb, var(--navy) 78%, #fff);
+  }
+
+  .audience-photo {
+    margin: 0;
+  }
+
+  .audience-photo :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+  }
+
+  .audience-photo figcaption {
+    margin-top: 10px;
+    font-size: 0.875rem;
+    color: color-mix(in srgb, var(--navy) 78%, #fff);
+  }
+
+  .mastermind-lines {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+  }
+
+  .mastermind-lines li {
+    padding-block: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mastermind-lines h3,
+  .package h3 {
+    font-size: clamp(20px, 2.1vw, 28px);
+  }
+
+  .mastermind-lines p {
+    margin-top: 6px;
+    color: var(--ink-2);
   }
 
   .mastermind-benefits {
@@ -238,15 +485,30 @@ const benefits = [
     column-gap: 32px;
   }
 
+  .mastermind-people {
+    display: grid;
+    gap: clamp(28px, 4vw, 52px);
+  }
+
+  .mastermind-profile-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(12px, 2vw, 24px);
+    margin: clamp(20px, 3vw, 34px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
   .package-wrap {
-    padding-bottom: clamp(56px, 8vw, 108px);
+    padding-top: clamp(56px, 8vw, 108px);
   }
 
   .package {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px 48px;
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+    gap: 36px clamp(28px, 5vw, 66px);
+    scroll-margin-top: 24px;
     padding: clamp(26px, 5vw, 72px);
     border: 1px solid var(--line-dark);
     border-radius: var(--radius);
@@ -261,11 +523,21 @@ const benefits = [
     color: var(--on-dark-2);
   }
 
+  .package-details {
+    margin-top: clamp(24px, 4vw, 44px);
+    padding-top: 22px;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .package-summary :global(.btn) {
+    margin-top: 20px;
+  }
+
   .package .price {
     display: flex;
     align-items: baseline;
     gap: 10px;
-    margin: 0;
+    margin: 16px 0 0;
     white-space: nowrap;
   }
 
@@ -276,15 +548,91 @@ const benefits = [
     letter-spacing: -0.055em;
   }
 
-  @media (max-width: 720px) {
-    .benefit-grid,
-    .benefit:last-child:nth-child(odd) .benefit-points {
+  .join-steps {
+    --step-gap: 16px;
+    --step-size: clamp(31px, 3.5vw, 44px);
+    display: grid;
+    gap: var(--step-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .join-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--step-size) minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(10px, 2vw, 22px);
+  }
+
+  .join-step:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    inset-block: var(--step-size) calc(-1 * var(--step-gap));
+    inset-inline-start: calc((var(--step-size) - 1px) / 2);
+    width: 1px;
+    background: rgba(242, 246, 244, 0.28);
+  }
+
+  .join-step-number {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    background: var(--green);
+    color: var(--navy);
+    font-weight: 800;
+  }
+
+  .join-step:nth-child(2) .join-step-number {
+    background: var(--blue);
+  }
+
+  .join-step:nth-child(3) .join-step-number {
+    background: var(--yellow);
+  }
+
+  .join-step-details {
+    padding: clamp(16px, 2vw, 24px);
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .join-step-details p {
+    margin-top: 8px;
+  }
+
+  @media (max-width: 999px) {
+    .mastermind-profile-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 840px) {
+    .mastermind-audience {
       grid-template-columns: 1fr;
     }
 
+    .audience-photo {
+      width: min(100%, 560px);
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .mastermind-rules,
+    .benefit-grid,
+    .benefit:last-child:nth-child(odd) .benefit-points,
     .package {
-      flex-direction: column;
-      align-items: flex-start;
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .mastermind-profile-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

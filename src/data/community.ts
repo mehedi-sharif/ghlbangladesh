@@ -8,9 +8,11 @@ export interface Member {
   role: string;
   about: string;
   photo?: string;
+  photoFile?: { src: string; width: number; height: number; fit?: "contain" };
   alt?: string;
   focus?: string;
   sample?: boolean;
+  verified?: boolean;
   links: { label: string; url: string }[];
 }
 
